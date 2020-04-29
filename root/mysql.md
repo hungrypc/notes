@@ -130,8 +130,40 @@ SELECT first_name FROM people LIKE '%da%';
 -- returns first names that contain 'da'
 -- % is a marker for 'anything can go here', its a wildcard
 
+SELECT stock_quantity FROM products LIKE '____';
+-- each underscore represents a character, this selects products where the stock is 4 characters long
+-- if you want to select values with % or _, use \% or \_
+```
+
+### Aggregate Functions
+```sql
+SELECT COUNT(*) FROM books;
+-- counts selected data
+
+SELECT COUNT(DISTINCT first_name) FROM people;
+
+SELECT last_name, COUNT(*) FROM books GROUP BY last_name;
+-- groups data by last name, counts number of books each author has written
+
+SELECT MIN(released_year) FROM books;
+-- returns the smallest value of the column
+
+SELECT MAX(released_year) FROM books;
+-- returns the largest value of the column
+
+SELECT title, pages FROM books WHERE pages = (SELECT MIN(pages) FROM books);
+-- returns title and pages of book with smallest number of pages
+-- BUT this is slow because it's running two queries
+
+SELECT * FROM books ORDER BY pages ASC LIMIT 1;
+-- returns the book with the least pages (same as above)
+-- this is faster because this is running just one query and chopping off the rest of the data (limit 1)
 
 ```
+
+
+
+
 
 
 
