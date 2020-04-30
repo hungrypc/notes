@@ -145,6 +145,8 @@ SELECT COUNT(DISTINCT first_name) FROM people;
 SELECT last_name, COUNT(*) FROM books GROUP BY last_name;
 -- groups data by last name, counts number of books each author has written
 
+SELECT first_name, last_name, COUNT(*) FROM books GROUP BY last_name, first_name;
+
 SELECT MIN(released_year) FROM books;
 -- returns the smallest value of the column
 
@@ -159,6 +161,23 @@ SELECT * FROM books ORDER BY pages ASC LIMIT 1;
 -- returns the book with the least pages (same as above)
 -- this is faster because this is running just one query and chopping off the rest of the data (limit 1)
 
+SELECT first_name, last_name, MIN(released_year) FROM books GROUP BY last_name, first_name;
+-- returns firstname, lastname, and earliest year they've written a book
+
+SELECT first_name, last_name, MAX(pages) FROM books GROUP BY last_name, first_name;
+-- returns firstname, lastname, and number of pages of their longest book (most pages)
+
+SELECT SUM(pages) FROM books;
+-- sums pages
+
+SELECT CONCAT(first_name, ' ', last_name) AS author, SUM(pages) FROM books GROUP BY last_name, first_name;
+
+SELECT AVG(released_year) FROM books;
+-- returns average year books were published
+-- note: this doesn't round
+
+SELECT released_year, AVG(stock) FROM books GROUP BY released_year;
+-- returns average stock for books released in the same year
 ```
 
 
