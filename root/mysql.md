@@ -220,6 +220,39 @@ NOW()
 
 ```
 
+### Logical Operators
+
+```sql
+NOT LIKE
+-- opposite of like
+
+AND
+
+OR
+
+SELECT title FROM books WHERE released_year BETWEEN 2004 AND 2015;
+-- there's also NOT BETWEEN
+
+SELECT title FROM books WHERE last_name IN ('Carver', 'Lahiri', 'Smith');
+-- instead of multiple ORs, IN is cleaner and faster
+-- there's also NOT IN
+
+SELECT title, released_year,
+  CASE
+    WHEN released_year >= 2000 THEN 'Modern Lit'
+    ELSE '20th Century Lit'
+  END AS genre
+FROM books;
+-- case statements
+```
+
+
+
+
+
+
+
+
 
 
 
