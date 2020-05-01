@@ -180,6 +180,47 @@ SELECT released_year, AVG(stock) FROM books GROUP BY released_year;
 -- returns average stock for books released in the same year
 ```
 
+### Data Types
+```sql
+VARCHAR(10)
+-- variable characters
+
+CHAR(5)
+-- fixed length characters
+
+INT
+-- useful for whole numbers
+
+DECIMAL(13, 2)
+-- first argument: total number of digits, second argument: maximum number of decimal digits
+
+FLOAT
+-- approximate numbers (uses less space but loses precision)
+
+DOUBLE
+-- same as float, but uses a little more memory
+
+DATE
+-- stores date, no time (YYYY-MM-DD)
+
+TIME
+-- stores time, no date (HH:MM:SS)
+
+DATETIME
+-- stores both date and time YYYY-MM-DD HH:MM:SS
+
+CURDATE()
+-- current date
+
+CURTIME()
+-- current time
+
+NOW()
+-- current datetime
+
+```
+
+
 
 
 
