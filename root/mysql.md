@@ -372,6 +372,62 @@ JOIN reviews
   ON series.id = reviews.series_id
 GROUP BY series.id
 ORDER BY avg_rating DESC;
+-- joins series and reviews, gets series rating, gets average, group by series, order by descending average rating
+
+SELECT first_name, last_name, rating
+FROM reviewers
+JOIN reviews
+  ON reviewer.id = reviews.reviewer_id;
+-- joins reviewers and reviews, gives all reviewers and their review ratings
+
+SELECT title AS unreviewed_series
+FROM series
+LEFT JOIN reviews
+  ON series.id = reviews.series_id
+  WHERE rating IS NULL;
+-- joins series and reviews, shows all titles of series where there have no been reviews.
+
+SELECT
+  genre,
+  ROUND(
+    AVG(rating)
+  )  AS avg_rating
+FROM series
+INNER JOIN reviews
+  ON series.id = reviews.series_id
+  GROUP BY genre;
+-- joins series and reviews, shows genre and average rating of genre (rounded), grouped by genre
+
+SELECT
+  first_name,
+  last_name,
+  COUNT(rating) AS count,
+  IFNULL(MIN(rating), 0) AS min,
+  IFNULL(MAX(rating), 0) AS min,
+  IFNULL(AVG(rating), 0) AS avg,
+  IF(COUNT(rating) >= 1, 'active', 'inactive') AS status
+  -- CASE
+  --   WHEN COUNT(rating) >= 10 then 'power user'
+  --   WHEN COUNT(rating) > 0 then 'active'
+  --   ELSE 'inactive'
+  -- END AS status
+FROM reviewers
+LEFT JOIN reviews
+  ON reviewers.id = reviews.reviewer_id
+GROUP BY reviewers.id;
+-- joins reviewers and reviews. shows reviewer, count of reviews, min review, max review, average rating, if reviews exists ? 'active' : 'inactive'
+
+SELECT
+  title,
+  rating,
+  CONCAT(first_name, ' ', last_name) AS reviewer
+FROM reviewers
+INNER JOIN reviews
+  ON reviewers.id = reviews.reviewer_id
+INNER JOIN series
+  ON series.id = reviews.series_id
+ORDER BY title;
+-- joins all three tables, shows title, rating, and reviewer (only where we have reviews)
 ```
 
 
