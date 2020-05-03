@@ -491,6 +491,7 @@ CREATE TABLE photo_tags (
   PRIMARY KEY (photo_id, tag_id)
 );
 ```
+
 ### Querying IG Clone
 ```sql
 SELECT * FROM users ORDER BY created_at ASC LIMIT 5;
@@ -543,6 +544,41 @@ GROUP BY username
 HAVING liked = (SELECT COUNT(*) FROM photos);
 -- find users who have liked every photo on the site
 ```
+
+### Bringing in Nodejs
+JS file:
+```js
+let faker = require('faker');
+let mysql = require('mysql');
+
+let connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  database: 'join_us'
+});
+
+connection.query('SELECT 1 + 1 AS answer', function(err, res, fields) {
+  if(err) throw err;
+  console.log(res[0]);
+  // returns { answer: 2 }
+  console.log(res[0].answer);
+  // returns 2
+});
+
+connection.end();
+```
+
+```sql
+CREATE TABLE users (
+  email VARCHAR(255) PRIMARY KEY,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+
+
+
+
 
 
 
