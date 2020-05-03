@@ -546,7 +546,7 @@ HAVING liked = (SELECT COUNT(*) FROM photos);
 ```
 
 ### Bringing in Nodejs
-JS file:
+JS setup:
 ```js
 let faker = require('faker');
 let mysql = require('mysql');
@@ -568,6 +568,7 @@ connection.query('SELECT 1 + 1 AS answer', function(err, res, fields) {
 connection.end();
 ```
 
+Schema.sql:
 ```sql
 CREATE TABLE users (
   email VARCHAR(255) PRIMARY KEY,
@@ -575,9 +576,47 @@ CREATE TABLE users (
 );
 ```
 
+```js
+// SELECTING DATA
+let q = 'SELECT COUNT(*) AS total FROM users';
+connection.query(q, (err, res, fields) => {
+  if (err) throw err;
+  console.log(res[0].total);
+  // returns total count of users
+});
 
 
+// INSERTING DATA
+let person = {
+  email: faker.internet.email ,
+  created_at: faker.date.past()
+};
 
+const end_result = connection.query('INSERT INTO users SET ?', person, (err, res, fields) => {
+  if (err) throw err;
+  return res;
+});
+
+console.log(end_result);
+
+
+// INSERTING MULTIPLE USERS
+let data = [];
+for (let i = 0; i <= 500; i++) {
+  data.push({
+    email: faker.internet.email ,
+    created_at: faker.date.past()
+  });
+}
+
+let j = 'INSERT INTO users (email, created_at) VALUES ?';
+connection.query(j, [data], (err, res) => {
+  if (err) throw err;
+  console.log(res);
+});
+
+connection.end();
+```
 
 
 
