@@ -430,7 +430,7 @@ ORDER BY title;
 -- joins all three tables, shows title, rating, and reviewer (only where we have reviews)
 ```
 
-### Instagram Database Clone
+### Instagram Database Clone Schema
 ```sql
 CREATE DATABASE ig_clone;
 USE ig_clone;
@@ -490,9 +490,59 @@ CREATE TABLE photo_tags (
   FOREIGN KEY(tag_id) REFERENCES tags(id),
   PRIMARY KEY (photo_id, tag_id)
 );
-
 ```
+### Querying IG Clone
+```sql
+SELECT * FROM users ORDER BY created_at ASC LIMIT 5;
+-- selecting the 5 oldest users
 
+SELECT
+  DAYNAME(created_at) AS day,
+  COUNT(DAYNAME(created_at)) AS count
+FROM users
+GROUP BY DAYNAME(created_at)
+ORDER BY count DESC;
+-- selecting the day of the week most users register on
+
+SELECT username FROM users
+LEFT JOIN photos ON users.id = photos.user_id
+WHERE photos.id IS NULL;
+-- identify inactive users
+
+SELECT
+  username,
+  photos.id AS photo_id,
+  photos.image_url,
+  COUNT(*) AS total_likes
+FROM photos
+INNER JOIN likes ON photos.id = likes.photo_id
+INNER JOIN users ON users.id = photos.user_id
+GROUP BY photos.id
+ORDER BY total_likes DESC LIMIT 1;
+-- select photo with the most likes
+
+SELECT (SELECT COUNT(*) FROM photos) / (SELECT COUNT(*) FROM users);
+-- calculate avg number of photos per user
+
+SELECT
+  tag_name,
+  COUNT(*) AS instances
+FROM tags
+INNER JOIN photo_tags ON tags.id = photo_tags.tag_id
+GROUP BY tag_name
+ORDER BY instances DESC LIMIT 5;
+-- select top 5 most commonly used tags
+
+SELECT
+  username,
+  COUNT(*) AS liked
+FROM users
+INNER JOIN likes ON users.id = likes.user_id
+GROUP BY username
+-- ORDER BY liked DESC;
+HAVING liked = (SELECT COUNT(*) FROM photos);
+-- find users who have liked every photo on the site
+```
 
 
 
