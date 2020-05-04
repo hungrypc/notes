@@ -218,6 +218,16 @@ CURTIME()
 NOW()
 -- current datetime
 
+-- formatting dates and times:
+DAY()
+DAYNAME()
+DAYOFWEEK()
+DAYOFYEAR()
+MONTHNAME()
+
+-- date math
+DATEDIFF(d1, d2)
+DATE_ADD(date, INTERVAL 1 MONTH)
 ```
 
 ### Logical Operators
@@ -726,21 +736,81 @@ app.listen(8080, function() {
 </form>
 ```
 
+### Database Triggers
+> SQL statements that are automatically run when a specific table is changed
 
+The syntax:
+1. trigger_time
+  - BEFORE
+  - AFTER
+2. trigger_event
+  - INSERT
+  - UPDATE
+  - DELETE
+3. ON
+4. table_name
+  - photos/users/etc
 
+```sql
+-- trigger.sql
+-- source this file
+DELIMITER $$
 
+CREATE TRIGGER must_be_adult
+  BEFORE INSERT ON people FOR EACH ROW
+  BEGIN
+    IF NEW.age < 18
+    THEN
+      SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Must be an adult.';
+    END IF;
+  END
+$$
 
+DELIMITER ;
+-- prevents new users from being created if age < 18
 
+DELIMITER $$
 
+CREATE TRIGGER prevent_self_follows
+  BEFORE INSERT ON follows FOR EACH ROW
+  BEGIN
+    IF NEW.follower_id = NEW.followee_id
+    THEN
+      SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot follow self';
+    END IF;
+  END;
+$$
+-- prevents users from following themself
 
+CREATE TABLE unfollows (
+  follower_id INT NOT NULL,
+  followee_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  FOREIGN KEY(follower_id) REFERENCES users(id),
+  FOREIGN KEY(followee_id) REFERENCES users(id),
+  PRIMARY KEY(follower_id, followee_id)
+);
 
+DELIMITER $$
 
+CREATE TRIGGER capture_unfollow
+  AFTER DELETE ON follows FOR EACH ROW
+  BEGIN
+    INSERT INTO unfollows
+    SET
+      follower_id = OLD.follower_id,
+      followee_id = OLD.followee_id
+  END;
+$$
+-- logging unfollows
 
+SHOW TRIGGERS;
+-- lists triggers
 
+DROP TRIGGER trigger_name;
+-- removes trigger
 
-
-
-
-
-
-
+-- note: triggers can make debugging hard
+```
