@@ -618,10 +618,41 @@ connection.query(j, [data], (err, res) => {
 connection.end();
 ```
 
+### 500 Users Exercises
+```sql
+SELECT
+  DATE_FORMAT(MIN(created_at), "%M %D %Y") AS earliest_date
+FROM users;
+-- find earliest date
 
+SELECT email FROM users WHERE created_at = (SELECT MIN(created_at) FROM users);
+-- find email of earliest user
 
+SELECT
+  MONTHNAME(created_at) AS month,
+  COUNT(*) AS count
+FROM users
+GROUP BY month
+ORDER BY count DESC;
+-- select month and count (number of users joined that month)
 
+SELECT COUNT(*) AS yahoo_users FROM users WHERE email LIKE '%@yahoo.com%';
+-- count number of users with yahoo emails
 
+SELECT
+  CASE
+    WHEN email LIKE '%@yahoo.%' THEN 'yahoo'
+    WHEN email LIKE '%@gmail.%' THEN 'gmail'
+    WHEN email LIKE '%@hotmail.%' THEN 'hotmail'
+    ELSE 'other'
+  END AS provider
+  email,
+  COUNT(*) AS total_users
+FROM users
+GROUP BY provider
+ORDER BY total_users DESC;
+-- count total number of users for each email host
+```
 
 
 
