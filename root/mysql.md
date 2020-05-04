@@ -654,8 +654,77 @@ ORDER BY total_users DESC;
 -- count total number of users for each email host
 ```
 
+### Building the Web App
+```cli
+npm i express ejs faker mysql body-parser --save
+```
+
+```js
+let express = require('express');
+let mysql = require('mysql');
+let bodyParser = require('body-parser');
+let app = express();
+
+app.set('view engine', 'ejs');
+// ejs looks for a directory called 'views'
+// this directory will hold html
+
+let connectionn = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  database: 'join_us'
+});
+
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.get('/', function(req, res) {
+  // find count of users in db
+  // respond with that count
+  let q = 'SELECT COUNT(*) AS total FROM users';
+  let total = connection.query(q, function (err, res) {
+    if(err) throw err;
+    return res[0].total;
+  });
+
+  // res.send(`We have ${total} users in our db`);
+  res.render('home', {
+    data: total
+  }); // looks into views folder for home.ejs, passes variable 'total' to html with key 'data'
+});
+
+app.post('/register', function(req, res) {
+  let person = {
+    email: req.body.email
+  };
+  let q = 'INSERT INTO users SET ?';
+  connection.query(q, person, function(error, result) {
+    if(err) throw err;
+    res.redirect('/');
+  });
+});
 
 
+// new route
+app.get('/joke', function(req, res) {
+  let joke = 'joke here';
+  res.send(joke);
+});
+
+app.listen(8080, function() {
+  console.log('app listening on port 8080');
+});
+```
+
+```html
+<h1> JOIN US </h1>
+
+<p> Enter your email to join <%=data%> others on our waitlist. </p>
+
+<form method='POST' action='/register'>
+  <input type='text' class='form' placeholder='Enter your email'>
+  <button>Join Now</button>
+</form>
+```
 
 
 
