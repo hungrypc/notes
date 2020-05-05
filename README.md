@@ -12,3 +12,7 @@
 ## Application
 
 - [Machine Learning](https://github.com/hungrypc/notes/blob/master/root/machine_learning.md)
+
+### Others
+
+- [Data Structures & Algorithms](https://github.com/hungrypc/data-structures-and-algorithms)
