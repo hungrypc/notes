@@ -11,7 +11,7 @@
 
 ## Application
 
-- [Machine Learning](https://github.com/hungrypc/notes/blob/master/root/machine_learning.md)
+- [Machine Learning](https://github.com/hungrypc/notes/blob/master/root/machine_learning/README.md)
 
 ### Others
 
