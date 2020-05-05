@@ -4,10 +4,11 @@
 
 ### Database
 - [MySQL](https://github.com/hungrypc/notes/blob/master/root/mysql.md)
-- [GraphQL](https://github.com/hungrypc/notes/blob/master/root/graphql.md)
+- [GraphQL](https://github.com/hungrypc/notes/blob/master/root/graphql/README.md)
 
 ### Programming
 - [Ruby](https://github.com/hungrypc/notes/blob/master/root/ruby/README.md)
+- [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md)
 
 ## Application
 
