@@ -6,6 +6,9 @@ ruby main.rb
 <!-- opens interactive ruby -->
 irb
 ```
+
+ctl+ l clears irb console
+
 ```rb
 ## printing strings to the console:
 
@@ -195,7 +198,40 @@ h.select {|i| i.odd?}
 
 ### Hashes
 ```rb
+simple_hash = {
+  'a' => 1,
+  'b' => 2,
+  'c' => 3
+}
+simple_hash['a']    # 1
 
+symbol_hash = {
+  a: 1,
+  b: 2,
+  c: 3
+}
+symbol_hash[:a]     # 1
+# : indicates symbol
+
+simple_hash.keys    # ["a", "b", "c"]
+simple_hash.values  # [1, 2, 3]
+
+simple_hash.each {|key, value|
+  puts "key is #{key} and value is #{value}"
+}
+# when iterating through hashes, need to grab both variables (key, value)
+
+symbol_hash[:d] = 4   # 4
+symbol_hash           # {:a=>1, :b=>2, :c=>3, :d=>4}
+
+symbol_hash[:c] = "a" # "ah"
+symbol_hash           # {:a=>1, :b=>2, :c=>"ah", :d=>4}
+
+symbol_hash.select {|k, v| v.is_a?(String)}
+# {:c=>"ah"}
+
+symbol_hash.each {|k, v| symbol_hash.delete(k) if v.is_a?(String)}
+# {:a=>1, :b=>2, :d=>4}
 ```
 
 
