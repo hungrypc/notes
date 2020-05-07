@@ -9,7 +9,7 @@ irb
 
 ctl+ l clears irb console
 
-```rb
+```ruby
 ## printing strings to the console:
 
 puts 'Hello world'
@@ -35,7 +35,7 @@ say_hello 'hello'
 ```
 
 ### Strings
-```rb
+```ruby
 ## basic string work
 
 # string concat
@@ -66,7 +66,7 @@ sentence.sub('the jungle', 'utopia')
 ```
 
 ### Getting Input from the User
-```rb
+```ruby
 puts "What is your first name?"
 first_name = gets.chomp
 puts "Your response was #{first_name}"
@@ -75,7 +75,7 @@ puts "Your response was #{first_name}"
 ```
 
 ### Numbers
-```rb
+```ruby
 # they mainly work the same as most languages, BUT
 
 10 / 4        # returns 2 (ruby rounds down)
@@ -98,14 +98,14 @@ rand(10)      # generates a random number between 0 - 10
 
 19.modulo(4)  # prints 19 % 4, returns 3
 
-10 == 10      # true
-10 == 10.0    # true
+10 == 10       # true
+10 == 10.0     # true
 10 === 10.0    # true
-10.eql?(10.0) # false, eql?() compares types
+10.eql?(10.0)  # false, eql?() compares types
 ```
 
 ### Methods
-```rb
+```ruby
 def multiply(num1, num2)
   num1 * num2
 end
@@ -118,11 +118,15 @@ elsif name == 'Jack'
   puts 'name is jack'
 else
   puts 'name is other'
+
+
+while true
+  # do something
 end
 ```
 
 ### Arrays
-```rb
+```ruby
 a = [1, 2, 3, 4, 5]
 puts a
 # prints each element on a new line
@@ -197,7 +201,7 @@ h.select {|i| i.odd?}
 ```
 
 ### Hashes
-```rb
+```ruby
 simple_hash = {
   'a' => 1,
   'b' => 2,
@@ -234,7 +238,51 @@ symbol_hash.each {|k, v| symbol_hash.delete(k) if v.is_a?(String)}
 # {:a=>1, :b=>2, :d=>4}
 ```
 
+### Authenticator Project
+```ruby
+users = [
+  { username: "mashur", password: "pass1" },
+  { username: "phil", password: "pass2" },
+  { username: "arya", password: "pass3" },
+  { username: "jonsnow", password: "pass4" },
+  { username: "heisenberg", password: "pass5" },
+]
 
+def auth_user(username, password, list_of_users)
+  list_of_users.each do |user_record|
+    if user_record[:username] == username && user_record[:password] == password
+      return user_record
+    end
+  end
+  "Credentials were not correct"    # no need to type return here - with ruby, the last return is implied
+end
+
+puts "Welcome to the authenticator"
+25.times { print "-" }
+puts
+puts "This program will tak iput from the user and compare password"
+puts "If password is correct, you will get back the user object"
+
+attempts = 1
+while attempts < 4
+  print "Username: "
+  username = gets.chomp
+  print "Password: "
+  password = gets.chomp
+
+  auth = auth_user(username, password, users)
+  puts auth
+
+  puts "Press n to quit or any other key to continue: "
+  input = gets.chomp.downcase
+
+  break if input = "n"
+  attempts += 1
+end
+
+
+puts "You have exceeded the number of attempts" if attempts == 4
+```
 
 
 

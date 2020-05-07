@@ -8,7 +8,7 @@ For example, let's imagine we are creating an application that stores 3 things:
 2. Posts
 3. Comments
 
-In GraphQL, these are known as **Types**, which are things that we define when creating our GraphQL API.
+In GraphQL, these are known as **types** - things that we define when creating our GraphQL API.
 On top of this, we also define fields associated with each type - *individual pieces of data we want to store*.
 
 For a User, we might want to track:
@@ -46,9 +46,54 @@ Same with Comments and Users
 ### GraphQL Queries
 ```graphql
 query {
-  hello
+  hello             # field
+  courseInstructor  # field
 }
 ```
+returns
+
+```json
+{
+  "data": {
+    "hello": "Hello world!",
+    "courseInstructor": "Andrew Mead"
+  }
+}
+```
+
+### Nested GraphQL Queries
+```graphql
+query {
+  course    # field
+  me {      # type (User)
+    id      # field
+    name    # field
+  }
+  posts {   # array of type (Post)
+    title   # field
+  }
+}
+```
+returns
+
+```json
+{
+  "course": "GraphQL",
+  "me": {
+    "id": "c60f44c7-8149-44ad",
+    "name": "Phil Chan"
+  },
+  "posts": [
+    {
+      "title": "GraphQL 101"
+    },
+    {
+      "title": "GraphQL 201"
+    }
+  ]
+}
+```
+
 
 
 
