@@ -123,6 +123,19 @@ touch src/index.js
 ```
 
 ### ES6 Import/Export
+```js
+// module.js
+const message = 'some message from module.js';
+const location = 'toronto';
+export { message, location as default };
+
+// index.js
+import myLocation, { message } from './module.js';
+
+console.log(message);
+console.log(myLocation);
+```
+
 
 
 

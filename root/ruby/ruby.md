@@ -406,11 +406,10 @@ end
 Using bcrypt:
 
 ```ruby
-# read up on bcrypt docs, udemy course is a little outdated
+
 require 'bcrypt'
 
 #  Using Bcrypt in general
-
 my_password = BCrypt::Password.create("my password")
 #=> "$2a$12$K0ByB.6YI2/OYrB4fQOYLe6Tv0datUVf6VZ/2Jzwm879BW5K1cHey"
 
@@ -465,6 +464,53 @@ p authenticate("phil", "badpass", secure_users_list)
 # should not work, returns "invalid credentials"
 ```
 
+Let's make a module out of what we've done so far
+
+```ruby
+# crud.rb
+module Crud
+  require 'bcrypt'
+
+  def Crud.create_hash_digest(password)
+    BCrypt::Password.create(password)
+  end
+
+  def Crud.verify_hash_digest(password)
+    BCrypt::Password.new(password)
+  end
+
+  def Crud.create_secure_users(user_list)
+    user_list.each do |user_record|
+      user_record[:password] = create_hash_digest(user_record[:password])
+    end
+    user_list
+  end
+
+  def Crud.autheticate_user(username, password, user_list)
+    user_list.each do |user_record|
+      if user_record[:username] == username && verify_hash_digest(user_record[:password]) == password
+        return user_record
+      end
+    end
+    "invalid credentials"
+  end
+end
+
+
+# main.rb
+require_relative 'crud'
+
+users = [
+  { username: "mashur", password: "pass1" },
+  { username: "phil", password: "pass2" },
+  { username: "arya", password: "pass3" },
+  { username: "jonsnow", password: "pass4" },
+  { username: "heisenberg", password: "pass5" },
+]
+
+hashed_users = Crud.create_secure_users(users)
+
+```
 
 
 
