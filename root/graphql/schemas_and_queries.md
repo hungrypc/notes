@@ -272,6 +272,51 @@ Returns:
 }
 ```
 
+### Operation Arguments
+
+```js
+const typeDefs = `
+  type Query {
+    greeting(name: String): String!
+    add(a: Float!, b: Float!): Float!
+  }
+`;
+
+const resolvers = {
+  Query: {
+    greeting(parent, args, ctx, info) {
+      if (args.name) {
+        return `Hello, ${args.name}!`;
+      } else {
+        return "Hello";
+      }
+    },
+    add(parent, args, ctx, info) {
+      return args.a + args.b;
+    }
+  }
+};
+
+```
+
+```graphql
+query {
+  greeting(name: "Phil")
+  add(a: 2.1, b: 2.9)
+}
+```
+Returns:
+
+```json
+{
+  "data": {
+    "greeting": "Hello, Phil!",
+    "add": 5
+  }
+}
+```
+
+### Working with Arrays
 
 
 
