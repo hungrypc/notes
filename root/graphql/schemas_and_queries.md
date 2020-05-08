@@ -136,17 +136,141 @@ console.log(message);
 console.log(myLocation);
 ```
 
+### Creating a GraphQL API
+```cli
+npm i graphql-yoga
+```
+
+```js
+// index.js
+import { GraphQLServer } from 'graphql-yoga';
+
+// Type definitions (schema)
+const typeDefs = `
+  type Query {
+    id: ID!
+    name: String!
+    age: Int!
+    employed: Boolean!
+    gpa: Float
+  }
+`;
+// ! means we will always get that type back, no nulls allowed
 
 
+// Resolvers
+const resolvers = {
+  Query: {
+    id() {
+      return 'abc123'
+    },
+    name() {
+      return 'Phil'
+    },
+    age() {
+      return 26
+    },
+    employed() {
+      return false
+    },
+    gpa() {
+      return null   // because we left out !, null is allowed
+    }
+  }
+};
+// structure of resolvers should mirror structure of typeDefs
 
+const server = new GraphQLServer({
+  typeDefs,
+  resolvers
+});
 
+server.start(() => {
+  console.log('server is up and running')
+});
+```
+From here, run
 
+```cli
+npm run start
+```
+And visit localhost:4000 on your browser.
 
+This should open a GraphQL playground where you can test queries to your new API.
 
+Scalar Types:
+- String
+- Boolean
+- Int
+- Float
+- ID
 
+Let's set up our environment so that our server restarts itself whenever any changes are made.
 
+```cli
+npm i nodemon --save-dev
+```
+```json
+// package.json
+{
+  "scripts": {
+    "start": "nodemon src/index.js --exec babel-node",
+  }
+}
+```
 
+### Creating Custom Types
+```js
+const typeDefs = `
+  type Query {
+    me: User!
+  }
 
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    age: Int
+  }
+`;
+
+const resolvers = {
+  Query: {
+    me() {
+      return {
+        id: '123098',
+        name: 'Phil',
+        email: 'phil@email.com',
+      }
+    }
+  }
+};
+```
+
+```graphql
+query {
+  me {
+    id
+    name
+    email
+    age
+  }
+}
+```
+Returns:
+
+```json
+{
+  "data": {
+    "me": {
+      "id": "123098",
+      "name": "Phil",
+      "email": "phil@email.com"
+      "age": null
+    }
+  }
+}
+```
 
 
 
