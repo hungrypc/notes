@@ -238,8 +238,9 @@ symbol_hash.each {|k, v| symbol_hash.delete(k) if v.is_a?(String)}
 # {:a=>1, :b=>2, :d=>4}
 ```
 
-### Authenticator Project
+### Authenticator Project (Homework)
 ```ruby
+# users array where username and password are stored
 users = [
   { username: "mashur", password: "pass1" },
   { username: "phil", password: "pass2" },
@@ -248,6 +249,7 @@ users = [
   { username: "heisenberg", password: "pass5" },
 ]
 
+# authentication method to check and verify if username/password combination exists
 def auth_user(username, password, list_of_users)
   list_of_users.each do |user_record|
     if user_record[:username] == username && user_record[:password] == password
@@ -257,6 +259,7 @@ def auth_user(username, password, list_of_users)
   "Credentials were not correct"    # no need to type return here - with ruby, the last return is implied
 end
 
+# program execution flow
 puts "Welcome to the authenticator"
 25.times { print "-" }
 puts
@@ -284,9 +287,106 @@ end
 puts "You have exceeded the number of attempts" if attempts == 4
 ```
 
+### Area Code Dictionary (Homework)
+```ruby
+dial_book = {
+  "newyork" => "212",
+  "newbrunswick" => "732",
+  "edison" => "908",
+  "plainsboro" => "609",
+  "sanfrancisco" => "301",
+  "miami" => "305",
+  "paloalto" => "650",
+  "evanston" => "847",
+  "orlando" => "407",
+  "lancaster" => "717"
+}
 
+# Get city names from the hash
+def get_city_names(somehash)
+  # somehash.keys.each {|city| puts city }
+  somehash.keys
+end
 
+# Get area code based on given hash and key
+def get_area_code(somehash, key)
+  if somehash.keys.include?(key)
+    return "the area code for #{key} is #{somehash[key]}."
+  else
+    return "invalid city"
+  end
+end
 
+# Execution flow
+loop do
+# Write your program execution code here
+  puts "area code dictionary"
+  20.times { print '-' }
+  puts
+
+  puts "would you like to look up an area code based on a city name? (y/n)"
+  answer = gets.chomp.downcase
+  break if answer != "y"
+
+  puts "which city's area code would you like to know?"
+  10.times { print '-' }
+  puts get_city_names(dial_book)
+  10.times { print '-' }
+  puts
+  city = gets.chomp
+  res = get_area_code(dial_book, city)
+  3.times { print "." }
+  puts
+  puts res
+
+  20.times { print '-' }
+  puts
+end
+```
+
+### Object Oriented Programming
+> A programming paradigm that uses objects and their interactions to design and program applications
+
+We use Classes as a blueprint to define our Objects. Specified in that blueprint are features of the object, called Attributes. For example:
+
+- Class: Student
+  - Attribute: first name
+  - Attribute: last name
+  - Attribute: email
+
+```ruby
+class Student
+  attr_accessor :first_name, :last_name # allows get and set
+  attr_reader :email # only allows get, no set
+
+  @first_name
+  @last_name
+  @email
+  # @ indicates an instance variable
+
+  def initialize(first_name, last_name, email)
+    @first_name = first_name
+    @last_name = last_name
+    @email = email
+  end
+  # initializes values when creating object
+
+  def to_s
+    "first name: #{@first_name}"
+  end
+  # classes default to this method
+
+  def set_email
+
+end
+
+philip = Student.new("phil", "chan", "phil@email.com")
+
+puts philip.first_name
+puts philip.last_name
+puts philip.email
+
+```
 
 
 
