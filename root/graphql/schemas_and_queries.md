@@ -104,7 +104,7 @@ touch .babelrc
 mkdir src
 touch src/index.js
 ```
-```json
+```js
 // .babelrc
 {
   "presets": [
@@ -265,7 +265,7 @@ Returns:
     "me": {
       "id": "123098",
       "name": "Phil",
-      "email": "phil@email.com"
+      "email": "phil@email.com",
       "age": null
     }
   }
@@ -317,7 +317,127 @@ Returns:
 ```
 
 ### Working with Arrays
+```js
+// demo user data
+const users = [
+  {
+    id: '1',
+    name: 'Phil',
+    email: 'phil@email.com',
+    age: 26
+  },
+  {
+    id: '2',
+    name: 'Xi',
+    email: 'xi@email.com',
+    age: 25
+  },
+  {
+    id: '3',
+    name: 'John',
+    email: 'john@email.com'
+  }
+];
 
+const typeDefs = `
+  type Query {
+    grades: [Int!]!
+    sumArr(numbers: [Float!]!)
+    users(query: String): [User!]!
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    age: Int
+  }
+
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
+  }
+`;
+
+const resolvers = {
+  Query: {
+    grades(parent, args, ctx, info) {
+      return [99, 80, 93];
+    },
+    sumArr(parent, args, ctx, info) {
+      if (args.numbers.length === 0) {
+        return 0;
+      }
+
+      return args.numbers.reduce((accum, currVal) => {
+        return accum + currVal
+      });
+    },
+    users(parent, args, ctx, info) {
+      if (!args.query) return users;
+
+      return users.filter((user) => {
+        return user.name.toLowerCase().includes(args.query.toLowerCase())
+      });
+    }
+  }
+};
+
+```
+
+```graphql
+query {
+  grades
+  sumArr(numbers: [1, 2, 3])
+  users {
+    id
+    name
+  }
+  # or
+  users(query: "i") {
+    name
+  }
+}
+```
+Returns:
+
+```js
+{
+  "data": {
+    "grades": [
+      99,
+      80,
+      93
+    ],
+    "sumArr": 6,
+    "users": [
+      {
+        "id": "1",
+        "name": "Phil"
+      },
+      {
+        "id": "2",
+        "name": "Xi"
+      },
+      {
+        "id": "3",
+        "name": "John"
+      }
+    ],
+    // or
+    "users": [
+      {
+        "name": "Phil"
+      },
+      {
+        "name": "Xi"
+      }
+    ]
+  }
+}
+```
 
 
 
