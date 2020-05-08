@@ -109,7 +109,8 @@ rand(10)      # generates a random number between 0 - 10
 def multiply(num1, num2)
   num1 * num2
 end
-# here, return is implied so there's no need to type 'return' (since there's only one operation being done and it is the last line before end)
+# here, return is implied so there's no need to type 'return'
+# (since there's only one operation being done and it is the last line before end)
 
 name = 'Phil'
 if name == 'Phil'
@@ -375,9 +376,6 @@ class Student
     "first name: #{@first_name}"
   end
   # classes default to this method
-
-  def set_email
-
 end
 
 philip = Student.new("phil", "chan", "phil@email.com")
@@ -471,22 +469,22 @@ Let's make a module out of what we've done so far
 module Crud
   require 'bcrypt'
 
-  def Crud.create_hash_digest(password)
+  def self.create_hash_digest(password)
     BCrypt::Password.create(password)
   end
 
-  def Crud.verify_hash_digest(password)
+  def self.verify_hash_digest(password)
     BCrypt::Password.new(password)
   end
 
-  def Crud.create_secure_users(user_list)
+  def self.create_secure_users(user_list)
     user_list.each do |user_record|
       user_record[:password] = create_hash_digest(user_record[:password])
     end
     user_list
   end
 
-  def Crud.autheticate_user(username, password, user_list)
+  def self.autheticate_user(username, password, user_list)
     user_list.each do |user_record|
       if user_record[:username] == username && verify_hash_digest(user_record[:password]) == password
         return user_record
@@ -510,6 +508,32 @@ users = [
 
 hashed_users = Crud.create_secure_users(users)
 
+# the *self* notation is called a class method
+# doesn't require an instance of an object to work
+
+
+# student.rb
+require_relative 'crud'
+
+class Student
+  include Crud    # this allows us to use methods in crud mod
+
+  attr_accessor :first_name, :last_name, :email
+
+  @first_name
+  @last_name
+  @email
+
+  def initialize(first_name, last_name, email)
+    @first_name = first_name
+    @last_name = last_name
+    @email = email
+  end
+end
+
+philip = Student.new("phil", "chan", "phil@email.com")
+philip.create_hash_digest(philip.password)
+# for this to work, need to remove 'self' from crud methods
 ```
 
 
