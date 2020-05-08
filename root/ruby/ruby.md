@@ -385,8 +385,89 @@ philip = Student.new("phil", "chan", "phil@email.com")
 puts philip.first_name
 puts philip.last_name
 puts philip.email
-
 ```
+
+### Classes, Modules, and Mixins
+Adding a gem:
+
+```cli
+gem install bcrypt
+```
+** OR **
+
+```ruby
+require 'bundler/inline'
+
+gemfile true do
+  source 'http://rubygems.org'
+  gem 'bcrypt'
+end
+```
+Using bcrypt:
+
+```ruby
+# read up on bcrypt docs, udemy course is a little outdated
+require 'bcrypt'
+
+#  Using Bcrypt in general
+
+my_password = BCrypt::Password.create("my password")
+#=> "$2a$12$K0ByB.6YI2/OYrB4fQOYLe6Tv0datUVf6VZ/2Jzwm879BW5K1cHey"
+
+my_password.version              #=> "2a"
+my_password.cost                 #=> 12
+my_password == "my password"     #=> true
+my_password == "not my password" #=> false
+
+my_password = BCrypt::Password.new("$2a$12$K0ByB.6YI2/OYrB4fQOYLe6Tv0datUVf6VZ/2Jzwm879BW5K1cHey")
+my_password == "my password"     #=> true
+my_password == "not my password" #=> false
+
+
+users = [
+  { username: "mashur", password: "pass1" },
+  { username: "phil", password: "pass2" },
+  { username: "arya", password: "pass3" },
+  { username: "jonsnow", password: "pass4" },
+  { username: "heisenberg", password: "pass5" },
+]
+
+def create_hash_digest(password)
+  BCrypt::Password.create(password)
+end
+
+def verify_hash_digest(password)
+  BCrypt::Password.new(password)
+end
+
+def create_secure_users(user_list)
+  user_list.each do |user_record|
+    user_record[:password] = create_hash_digest(user_record[:password])
+  end
+  user_list
+end
+
+secure_users_list = create_secure_users(users)
+
+def autheticate_user(username, password, user_list)
+  user_list.each do |user_record|
+    if user_record[:username] == username && verify_hash_digest(user_record[:password]) == password
+      return user_record
+    end
+  end
+  "invalid credentials"
+end
+
+p authenticate("phil", "pass2", secure_users_list)
+# should work, returns user_record
+
+p authenticate("phil", "badpass", secure_users_list)
+# should not work, returns "invalid credentials"
+```
+
+
+
+
 
 
 

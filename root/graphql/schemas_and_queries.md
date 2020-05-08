@@ -62,6 +62,8 @@ returns
 ```
 
 ### Nested GraphQL Queries
+[GraphQL Query Demo](https://graphql-demo.mead.io/)
+
 ```graphql
 query {
   course    # field
@@ -94,7 +96,33 @@ returns
 }
 ```
 
+### Setting up Environment
+```cli
+npm init
+npm i babel-cli babel-present-env
+touch .babelrc
+mkdir src
+touch src/index.js
+```
+```json
+// .babelrc
+{
+  "presets": [
+    "env"
+  ]
+}
 
+// package.json
+{
+  // ...
+  "scripts": {
+    "start": "babel-node src/index.js",
+    // ...
+  }
+}
+```
+
+### ES6 Import/Export
 
 
 
