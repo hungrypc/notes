@@ -1,6 +1,6 @@
-## Schemas and Queries
+# Schemas and Queries
 
-### What is a Graph?
+## What is a Graph?
 > A data structure that takes into account how information/data is related to one another
 
 For example, let's imagine we are creating an application that stores 3 things:
@@ -43,7 +43,7 @@ Same with Comments and Users
 - A User can have many comments, associated through the *comments property*
 
 
-### GraphQL Queries
+## GraphQL Queries
 ```graphql
 query {
   hello             # field
@@ -61,7 +61,7 @@ returns
 }
 ```
 
-### Nested GraphQL Queries
+## Nested GraphQL Queries
 [GraphQL Query Demo](https://graphql-demo.mead.io/)
 
 ```graphql
@@ -96,7 +96,7 @@ returns
 }
 ```
 
-### Setting up Environment
+## Setting up Environment
 ```cli
 npm init
 npm i babel-cli babel-present-env
@@ -136,7 +136,7 @@ console.log(message);
 console.log(myLocation);
 ```
 
-### Creating a GraphQL API
+## Creating a GraphQL API
 ```cli
 npm i graphql-yoga
 ```
@@ -219,7 +219,7 @@ npm i nodemon --save-dev
 }
 ```
 
-### Creating Custom Types
+## Creating Custom Types
 ```js
 const typeDefs = `
   type Query {
@@ -246,6 +246,7 @@ const resolvers = {
   }
 };
 ```
+Query:
 
 ```graphql
 query {
@@ -272,7 +273,7 @@ Returns:
 }
 ```
 
-### Operation Arguments
+## Operation Arguments
 
 ```js
 const typeDefs = `
@@ -298,6 +299,7 @@ const resolvers = {
 };
 
 ```
+Query:
 
 ```graphql
 query {
@@ -316,7 +318,7 @@ Returns:
 }
 ```
 
-### Working with Arrays
+## Working with Arrays
 ```js
 // demo user data
 const users = [
@@ -386,6 +388,7 @@ const resolvers = {
 };
 
 ```
+Query:
 
 ```graphql
 query {
@@ -439,7 +442,7 @@ Returns:
 }
 ```
 
-### Relational Data
+## Relational Data
 ```js
 // demo user data
 const users = [
@@ -546,6 +549,7 @@ const resolvers = {
 };
 
 ```
+Query:
 
 ```graphql
 query {
