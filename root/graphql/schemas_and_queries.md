@@ -439,6 +439,218 @@ Returns:
 }
 ```
 
+### Relational Data
+```js
+// demo user data
+const users = [
+  {
+    id: '1',
+    name: 'Phil',
+    email: 'phil@email.com',
+    age: 26
+  },
+  {
+    id: '2',
+    name: 'Xi',
+    email: 'xi@email.com',
+    age: 25
+  },
+  {
+    id: '3',
+    name: 'John',
+    email: 'john@email.com'
+  }
+];
+
+const posts = [
+  {
+    id: '10',
+    title: 'GraphQL 101',
+    body: 'This is how to use GraphQL...',
+    published: true,
+    author: '1'
+  },
+  {
+    id: '11',
+    title: 'GraphQL 201',
+    body: 'This is advanced GraphQL...',
+    published: false
+    author: '1'
+  },
+  {
+    id: '12',
+    title: 'BioChem 400',
+    body: 'Bio shit, bitch...',
+    published: false,
+    author: '2'
+  },
+];
+
+const typeDefs = `
+  type Query {
+    users(query: String): [User!]!
+    posts(query: String): [Post!]!
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    age: Int
+    posts: [Post!]!
+  }
+
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
+    author: User!
+  }
+`;
+
+const resolvers = {
+  Query: {
+    users(parent, args, ctx, info) {
+      if (!args.query) return users;
+
+      return users.filter((user) => {
+        return user.name.toLowerCase().includes(args.query.toLowerCase())
+      });
+    },
+    posts(parent, args, ctx, info) {
+      if (!args.query) return posts;
+      return posts.filter((post) => {
+        const isTitleMatch = post.title.toLowerCase().includes(args.query.toLowerCase());
+        const isBodyMatch = post.body.toLowerCase().includes(args.query.toLowerCase());
+      });
+    }
+  },
+  // setting up relationship b/t users and posts
+  Post: {
+    author(parent, args, ctx, info) {
+      // calling this method is going to run for every post
+      // the post will be contained in the 'parent' argument
+      return users.find((user) => {
+        return user.id === parent.author
+      });
+    }
+  },
+  User: {
+    posts(parent, args, ctx, info) {
+      return posts.filter((post) => {
+        return post.author === parent.id
+      })
+    }
+  }
+};
+
+```
+
+```graphql
+query {
+  posts {
+    id
+    title
+    body
+    published
+    author {
+      name
+    }
+  }
+  users: {
+    name
+    posts {
+      id
+      title
+    }
+  }
+}
+```
+Returns:
+
+```js
+{
+  "data": {
+    "posts": [
+      {
+        "id": "10",
+        "title": "GraphQL 101",
+        "body": "This is how to use GraphQL",
+        "published": true,
+        "author": {
+          "name": "Phil"
+        }
+      },
+      {
+        "id": "11",
+        "title": 'GraphQL 201',
+        "body": 'This is advanced GraphQL...',
+        "published": false,
+        "author": {
+          "name": "Phil"
+        }
+      },
+      {
+        "id": "12",
+        "title": "BioChem 400",
+        "body": 'Bio shit, bitch...',
+        "published": false,
+        "author": {
+          "name": "Xi"
+        }
+      }
+    ],
+    "users": [
+      {
+        "name": "Phil",
+        "posts": [
+          {
+            "id": "10",
+            "title": "GraphQL 101"
+          },
+          {
+            "id": "11",
+            "title": "GraphQL 201"
+          }
+        ]
+      },
+      {
+        "name": "Xi",
+        "posts": [
+          {
+            "id": "12",
+            "title": "BioChem 400"
+          }
+        ]
+      },
+      {
+        "name": "John",
+        "posts": []
+      }
+    ]
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
