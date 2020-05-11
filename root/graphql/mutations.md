@@ -10,25 +10,8 @@ npm start
 import { GraphQLServer } from 'graphql-yoga';
 import uuidv4 from 'uuid/v4';
 
-const users = [
-  {
-    id: '1',
-    name: 'Phil',
-    email: 'phil@email.com',
-    age: 26
-  },
-  {
-    id: '2',
-    name: 'Xi',
-    email: 'xi@email.com',
-    age: 25
-  },
-  {
-    id: '3',
-    name: 'John',
-    email: 'john@email.com'
-  }
-];
+const users = [];
+const posts = [];
 
 const typeDefs = `
   type Query {
@@ -39,6 +22,7 @@ const typeDefs = `
 
   type Mutation {
     createUser(name: String!, email: String!, age: Int): User!
+    createPost(title: String!, body: String!, published: Boolean!, author: ID!): Post!
   }
 
   type User {
@@ -47,6 +31,15 @@ const typeDefs = `
     email: String!
     age: Int
     posts: [Post!]!
+    comments: [Comment!]!
+  }
+
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
+    author: User!
     comments: [Comment!]!
   }
 `;
@@ -80,6 +73,26 @@ const resolvers = {
       users.push(user)
 
       return user;
+    },
+    createPost(parent, args, ctx, info) {
+      // check if user exists
+      const userExists = users.some((user) => return user.id === args.author);
+
+      if (!userExists) {
+        throw new Error('User not found');
+      }
+
+      const post = {
+        id: uuidv4(),
+        title: args.title,
+        body: args.body,
+        published: args.published,
+        author: args.author
+      }
+
+      posts.push(post)
+
+      return post;
     }
   },
 };
@@ -96,16 +109,30 @@ server.start(() => {
 Query:
 
 ```graphql
-query {
-  mutation {
-    createUser(name: "Andrew", email: "andrew@email.com") {
-      id
+mutation {
+  createUser(name: "Andrew", email: "andrew@email.com") {
+    id
+    name
+    email
+    age
+  }
+  # OR
+  createPost(
+    title: "My new post",
+    body: "",
+    published: false,
+    author: "432jiu-412lk"
+  ) {
+    id
+    title
+    body
+    published
+    author {
       name
-      email
-      age
     }
   }
 }
+
 ```
 Returns:
 
@@ -117,10 +144,91 @@ Returns:
       "name": "Andrew",
       "email": "andrew@email.com",
       "age": null
+    },
+    // OR
+    "createPost": {
+      "id": "09fs9asf-3hkdf9",
+      "title": "My new post",
+      "body": "",
+      "published": false,
+      "author": {
+        "name": "Andrew"
+      }
     }
   }
 }
 ```
+
+## The Object Spread Operator
+
+```cli
+npm i babel-plugin-transform-object-rest-spread
+```
+
+```js
+// .babelrc
+{
+  "presets": [
+    "env"
+  ],
+  "plugins": [
+    "transform-object-rest-spread"
+  ]
+}
+```
+
+```js
+const resolvers = {
+  //  ...
+  Mutation: {
+    createUser(parent, args, ctx, info) {
+      // ...
+
+      // instead of:
+      const user = {
+        id: uuidv4(),
+        name: args.name,
+        email: args.email,
+        age: args.email
+      }
+
+      // we can do this:
+      const user = {
+        id: uuidv4(),
+        ...args
+      }
+
+      // ...
+    },
+    // ...
+  },
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
