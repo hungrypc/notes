@@ -102,6 +102,21 @@ Policyholders have a contract with the insurance company to protect t hem agains
 Moral hazard occurs when people take more risks knowing that they're insured. Selection bias is different, in that the insurance company may not be able to see all of the risk parameters that define risk.
 
 
+### Insurance Milestones
+Insurance developed because of specific technical advances, like the development of actuarial theory. It was in the 1600s when the first life tables were produced, which showed the probability of dying at each age. In 1840, Morris Robinson had the idea that insurance companies needed an insurance salesman. Henry Hyde in the 1880s having the sales appeal of having insurance with a large cash value - if you stop paying your insurance, you lost the cash value.
+
+Note: this lesson is just history, not interesting at all.
+
+
+## Lesson 4
+
+### Eggs in One Basket
+
+An alternative to insurance: managing risk, not through purchasing an insurance policy, but through diversifying your portfolio. Risk is inherent to investing. The core insight of this theory is that if I can serve quantified risks and returns and I calculate the optimal portfolio, it's going to be the same for everyone else. The difference comes from variation and tolerance to risk, which could be adjusted by leveraging your portfolio up and down. If you abstract from that adjustment, everyone should really be doing the same thing. So, what you would naturally care about is the mean and variance of the return of your whole portfolio. Care about the average return of your total portfolio, and care about how uncertain the total return of the whole portfolio is.
+
+### Salon - Risk
+
+Hedge funds are investment companies that are not approved for the general retail market.
 
 
 

@@ -70,6 +70,32 @@ end
 <h1> Welcome to the About page </h1>
 ```
 
+## Deploying on Heroku
+```cli
+brew tap heroku/brew && brew install heroku
+
+heroku login
+<!-- enter credentials -->
+
+heroku create
+bundle install --without production
+<!-- updates gems for production -->
+
+git push heroku master
+```
+
+## Database and CRUD
+```cli
+rails generate scaffold Article title:string description:text
+<!-- This command sets up the entire structure of table Article for the app (model, controller, views)  -->
+
+rails db:migrate
+
+rails routes --extended
+<!-- shows routes -->
+```
+
+
 
 
 
