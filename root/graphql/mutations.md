@@ -12,6 +12,7 @@ import uuidv4 from 'uuid/v4';
 
 const users = [];
 const posts = [];
+const comments = [];
 
 const typeDefs = `
   type Query {
@@ -23,6 +24,7 @@ const typeDefs = `
   type Mutation {
     createUser(name: String!, email: String!, age: Int): User!
     createPost(title: String!, body: String!, published: Boolean!, author: ID!): Post!
+    createComment(text: String!, author: ID!, post: ID!): Comment!
   }
 
   type User {
@@ -42,22 +44,23 @@ const typeDefs = `
     author: User!
     comments: [Comment!]!
   }
+
+  type Comment {
+    id: ID!
+    text: String!
+    author: User!
+    post: Post!
+  }
 `;
 
 const resolvers = {
   Query: {
-    users(parent, args, ctx, info) {
-      if (!args.query) return users;
-
-      return users.filter((user) => {
-        return user.name.toLowerCase().includes(args.query.toLowerCase())
-      });
-    },
+    // ...
   },
   Mutation: {
     createUser(parent, args, ctx, info) {
       // returns true if some of the users have the same email
-      const emailTaken = users.some((user) => return user.email === args.email);
+      const emailTaken = users.some((user) =>  user.email === args.email);
 
       if (emailTaken) {
         throw new Error('Email taken.');
@@ -76,7 +79,7 @@ const resolvers = {
     },
     createPost(parent, args, ctx, info) {
       // check if user exists
-      const userExists = users.some((user) => return user.id === args.author);
+      const userExists = users.some((user) => user.id === args.author);
 
       if (!userExists) {
         throw new Error('User not found');
@@ -93,17 +96,35 @@ const resolvers = {
       posts.push(post)
 
       return post;
+    },
+    createComment(parent, args, ctx, info) {
+      const userExists = users.some((user) => user.id === args.author);
+      const postExists = posts.some((post) => post.id === args.post && post.published);
+
+      if (!userExists) {
+        throw new Error('User not found');
+      }
+
+      if(!postExists) {
+        throw new Error('Post not found');
+      }
+
+      const comment = {
+        id: uuidv4(),
+        ...args
+      }
     }
   },
+
 };
 
 const server = new GraphQLServer({
-    typeDefs,
-    resolvers
+  typeDefs,
+  resolvers
 });
 
 server.start(() => {
-    console.log('The server is up!')
+  console.log('The server is up!')
 });
 ```
 Query:
@@ -159,6 +180,7 @@ Returns:
 }
 ```
 
+
 ## The Object Spread Operator
 
 ```cli
@@ -206,16 +228,321 @@ const resolvers = {
 ```
 
 
+## The Input Type
+
+```js
+import { GraphQLServer } from 'graphql-yoga';
+import uuidv4 from 'uuid/v4';
+
+const users = [];
+const posts = [];
+const comments = [];
+
+const typeDefs = `
+  type Query {
+    ...
+  }
+
+  type Mutation {
+    createUser(data: CreateUserInput!): User!
+    createPost(data: CreatePostInput!): Post!
+    createComment(data: CreateCommentInput!): Comment!
+  }
+
+  input CreateUserInput {
+    name: String!
+    email: String!
+    age: Int
+  }
+
+  input CreatePostInput {
+    title: String!
+    body: String!
+    published: Boolean!
+    author: ID!
+  }
+
+  input CreateCommentInput {
+    text: String!
+    author: ID!
+    post: ID!
+  }
+
+  ...
+`;
+
+const resolvers = {
+  Query: {
+    // ...
+  },
+  Mutation: {
+    createUser(parent, args, ctx, info) {
+      const emailTaken = users.some((user) =>  user.email === args.data.email);
+
+      if (emailTaken) {
+        throw new Error('Email taken.');
+      }
+
+      const user = {
+        id: uuidv4(),
+        ...args.data
+      }
+
+      users.push(user)
+
+      return user;
+    },
+    createPost(parent, args, ctx, info) {
+      const userExists = users.some((user) => user.id === args.data.author);
+
+      if (!userExists) {
+        throw new Error('User not found');
+      }
+
+      const post = {
+        id: uuidv4(),
+        ...args.data
+      }
+
+      posts.push(post)
+
+      return post;
+    },
+    createComment(parent, args, ctx, info) {
+      const userExists = users.some((user) => user.id === args.data.author);
+      const postExists = posts.some((post) => post.id === args.data.post && post.published);
+
+      if (!userExists) {
+        throw new Error('User not found');
+      }
+
+      if(!postExists) {
+        throw new Error('Post not found');
+      }
+
+      const comment = {
+        id: uuidv4(),
+        ...args.data
+      }
+    }
+  },
+
+};
+
+const server = new GraphQLServer({
+  typeDefs,
+  resolvers
+});
+
+server.start(() => {
+  console.log('The server is up!')
+});
+```
+Query:
+
+```graphql
+mutation {
+  createUser(
+    data: {
+      name: "Jess",
+      email: "jess@email.com",
+      age: 39
+    }
+  ) {
+    id
+    name
+    email
+    age
+  }
+}
+```
 
 
+## Deleting Data with Mutations
+
+When deleting data, it's important to be mindful of not just the data you're trying to delete but also all other associated data.
+
+```js
+const typeDefs = `
+  type Query {
+    ...
+  }
+
+  type Mutation {
+    ...
+    deleteUser(id: ID!): User!
+    deletePost(id: ID!): Post!
+    deleteComment(id: ID!): Comment!
+  }
+
+  ...input
+  ...type
+`;
+
+const resolvers = {
+  Query: {
+    // ...
+  },
+  Mutation: {
+    createUser(parent, args, ctx, info) {
+      ...
+    },
+    deleteUser(parent, args, ctx, info) {
+      const userIndex = users.findIndex((user) => user.id === args.id)
+
+      if(userIndex === -1) {
+        throw new Error('User not found')
+      }
+
+      const deletedUsers = users.splice(userIndex, 1);
+
+      // delete posts by author
+      posts = posts.filter((post) => {
+        const match = post.author === args.id
+
+        // delete comments on posts by author
+        if (match) {
+          comments = comments.filter((comment) => comment.post !== post.id)
+        }
+
+        return !match
+      })
+
+      // delete comments by author
+      comments = comments.filter((comment) => comment.author !== args.id)
+
+      return deletedUsers[0];
+    },
+    createPost(parent, args, ctx, info) {
+      ...
+    },
+    deletePost(parent, args, ctx, info) {
+      const postIndex = posts.findIndex((post) => post.id === args.id)
+
+      if (postIndex === -1) {
+        throw new Error('Post not found')
+      }
+
+      const deletedPosts = posts.splice(postIndex, 1)
+
+      comments = comments.filter((comment) => comment.post !== args.id)
+
+      return deletedPosts[0];
+    },
+    createComment(parent, args, ctx, info) {
+      ...
+    },
+    deleteComment(parent, args, ctx, info) {
+      const commentIndex = comments.findIndex((comment) => comment.id === args.id)
+
+      if (commentIndex === -1) {
+        throw new Error('Comment not found')
+      }
+
+      const deletedComments = comments.splice(commentIndex, 1)
+
+      return deletedComments[0];
+    }
+  }
+};
+
+const server = new GraphQLServer({
+  typeDefs,
+  resolvers
+});
+
+server.start(() => {
+  console.log('The server is up!')
+});
+```
 
 
+## A Pro GraphQL Project Structure
+
+- src
+  - index.js
+  - schema.graphql // move typeDefs here
+  - db.js // move static db here
+    - resolvers
+      - Queries.js // move Query resolver here
+      - Mutation.js // move Mutations resolver here
+      - Post.js // Post resolver
+      - User.js // User resolver
+      - Comment.js // Comment resolver
+
+```js
+// index.js
+import { GraphQLServer } from 'graphql-yoga';
+import uuidv4 from 'uuid/v4';
+import db from './db';
+import Query from './resolvers/Query';
+import Mutation from './resolvers/Mutation'
+import Post from './resolvers/Post'
+import User from './resolvers/User'
+import Post from './resolvers/Comment'
+
+const server = new GraphQLServer({
+  typeDefs: './src/schema.graphql',
+  resolvers: {
+    Query,
+    Mutation,
+    User,
+    Post,
+    Comment
+  },
+  context: {
+    db
+  }
+});
+
+server.start(() => {
+  console.log('The server is up!')
+});
 
 
+// Query.js
+const Query = {
+  // ...
+  // here, we replace all ctx with { db } and change all references to
+  // our previous static db variables to:
+  // db.users, db.posts, db.comments
+  // for example:
+  Query: {
+    users(parent, args, { db }, info) {
+      if (!args.query) return db.users;
+      // ...
+    }
+  }
+}
+export { Query as default }
+// do the same for all other resolvers
 
 
+// db.js
+const users = [];
+const posts = [];
+const comments = [];
+
+const db = {
+  users,
+  posts,
+  comments
+};
+
+export { db as default };
+```
+
+```json
+// package.json
+{
+  "scripts": {
+    "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
+  }
+}
+```
 
 
+## Updating Data with Mutations
 
 
 

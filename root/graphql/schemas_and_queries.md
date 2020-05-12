@@ -807,12 +807,12 @@ const resolvers = {
 };
 
 const server = new GraphQLServer({
-    typeDefs,
-    resolvers
+  typeDefs,
+  resolvers
 });
 
 server.start(() => {
-    console.log('The server is up!')
+  console.log('The server is up!')
 });
 
 ```
