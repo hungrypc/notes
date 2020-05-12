@@ -507,13 +507,11 @@ const Query = {
   // our previous static db variables to:
   // db.users, db.posts, db.comments
   // for example:
-  Query: {
-    users(parent, args, { db }, info) {
-      if (!args.query) return db.users;
-      // ...
-    }
+  users(parent, args, { db }, info) {
+    if (!args.query) return db.users;
+    // ...
   }
-}
+};
 export { Query as default }
 // do the same for all other resolvers
 
@@ -532,7 +530,7 @@ const db = {
 export { db as default };
 ```
 
-```json
+```js
 // package.json
 {
   "scripts": {
@@ -544,8 +542,56 @@ export { db as default };
 
 ## Updating Data with Mutations
 
+```graphql
+# schema.graphql
 
+type Mutation {
+  # ...
+  updateUser(id: ID!, data: UpdateUserInput!): User!
+}
 
+input UpdateUserInput {
+  name: String
+  email: String
+  age: Int
+}
+```
+
+```js
+// Mutation.js
+const Mutation = {
+  // ...
+  updateUser(parent, args, { db }, info) {
+    const { id, data } = args;
+    // locate user to update
+    const user = db.users.find((user) => user.id === id)
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    if (typeof data.email === 'string') {
+      const emailTaken = db.users.some((user) => user.email === data.email)
+
+      // check if email is already in use
+      if (emailTaken) {
+        throw new Error('Email in use')
+      }
+
+      user.email = data.email;
+    }
+
+    if (typeof data.name === 'string') {
+      user.name = data.name
+    }
+
+    if (typeof data.age !== undefined){
+      user.age = data.age
+    }
+
+    return user;
+  }
+}
 
 
 
