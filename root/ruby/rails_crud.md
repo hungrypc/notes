@@ -128,6 +128,7 @@ end
 ```erb
 <!-- views/articles/show.html.erb -->
 <h1>Showing Article Details</h1>
+
 <p>Title: <%= @article.title %></p>
 <p>Description: <%= @article.description %></p>
 ```
@@ -303,11 +304,153 @@ end
 
 
 ## Update Existing Articles
+```ruby
+# routes.rb
+Rails.application.routes.draw.do
+  # ...
+  resources: articles, only: [:show, :index, :new, :create, :edit, :update]
+end
+
+# controllers/articles_controller.rb
+class ArticlesController < ApplicationController
+  # ...
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def update
+    @article = Article.find(params[:id])
+    if @article.update(user_params)
+      flash[:notice] = "Article was successfully updated."
+      redirect_to @article
+    else
+      render 'edit'
+    end
+  end
+  # ...
+end
+```
+
+```erb
+<!-- views/articles/edit.html.erb -->
+<h1>Edit Article</h1>
+<% if @article.errors.any? %>
+  <h2>The following errors prevented the article from being saved</h2>
+  <ul>
+    <% @article.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+<!-- this config fills in the form with existing data -->
+<%= form_with (model: @article, local: true) do |f| %>
+  <p>
+    <%= f.label :title %> <br/>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :description %> <br/>
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+```
 
 
+## Delete Existing Articles
+```ruby
+# routes.rb
+Rails.application.routes.draw.do
+  # ...
+  # now that we have all the routes, we dont need 'only' anymore
+  # however, this exposes all the RESTful routes
+  resources: articles
+end
+
+# controllers/articles_controller.rb
+class ArticlesController < ApplicationController
+  # ...
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+    redirect_to articles_path
+  end
+  # ...
+end
+```
+
+```erb
+<!-- views/articles/index.html.erb -->
+<h1>Articles List</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @articles.each do |article| %>
+      <tr>
+        <td><%= article.title %></td>
+        <td><%= article.description %></td>
+        <td><%= link_to 'Show', article_path(article) %>
+        <td><%= link_to 'Delete', article_path(article), method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+```
 
 
+## User Interface - Add Layout Links
+```erb
+<!-- views/articles/index.html.erb -->
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @articles.each do |article| %>
+      <tr>
+        <td><%= article.title %></td>
+        <td><%= article.description %></td>
+        <td><%= link_to 'Show', article_path(article) %></td>
+        <td><%= link_to 'Edit', edit_article_path(article) %></td>
+        <td><%= link_to 'Delete', article_path(article), method: :delete, data: { confirm: "Are you sure?" } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<p>
+  <%= link_to 'Create new article', new_article_path %>
+</p>
 
+
+<!-- views/articles/show.html.erb -->
+<h1>Showing Article Details</h1>
+
+<p>Title: <%= @article.title %></p>
+<p>Description: <%= @article.description %></p>
+
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Delete', article_path(@article), method: :delete, data: { confirm: "Are you sure?" } %> |
+<%= link_to 'Return to Index', articles_path %>
+<!-- add Return to Index to all other pages -->
+
+
+<!-- pages/home.html.erb -->
+<h1>Welcome to the Homepage</h1>
+<%= link_to 'Articles listing', articles_path %> |
+<%= link_to 'About Page', about_path %>
+```
 
 
 
