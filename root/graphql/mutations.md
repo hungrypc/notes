@@ -544,7 +544,6 @@ export { db as default };
 
 ```graphql
 # schema.graphql
-
 type Mutation {
   # ...
   updateUser(id: ID!, data: UpdateUserInput!): User!
