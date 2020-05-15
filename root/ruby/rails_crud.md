@@ -453,14 +453,97 @@ end
 ```
 
 
+## Refactoring and Partials
+We've written a lot, but theres quite a bit of code that we've written multiple times. It's best that we refactor our code so that our code is DRY (Dont Repeat Yourself).
+
+```ruby
+# controllers/articles_controller.rb
+class ArticlesController < ApplicationController
+  # for example,
+  # we repeat @article = Article.find(params[:id])
+  # instead of writing it multiple times, we can do this:
+
+  before_action: set_article, only: [:show, :edit, :update, :destroy]
+  # this calls set_article before any code is run ONLY on the listed actions
+
+  def destroy
+    # @article = Article.find(params[:id])   # so now we don't need this line
+    set_article
+    @article.destroy
+    redirect_to articles_path
+  end
+  # ...
+
+  private # this makes methods that we define below only accessible by this controller
+
+  def set_article
+    @article = Article.find(params[:id])
+  end
+
+  def user_params # putting this under private to pratice good habits
+    params.require(:article).permit(:title, :description)
+  end
+
+end
+```
+Next, we can create a partial for some of our views. Naming conventions dictate that we name partial files with an _ (eg. _messages.html.erb)
+
+```erb
+<!-- views/articles/_form.html.erb -->
+<% if @article.errors.any? %>
+  <h2>The following errors prevented the article from being saved</h2>
+  <ul>
+    <% @article.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with (model: @article, local: true) do |f| %>
+  <p>
+    <%= f.label :title %> <br/>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :description %> <br/>
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
 
 
+<!-- views/articles/edit.html.erb -->
+<h1>Edit Article</h1>
+<%= render 'form' %>
 
 
+<!-- views/articles/new.html.erb -->
+<h1>Create a new Article</h1>
+<%= render 'form' %>
+```
 
 
+## Deploying to Heroku
+```ruby
+# Gemfile
+# move sqlite gem out from main area into development
+group :development, :test do
+  gem 'sqlite3', '~> 1.4'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+end
+# this is because in production in heroku, we're going to use the 'pg' gem
+group :production do
+  gem 'pg'
+end
+```
 
+```cli
+bundle install --without production
+<!-- updates gemfiles -->
 
+git push heroku master
+heroku run rails db:migrate
 
-
-
+```
