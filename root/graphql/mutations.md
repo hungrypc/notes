@@ -324,6 +324,10 @@ const resolvers = {
         id: uuidv4(),
         ...args.data
       }
+
+      comments.push(comment)
+
+      return comment;
     }
   },
 
