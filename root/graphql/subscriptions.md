@@ -65,13 +65,14 @@ subscription {
 So we've set this up to watch for a change in data for the variable 'count'. Whenever count updates, GraphQL updates and sends us back this updated data. At this point, we've set up a subscription but it's not doing anything meaningful yet.
 
 
-## Setting up a Comments Subscription
+## Setting up a Comments and Posts Subscription
 ```graphql
 # schema.graphql
 # ...
 type Subscription {
   count: Int!
   comment(postId: ID!): Comment!
+  post: Post!
 }
 # ...
 ```
@@ -90,6 +91,11 @@ const Subscription = {
       }
 
       return pubsub.asyncIterator(`comment: ${postId}`);
+    }
+  },
+  post: {
+    subscribe(parent, args, { db, pubsub }, info) {
+      return pubsub.asyncIterator('post')
     }
   }
 }
@@ -121,7 +127,25 @@ const Mutation = {
     pubsub.publish(`comment: ${args.data.post}`, { comment })
 
     return comment;
-  }
+  },
+  createPost(parent, args, { db, pubsub }, info) {
+      const userExists = users.some((user) => user.id === args.data.author);
+
+      if (!userExists) {
+        throw new Error('User not found');
+      }
+
+      const post = {
+        id: uuidv4(),
+        ...args.data
+      }
+
+      db.posts.push(post)
+
+      if (args.data.published) pubsub.publish('post', { post })
+
+      return post;
+    },
 };
 ```
 Query:
@@ -155,6 +179,7 @@ mutation {
 
 # our subscription will be pinged and will notify us that the comment was created
 ```
+
 
 
 
