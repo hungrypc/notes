@@ -43,4 +43,8 @@ Really, the rest of this section is css. No need to review (else, go to advanced
 
 <%= link_to 'Phil Chan', "http://phil-chan.ca", class: 'nav-link' %>
 <!-- link to defined url -->
+
+<div>
+  Created <%= time_ago_in_words(article.created_at) %> ago, edited <%= time_ago_in_words(article.updated_at) ago %>
+</div>
 ```
