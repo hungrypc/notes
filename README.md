@@ -17,3 +17,4 @@
 ### Others
 
 - [Data Structures & Algorithms](https://github.com/hungrypc/data-structures-and-algorithms)
+- [Interview Cake Practice Qs](https://github.com/hungrypc/notes/blob/master/root/interview_cake/README.md)
