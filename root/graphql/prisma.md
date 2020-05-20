@@ -14,3 +14,11 @@ Because we're using GraphQL between the client and the server AND between the se
 
 ## Prisma Setup
 Install a GUI and Docker, create a postgresql database on Heroku.
+
+```cli
+npm i -g prisma
+
+prisma init project_name
+<!-- from here, configure database info -->
+```
+
