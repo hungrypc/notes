@@ -139,7 +139,7 @@ end
 <h1>Sign Up for Blog </h1>
 <%= render 'form' %>
 
-<!-- create _form.html.erb -->
+<!-- create views/users/_form.html.erb -->
 <% if obj.errors.any? %>
   <h2>The following errors prevented the <%= obj.class.name.downcase %> from being saved</h2>
   <ul>
@@ -175,6 +175,178 @@ end
 <!-- ... -->
 <%= link_to "Sign up!", signup_path, class: "btn btn-success btn-lg" %>
 ```
+
+
+## Edit Users
+
+```ruby
+# users_controller.rb
+class UsersController < ApplicationController
+  def new
+    # ...
+  end
+
+  def create
+    # ...
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      flash[:notice] = "Account updated."
+      redirect_to @user
+    else
+      render 'edit'
+    end
+  end
+
+  private
+
+  def user_params
+    # ...
+  end
+end
+```
+
+```erb
+<!-- create views/users/edit.html.erb -->
+<h1>Edit Profile </h1>
+<%= render 'form' %>
+
+<!-- but our form partial says 'Sign up', so we need to tell the partial to display based on whether a new record is being made or a record is being edited -->
+
+<!-- create views/users/_form.html.erb -->
+<%= form_with (model: @user, local: true) do |f| %>
+  <!-- ... -->
+  <p>
+    <%= f.submit(@user.new_record? ? "Sign up" : "Update account", class: "whatever class") %>
+  </p>
+<% end %>
+```
+
+
+## Show User and Profile Image
+
+```ruby
+# users_controller.rb
+class UsersController < ApplicationController
+  # ...
+
+  def show
+    @user = User.find(params[:id])
+    @articles = @user.articles
+  end
+
+  private
+
+  def user_params
+    # ...
+  end
+end
+```
+
+```erb
+<!-- create views/users/show.html.erb -->
+<h1><%= @user.username %>'s Profile</h1>
+<!-- lecture suggests using gravatar, but id rather not make a wordpress account -->
+<h3>Articles</h3>
+<!-- make a partial out of views/articles/index.html => views/articles/_article.html.erb so that we can do: -->
+<%= render 'articles/article' %>
+```
+
+There's a lot of repetition from here on out, so I'm only going to include new information/methods (plus relevant repeated code) to save for time and space.
+
+## Users Index
+
+```ruby
+# users_controller.rb
+class UsersController < ApplicationController
+  # ...
+
+  def index
+    @users = User.all
+  end
+
+  private
+
+  def user_params
+    # ...
+  end
+end
+```
+
+```erb
+<!-- create views/users/index.html.erb -->
+<h1>Bloggers</h1>
+
+<% @users.each do |user| %>
+  <div>
+    <%= link_to user.username, user %>
+  </div>
+  <div>
+    <!-- gravatar user image -->
+  </div>
+  <div>
+    <%= pluralize(user.articles.count, "article") %>
+    <!-- if user only has one article, says "article", else, "articles" -->
+  </div>
+<% end %>
+```
+
+
+## Cleanup Layout
+```erb
+<!-- views/users/show.html.erb -->
+<!-- ... -->
+<%= link_to "Edit your profile", edit_user_path(@user) %>
+
+<!-- _article.html.erb -->
+<!-- linking username to user's profile -->
+<%= link_to article.user.username, user_path(article.user) %>
+```
+
+
+## Add Pagination to views
+install will_paginate gem, then bundle install
+
+```ruby
+# articles_controller.rb
+# ...
+
+def index
+  @articles = Article.paginate(page: params[:page], per_page: 5)
+end
+
+# ...
+
+# can do the same with users profile show articles
+# users_controller.rb
+class UsersController < ApplicationController
+  # ...
+
+  def show
+    @user = User.find(params[:id])
+    @articles = @user.articles.paginate(page: params[:page], per_page: 5)
+  end
+
+  private
+
+  def user_params
+    # ...
+  end
+end
+```
+
+```erb
+<!-- views/articles/index.html.erb -->
+<%= will_paginate @articles %>
+```
+
+
 
 
 
