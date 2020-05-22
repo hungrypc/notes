@@ -1,3 +1,4 @@
 # Interview Cake Practice Questions
 
-- [Basics: Schemas and Queries](https://github.com/hungrypc/notes/blob/master/root/interview_cake/arrays.md)
+- [Arrays](https://github.com/hungrypc/notes/blob/master/root/interview_cake/arrays.md)
+- [Hashing and Hash Tables](https://github.com/hungrypc/notes/blob/master/root/interview_cake/hash.md)
