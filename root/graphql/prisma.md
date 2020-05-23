@@ -195,7 +195,6 @@ The main prisma methods we'll be using are:
 - prisma.exists
 
 ### prisma.query
-
 ```js
 // prisma.js
 import { Prisma } from 'prisma-binding'
@@ -224,13 +223,106 @@ prisma.query.users(null, '{ id name email posts { id title } }').then((data) => 
 
 prisma.query.comments(null, '{ id text author { id name } }').then((data) => {
   console.log(JSON.stringify(data, undefined, 2))
-})
+});
 ```
 
 ### prisma.mutation
+```js
+prisma.mutation.createPost({
+  // here is where we provide operation arguments
+  data: {
+    title: "My new GraphQL post is live",
+    body: "You can find the new course here",
+    published: true,
+    author: {
+      connect: {
+        id: "ckah9y9z700100713hvk8z3mn"
+      }
+    }
+  }
+}, '{ id title body published }').then((data) => {
+  console.log(data)
+  // we can also chain methods
+  return prisma.query.users(null, '{ id name email posts { id title } }')
+  // because we return this, we can chain another .then()
+}).then((data) => {
+  console.log(JSON.stringify(data, undefined, 2))
+});
 
+prisma.mutation.updatePost({
+  where: {
+    id: "ckak4gzqy00300713bcjhbih0",
+  },
+  data: {
+    title: "Updated Post",
+    body: "updated via prisma mutation",
+  }
+}, '{ id title body published }').then((data) => {
+  console.log(data)
+  return prisma.query.users(null, '{ id name posts { id title } }')
+}).then((data) => {
+  console.log(JSON.stringify(data, undefined, 2))
+});
 
+```
 
+### Using Async/Await with Prisma Bindings
+```js
+const createPostForUser = async (authorId, data) => {
+  const post = await prisma.mutation.createPost({
+    data: {
+      ...data,
+      author: {
+        connect: {
+          id: authorId
+        }
+      }
+    }
+  }, '{ id }')
+
+  const user = await prisma.query.user({
+    where: {
+      id: authorId
+    }
+  }, '{ id name email posts { id title published } }')
+
+  return user
+}
+
+createPostForUser("ckah9y9z700100713hvk8z3mn", {
+  title: "async await post",
+  body: "created post with async await",
+  published: true
+}).then((user) => {
+  console.log(JSON.stringify(user, undefined, 2))
+})
+
+// note: this didnt work at first, need to set up plugin "babel-plugin-transform-object-rest-spread" in .babelrc
+
+const updatePostForUser = async (postId, data) => {
+  const post = await prisma.mutation.updatePost({
+    where: {
+      id: postId
+    },
+    data
+  }, '{ author { id } }')
+
+  const user = await prisma.query.user({
+    where: {
+      id: post.author.id
+    }
+  }, '{ id name email posts { id title body } }')
+
+  return user
+}
+
+updatePostForUser("ckak5m2sc003j0713jslueq8s", {
+  title: "updated async post",
+  body: "this post was updated with async await"
+}).then((user) => {
+  console.log(JSON.stringify(user, undefined, 2))
+})
+```
 
 
 
