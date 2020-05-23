@@ -1,4 +1,4 @@
-# Financial Markets
+# Financial Markets W1
 
 ## Lesson 2
 
