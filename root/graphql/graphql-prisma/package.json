@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node src/index.js",
+    "start": "nodemon src/index.js --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
     "get-schema": "graphql get-schema -p prisma "
   },
@@ -15,5 +15,8 @@
     "babel-preset-env": "^1.7.0",
     "graphql-cli": "^3.0.14",
     "prisma-binding": "^2.3.16"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

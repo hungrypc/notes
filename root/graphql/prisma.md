@@ -160,7 +160,7 @@ import { Prisma } from 'prisma-binding'
 
 const prisma = new Prisma({
   typeDefs: 'src/generated/prisma.graphql',
-  endPoint: 'localhost:4466',
+  endpoint: 'localhost:4466',
 })
 
 // create .graphqlconfig
@@ -186,13 +186,48 @@ const prisma = new Prisma({
 Run 'npm run get-schema' and a file will be auto-generated in src/generated.
 
 
+## Using Prisma Bindings
+The main prisma methods we'll be using are:
 
+- prisma.query
+- prisma.mutation
+- prisma.subscription
+- prisma.exists
 
+### prisma.query
 
+```js
+// prisma.js
+import { Prisma } from 'prisma-binding'
 
+const prisma = new Prisma({
+  typeDefs: 'src/generated/prisma.graphql',
+  endpoint: 'http://localhost:4466',
+})
 
+prisma.query.users(null, '{ id name email }').then((data) => {
+  console.log(data)
+})
+/*
+There is one method for every query that the api supports where the method name matches with the query name (eg users).
+All our prisma methods take two arguments:
+- operation     (eg null)
+- selection set (eg '{ id name email }')
 
+What comes back is a promise, which is why we use .then().
+*/
 
+// a few more examples of querying
+prisma.query.users(null, '{ id name email posts { id title } }').then((data) => {
+  console.log(JSON.stringify(data, undefined, 2))
+})
+
+prisma.query.comments(null, '{ id text author { id name } }').then((data) => {
+  console.log(JSON.stringify(data, undefined, 2))
+})
+```
+
+### prisma.mutation
 
 
 
