@@ -145,8 +145,45 @@ mutation {
 
 
 ## Integrating Prisma into a Node.js Project
+Changes will be made here:
+[graphql-prisma](https://github.com/hungrypc/notes/tree/master/root/graphql/graphql-prisma)
 
+Will update this readme with important notes along the way.
 
+```cli
+npm i prisma-binding graphql-cli
+```
+
+```js
+// create src/prisma.js
+import { Prisma } from 'prisma-binding'
+
+const prisma = new Prisma({
+  typeDefs: 'src/generated/prisma.graphql',
+  endPoint: 'localhost:4466',
+})
+
+// create .graphqlconfig
+{
+  "projects": {
+    "prisma": {
+      "schemaPath": "src/generated/prisma.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": "http://localhost:4466"
+        }
+      }
+    }
+  }
+}
+
+// in package.json, add script:
+{
+  // ...
+  "get-schema": "graphql get-schema -p prisma"
+}
+```
+Run 'npm run get-schema' and a file will be auto-generated in src/generated.
 
 
 
