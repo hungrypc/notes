@@ -185,6 +185,8 @@ const prisma = new Prisma({
 ```
 Run 'npm run get-schema' and a file will be auto-generated in src/generated.
 
+Any changes made to the datamodel.graphql needs to be deployed to prisma via this command: prisma deploy
+
 
 ## Using Prisma Bindings
 The main prisma methods we'll be using are:
@@ -321,24 +323,124 @@ updatePostForUser("ckak5m2sc003j0713jslueq8s", {
   body: "this post was updated with async await"
 }).then((user) => {
   console.log(JSON.stringify(user, undefined, 2))
+});
+```
+
+### Checking If Data Exists Using Prisma Bindings
+```js
+prisma.exists.Comment({
+  // properties that we want to verify for the comment we're looking for
+  id: "ckahbm9b000960713qew7ptqt",
+  // we can get complex, looking into associations
+  author: {
+    id: "ckah9y9z700100713hvk8z3mn"
+  }
+}).then((exists) => {
+  console.log(exists)
 })
+
+// we can utilize this as follows:
+
+const createPostForUser = async (authorId, data) => {
+  // so we want to check first if user exists
+  const userExists = await prisma.exists.User({ id: authorId })
+
+  if (!userExists) {
+    throw new Error('User not found')
+  }
+
+  const post = await prisma.mutation.createPost({
+    data: {
+      ...data,
+      author: {
+        connect: {
+          id: authorId
+        }
+      }
+    }
+  }, '{ author { id name email posts { id title published } } }')
+  // now that we have userExists, const user is redundant
+  // we now have post returning the same data user did
+
+  return post.author
+}
+
+createPostForUser("ckah9y9z700100713hvk8z3mn", {
+  title: "userExists implemented",
+  body: "checking and checking",
+  published: true
+}).then((user) => {
+  console.log(JSON.stringify(user, undefined, 2))
+}).catch((error) => {
+  // now that we have an error in place, we can catch if anything goes wrong
+  console.log(error.message)
+})
+
+// lets improve our updatePostForUser
+
+const updatePostForUser = async (postId, data) => {
+  const postExists = await prisma.exists.Post({ id: postId })
+
+  if (!postExists) {
+    throw new Error('Post not found')
+  }
+
+  const post = await prisma.mutation.updatePost({
+    where: {
+      id: postId
+    },
+    data
+  }, '{ author { id name email posts { id title body } } }')
+
+  return post.author
+}
+
+updatePostForUser("ckali6i78000c0813tdd3457b", {
+  title: "updated and userExists",
+  body: "new n improved"
+}).then((user) => {
+  console.log(JSON.stringify(user, undefined, 2))
+}).catch((error) => {
+  console.log(error.message)
+});
 ```
 
 
+## Customizing Type Relationships
+If we try to delete a user with posts and comments right now would not work. This would violate the required relation between the types. We can set up some onDelete behaviour to solve this.
+
+We have two options: SET_NULL (default) or CASCADE
+
+```graphql
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  posts: [Post!]! @relation(name: "PostToUser", onDelete: CASCADE)
+  comments: [Comment!]! @relation(name: "CommentToUser", onDelete: CASCADE)
+}
+
+type Post {
+  id: ID! @id
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User! @relation(name: "PostToUser", onDelete: SET_NULL)
+  comments: [Comment!]! @relation(name: "CommentToPost", onDelete: CASCADE)
+}
+
+type Comment {
+  id: ID! @id
+  text: String!
+  post: Post! @relation(name: "CommentToPost", onDelete: SET_NULL)
+  author: User! @relation(name: "CommentToUser", onDelete: SET_NULL)
+}
+
+# prisma deploy
+```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Modeling a Review System with Prisma: Set Up
+Deploying another project.
+New model found here:
+[graphql-prisma](https://github.com/hungrypc/notes/tree/master/root/graphql/graphql-prisma/prisma-review)
