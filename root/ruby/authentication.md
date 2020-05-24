@@ -581,35 +581,43 @@ class AddAdminToUsers <ActiveRecord::Migration[6.0]
 end
 
 # run rails db:migrate
+
+# articles_controller.rb
+class ArticlesController < ApplicationController
+  # ...
+  before_action :require_user, except: [:show, :index]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
+
+  # ...
+
+  def require_same_user
+    if current_user != @article.user && !current_user.admin?
+      # redirect if current_user isnt article.user AND isnt admin
+      # so if they're admin, they are allowed do these actions
+      flash[:alert] = "You can only edit/delete your own article"
+      redirect_to @article
+  end
+end
 ```
+Admins should have the ability to edit/delete ALL articles.
 
+```erb
+<!-- views/articles/_article.html.erb -->
+<!-- ... -->
+<% if logged_in? && (article.user == current_user || current_user.admin?) %>
+  <%= link_to "Edit", edit_article_path(article) %>
+  <%= link_to "Delete", article_path(article), method: :delete %>
+<% end %>
+```
+Do the same thing wherever necessary (articles show, delete profile, etc).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```ruby
+# users controller
+def destroy
+  @user.destroy
+  session[:user_id] = nil if @user == current_user
+  flash[:notice] = "Account deleted"
+  redirect_to articles_path
+end
+```
+etc.
