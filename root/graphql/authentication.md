@@ -40,8 +40,55 @@ const Query = {
 ```
 
 
+## Integrating Operation Arguments
+```js
+// Query.js
+// adding operation arguments to prisma
+const Query = {
+  users(parent, args, { prisma }, info) {
+    const opArgs = {}
+
+    if (args.query) {
+      // changing the structure of opArgs based on whether there are any queries or not
+      opArgs.where = {
+        OR: [
+        // prisma given operation
+          {
+            name_contains: args.query
+            // prisma given operation
+          },
+          {
+            email_contains: args.query
+            // prisma given operation
+          }
+        ]
+      }
+    }
+
+    return prisma.query.users(opArgs, info)
+  },
+  // do the rest of the queries
+};
+
+```
+Now, we can run queries like:
+
+```graphql
+query {
+  users (
+    query: "Phil"
+  ) {
+    id
+    name
+  }
+}
+```
 
 
+## Refactoring Custom Type Resolvers
+Our queries are working only when we request scalar fields, relational data hasn't been handled yet.
+
+We actually don't have to do much other than remove whats in our User.js resolver since prisma already handles relational data for us. This is because of the info argument. Do this for all other resolvers.
 
 
 
