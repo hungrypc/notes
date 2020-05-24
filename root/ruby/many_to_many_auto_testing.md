@@ -91,11 +91,61 @@ end
 ```
 
 
+## Categories Controller and Tests
+Functional Tests test the individual actions or whateer actions the controller is responsible for controlling. eg
 
+- New category - new.html.erb
+- Show category details - show.html.erb
+- Categories index - index.html.erb
 
+```ruby
+# rails generate test_unit:scafffold category
 
+# test/controllers/categories_controller_test.rb
+require 'test_helper'
 
+class CategoryControllerTest < ActionDispatch::IntegrationTest
+  def setup
+    @category = Category.create(name: "Sports")
+  end
 
+  test "should get index" do
+    get categories_url
+    assert_response :success
+  end
+
+  test "should get new" do
+    get new_categories_url
+    assert_response :success
+  end
+
+  test "should show category" do
+    get category_url(@category)
+    assert_response :success
+  end
+end
+
+# routes.rb
+Rails.application.routes.draw do
+# ...
+resources :categories, except: [:destroy]
+end
+
+# create controllers/categories_controller.rb
+class CategoriesController < ApplicationController
+  def index
+  end
+
+  def show
+  end
+
+  def new
+  end
+end
+
+# create views/categories folder, then create files erbs for new, show, index
+```
+rails test test/controllers
 
 
 
