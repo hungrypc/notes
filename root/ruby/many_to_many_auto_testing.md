@@ -148,29 +148,125 @@ end
 rails test test/controllers
 
 
+## Create Category and Test
+```ruby
+# test/controllers/categories_controller_test.rb
+require 'test_helper'
+
+class CategoryControllerTest < ActionDispatch::IntegrationTest
+  # ...
+
+  test "should create category" do
+    assert_difference('Category.count', 1) do  # we want to see the category count change by 1 when we create a category
+      post categories_url, params: { category: { name: "Travel" } } # creating category
+    end
+
+    assert_redirected_to category_url(Category.last)
+  end
+end
+
+# creates a views/categories/new.html.erb form but this is repetition of previous work
+
+# controllers/categories_controller.rb
+class CategoriesController < ApplicationController
+  # ...
+
+  def create
+    @category = Category.new(category_params)
+    if @category.save
+      flash[:notice] = "Category created"
+      redirect_to @category
+    else
+      render 'new'
+    end
+  end
+
+  private
+
+  def category_params
+    params.require(:category).permit(:name)
+  end
+end
+```
 
 
+## Integration Test: Create Category
+> These test thw whole business process for a feature, which includes multiple functions, and ensures that they're all working well together.
+
+```cli
+rails generate integration_test create_category
+```
+
+```ruby
+# integration/create_category_test.rb
+require 'test_helper'
+
+class CreateCategoryTest < ActionDispatch::IntegrationTest
+
+  test "get new category form and create category" do
+    get "/categories/new"
+    assert_response :success
+    assert_difference 'Category.count', 1 do
+      post categories_path, params: { category: { name: "Sports" } }
+      assert_response :redirect
+    end
+    follow_redirect!
+    assert_response :success
+    assert_match "Sports", response.body  # checks if "Sports" occurs in response.body
+  end
+
+  test "get new category form and reject invalid category submission" do
+    get "/categories/new"
+    assert_response :success
+    assert_no_difference 'Category.count' do
+      post categories_path, params: { category: { name: "" } }
+    end
+    assert_select 'div.alert'  # checks for errors in html
+    assert_select 'h4.alert-heading'
+  end
+end
+```
 
 
+## Integration Test: Listing Categories
+rails generate integration_test list_categories
 
+I'm going to skip building erbs, too much repetition it's fucking annoying.
 
+```ruby
+# integration/list_categories_test.rb
+require 'test_helper'
 
+class ListCategoriesTest < ActionDispatch::IntegrationTest
+  def setup
+    @category = Category.create(name: "Sports")
+    @category2 = Category.create(name: "Travel")
+  end
 
+  test "should show categories listing" do
+    get "/categories"
+    assert_select "a[href=?]", category_path(@category), text: @category.name  # looks for a link that leads to @category and @category2
+    assert_select "a[href=?]", category_path(@category2), text: @category2.name
+  end
+end
+```
 
+## Note
+The rest of this section is under upgrade, so most of what we see here relates to Rails 5, which is a little different to Rails 6. I'm only going to include important notes that are worthwhile and will come back to this when the section is fully upgraded.
 
+```ruby
+# simulating user log in
+test "get new category form and create category" do
+  sign_in_as(@user, "password") # this method is a helper method in test/test_helper.rb
+end
 
+# test/test_helper.rb
+# ...
+def sign_in_as(user, password)
+  post login_path, session: { email: user.email, password: password }
+end
+```
 
+Come back to:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Add Association from UI
