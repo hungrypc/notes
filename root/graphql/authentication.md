@@ -244,6 +244,37 @@ const Subscription = {
 ```
 
 
+## Closing Prisma to the Outside World
+Everything we've done so far has helped us set up a node server to communicate between the client and database. But, one big problem is that the client can still go straight to the database and manipulate it directly. What we want is to restrict access to the database so that the client cannot mess around with the database unless it's through our set up node server.
+
+To do this, we set up a 'prisma secret' (basically just a password).
+
+```yml
+endpoint: http://localhost:4466
+datamodel: datamodel.graphql
+secret: secret_text
+```
+cd prisma, then run prisma deploy to set the secret
+
+```js
+// prisma.js
+const prisma = new Prisma({
+  typeDefs: 'src/generated/prisma.graphql',
+  endpoint: 'http://localhost:4466',
+  secret: 'secret_text'   // secret key for access
+});
+```
+However, we still might want access to the database server (localhost:4466) for development purposes. We can do this via http headers. This would require a token that prisma provides. To generate a token, run in prisma folder: prisma token
+
+```json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0QGRlZmF1bHQiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNTkwNDQ0NTU3LCJleHAiOjE1OTEwNDkzNTd9.H8VRz564fzrJvK5tvLPCt012EN5-bW-Z7oybwnpTTH0"
+}
+```
+
+
+
+
 
 
 
