@@ -188,9 +188,60 @@ const Mutation = {
       data: args.data
     }, info)
   }
-}
+};
 ```
 
+
+## Adding Prisma into GraphQL Subscriptions
+Prisma actually already gives us some subscription methods. Prisma already knows when things are changing because Prisma is in charge of changing it anyway.
+BUT we'll need to align typeDefs from client with Node typeDefs first so that data doesn't get lost and everything flows correctly.
+
+```graphql
+# schema.graphql
+# ...
+
+type PostSubscriptionPayload {
+  mutation: MutationType!
+  node: Post
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  node: Comment
+}
+
+# make node non-nullable because delete makes it null
+```
+
+```js
+const Subscription = {
+  comment: {
+    subscribe(parent, { postId }, { prisma }, info) {
+      return prisma.subscription.comment({
+        where: {
+          // look through schema to find path
+          node: {
+            post: {
+              id: postId
+            }
+          }
+        }
+      }, info)
+    }
+  },
+  post: {
+    subscribe(parent, args, { prisma }, info) {
+      return prisma.subscription.post({
+        where: {
+          node: {
+            published: true
+          }
+        }
+      }, info)
+    }
+  }
+};
+```
 
 
 
