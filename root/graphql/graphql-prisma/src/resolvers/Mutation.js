@@ -1,14 +1,29 @@
-import uuidv4 from 'uuid/v4'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
     const emailTaken = await prisma.exists.User({ email: args.data.email })
-
     if (emailTaken) {
       throw new Error('Email taken')
     }
 
-    return await prisma.mutation.createUser({ data: args.data }, info)
+    if (args.data.password.length < 8) {
+      throw new Error('Password must be 8 characters or longer')
+    }
+    const password = await bcrypt.hash(args.data.password, 10)
+
+    const user = await prisma.mutation.createUser({ 
+      data: {
+        ...args.data,
+        password
+      }
+    })
+
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, 'token_secret')
+    }
   },
   async deleteUser(parent, args, { prisma }, info) {
     const userExists = await prisma.exists.User({ id: args.id })
@@ -17,14 +32,14 @@ const Mutation = {
       throw new Error('User not found')
     }
 
-    return prisma.mutation.deleteUser({ 
-      where: { 
-        id: args.id 
-      } 
+    return prisma.mutation.deleteUser({
+      where: {
+        id: args.id
+      }
     }, info)
   },
   async updateUser(parent, args, { prisma }, info) {
-    return await prisma.mutation.updateUser({ 
+    return await prisma.mutation.updateUser({
       where: {
         id: args.id
       },
@@ -32,7 +47,7 @@ const Mutation = {
     }, info)
   },
   async createPost(parent, args, { prisma }, info) {
-    return await prisma.mutation.createPost({ 
+    return await prisma.mutation.createPost({
       data: {
         title: args.data.title,
         body: args.data.body,
@@ -61,7 +76,7 @@ const Mutation = {
     }, info)
   },
   async createComment(parent, args, { prisma }, info) {
-    return await prisma.mutation.createComment({ 
+    return await prisma.mutation.createComment({
       data: {
         text: args.data.text,
         post: {

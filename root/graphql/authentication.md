@@ -273,6 +273,159 @@ However, we still might want access to the database server (localhost:4466) for 
 ```
 
 
+## Allowing for Generated Schemas
+Now that we've locked our database, npm run get-schema won't work. To fix this, let's tweak .graphqlconfig
+
+```json
+{
+  "projects": {
+    "prisma": {
+      "schemaPath": "src/generated/prisma.graphql",
+      "extensions": {
+        "prisma": "prisma/prisma.yml", // add this line here
+        "endpoints": {
+          "default": "http://localhost:4466"
+        }
+      }
+    }
+  }
+}
+```
+
+
+## Storing Passwords
+
+Next, let's give our Users a password field, and then adjust our createUser mutation in relation to this.
+
+```graphql
+# in both datamodel.graphql and schema.graphql
+
+type User {
+  # ...
+  password: String!
+  # ...
+}
+
+# only in schema.graphql
+input CreateUserInput {
+  # ...
+  password: String!
+}
+```
+
+```cli
+npm i bcryptjs
+```
+
+```js
+// Mutation.js
+// take in password -> validate password -> hash password -> generate auth token
+import bcrypt from 'bcryptjs'
+
+const Mutation = {
+  async createUser(parent, args, { prisma }, info) {
+    if (args.data.password.length) {
+      // if length is less than 8, throw error
+      throw new Error('Password must be 8 characters or longer')
+    }
+
+    const password = await bcrypt.hash(args.data.password, 10)
+    // hash args: (password, salt)
+    // a salt is a random series of characters that are hashed with the string we're hashing
+    // this ensures that the hash is truly random
+
+    const emailTaken = await prisma.exists.User({ email: args.data.email })
+
+    if (emailTaken) {
+      throw new Error('Email taken')
+    }
+
+    return await prisma.mutation.createUser({
+      data: {
+        ...args.data,
+        password   // overwriting plaintext
+      }
+    }, info)
+  },
+  // ...
+};
+```
+
+
+## Creating Auth Tokens with JSON Web Tokens
+```cli
+npm i jsonwebtoken
+```
+
+```js
+import jwt from 'jsonwebtoken'  // import jswonwebtoken
+
+const token = jwt.sign({ id: 46 }, 'mysecret')
+// this is how we create a new token
+// args: (payloadObj, secret)
+// payloadObj: info for our specific purposes eg associate a particular user by id
+// secret: used to verify the integrity of a token
+
+const decoded = jwt.decode(token)
+// this decodes the token that returns the payloadObj in plaintext, in this case { id: 46 }
+
+// finally, we verify that this token was created from this server
+
+const verified = jwt.verify(token, 'mysecret')
+// this decodes AND verifies
+// args: (token, secret)
+// if token wasn't created with the same secret, verify is going to fail
+// ensures that the client can't tamper with our token
+
+
+// Mutation.js
+const Mutation = {
+  async createUser(parent, args, { prisma }, info) {
+    if (args.data.password.length) {
+      throw new Error('Password must be 8 characters or longer')
+    }
+
+    const password = await bcrypt.hash(args.data.password, 10)
+
+    const emailTaken = await prisma.exists.User({ email: args.data.email })
+
+    if (emailTaken) {
+      throw new Error('Email taken')
+    }
+
+    const user = await prisma.mutation.createUser({
+      data: {
+        ...args.data,
+        password   // overwriting plaintext
+      }
+    }) // remove info, since we'll be returning a custom type
+
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, 'token_secret')
+    }
+  },
+  // ...
+};
+```
+
+```graphql
+# schema.graphql
+# ...
+type Mutation {
+  createUser(data: CreateUserInput!): AuthPayload!
+  # ...
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+```
+
+
+## Logging in Existing Users
+
 
 
 
