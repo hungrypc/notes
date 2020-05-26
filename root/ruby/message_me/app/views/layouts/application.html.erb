@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>MessageMe</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+<head>
+  <title>MessageMe</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-  <body>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <script
+  src="https://code.jquery.com/jquery-3.5.1.slim.js"
+  integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
+  crossorigin="anonymous"></script>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+  <%= render 'layouts/navigation' %>
+  <div class="ui container">
     <%= yield %>
-  </body>
+  </div>
+
+</body>
+
 </html>
