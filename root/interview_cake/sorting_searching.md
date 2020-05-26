@@ -35,12 +35,15 @@ function findRotationPoint(words) {
   while (left < right) {
     let middle = Math.floor(left + ((right - left) / 2))
 
+    // if our middle word is larger, the rotation point must be ahead of middle, so we set left at middle
     if (words[middle] >= firstWord) {
       left = middle
     } else {
+      // otherwise, the rotation point must be behind middle, so we set right at middle
       right = middle
     }
 
+    // when we hit this case, we're at the rotation point
     if (left + 1 === right) break;
 
   }
@@ -70,19 +73,26 @@ function findRepeat(numbers) {
 
   while (start < end) {
     const middle = Math.floor(start + ((end - start) / 2))
+
+    // cut the array into subarrays, an upper an lower range of 1..n
     const lowerStart = start
     const lowerEnd = middle
     const upperStart = middle + 1
     const upperEnd = end
 
+    // this represents the number of integers that SHOULD be in our lower range
     const possibleIntegersInLower = lowerEnd - lowerStart + 1
 
+    // count the number of integers that fall in our lower range
     let itemsInLower = 0
     for (const num of numbers) {
       if (num >= lowerStart && num <= lowerEnd) itemsInLower++
     }
 
+    // if the number of ints that fall in the lower range is GREATER than the number of ints that SHOULD be in our lower range
+    // then the lower range contains the duplicate
     if  (itemsInLower > possibleIntegersInLower) {
+      // so we reset the total range to our lower range and do this again
       start = lowerStart
       end = lowerEnd
     } else {
@@ -91,8 +101,11 @@ function findRepeat(numbers) {
     }
   }
 
+  // eventually, we'll get to a point where start and end converge, and we have our answer
   return start
 }
+```
+
 
 
 
