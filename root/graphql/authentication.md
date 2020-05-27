@@ -358,7 +358,7 @@ npm i jsonwebtoken
 ```
 
 ```js
-import jwt from 'jsonwebtoken'  // import jswonwebtoken
+import jwt from 'jsonwebtoken'  // import jsonwebtoken
 
 const token = jwt.sign({ id: 46 }, 'mysecret')
 // this is how we create a new token
@@ -482,14 +482,119 @@ const Mutation = {
     }
   },
   // ...
-}
+};
 ```
 
 
+## Validating Auth Tokens
+
+Currently, our mutations don't require any authentication when performing these actions. Let's fix that.
+
+On GraphQL Playground, set http header:
+
+```json
+{
+  "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJja2FvZjBjZnUwMDE3MDcxMzhkYzBheWs5IiwiaWF0IjoxNTkwNjEzNTgzfQ.CwRVOvh5mLcjb1aAnrDFG5XiS91dJGYzWFI_SoLPj38"
+}
+```
+This is all we need to get the token from the client to the server.
+
+```js
+// index.js
+const server = new GraphQLServer({
+    // ...
+    context(request) {   //turned into a function
+      return {
+        pubsub,
+        prisma,
+        request
+      }
+    }
+})
 
 
+// create src/utils/getUserId.js
+import jwt from 'jsonwebtoken'
+
+const getUserId = (request) => {
+  const header = request.request.headers.authorization
+
+  if (!header) {
+    throw new Error('Authentication required')
+  }
+
+  const token = header.replace('Bearer ', '')
+  const decoded = jwt.verify(token, 'token_secret')
+
+  return decoded.userId
+}
+
+export { getUserId as default }
 
 
+// Mutation.js
+import getUserId from '../utils/getUserId'
+
+const Mutation = {
+  // ...
+  async createPost(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)      // utilize our new utility function
+
+    return await prisma.mutation.createPost({
+      data: {
+        title: args.data.title,
+        body: args.data.body,
+        published: args.data.published,
+        author: {
+          connect: {
+            id: userId        // give userId to prisma
+          }
+        }
+      }
+    }, info)
+  },
+  // ...
+};
+```
+
+```graphql
+# schema.graphql
+input CreatePostInput {
+  title: String!
+  body: String!
+  published: Boolean!
+  # author: ID!   remove this, we no longer need it
+}
+```
+Do this for all other resolvers that require this.
+Note: when deleting post, we should first check that the token belongs to the user who has the rights to delete the post.
+
+```js
+// Mutation.js
+const Mutation = {
+  // ...
+  async deletePost(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+    const postExists = await prisma.exists.Post({
+      id: args.id,
+      author: {
+        id: userId
+      }
+    })
+
+    if (!postExists) {
+      throw new Error('Unable to delete post')
+    }
+
+    return await prisma.mutation.deletePost({
+      where: {
+        id: args.id
+      }
+    }, info)
+  },
+  // ...
+};
+```
 
 
 
