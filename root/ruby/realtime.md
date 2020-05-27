@@ -155,28 +155,135 @@ end
 <!-- views/chatroom/index.html -->
 <!-- ... -->
 <div class="ui feed">
-  <% @messages.each do |message| %>
-    <div class="event">
-      <div class="content">
-        <div class="summary">
-          <em><%= message.user.username %></em>: <%= message.body %>
-        </div>
-      </div>
+  <%= render @messages %>
+</div>
+<!-- ... -->
+
+<!-- create views/messages/_message.html.erb -->
+<div class="event">
+  <div class="content">
+    <div class="summary">
+      <em><%= message.user.username %></em>: <%= message.body %>
     </div>
+  </div>
+</div>
+```
+
+
+## Start Auth System
+
+```erb
+<!-- views/sessions/new.html.erb -->
+<!-- ... -->
+<div class="column">
+  <%= form_for(:session, html: {class: "ui form", role: "form"}, url: login_path) do |f| %>
+  <div class="field">
+    <%= f.label :username, "Username" %>
+    <div class="ui left icon input">
+      <%= f.text_field :username, placeholder: "Username" %>
+      <i class="user icon"></i>
+    </div>
+  </div>
+  <div class="field">
+    <%= f.label :password, "Password" %>
+    <div class="ui left icon input">
+      <%= f.password_field :password, placeholder: "Password" %>
+      <i class="lock icon"></i>
+    </div>
+  </div>
+  <%= f.button "Login", class: "ui orange submit button" %>
   <% end %>
 </div>
 <!-- ... -->
 ```
 
+```ruby
+# application controller
+class ApplicationController < ActionController::Base
+  helper_method :current_user, :logged_in?
+
+  def current_user
+    @current_user ||= User.find(session[:user_id])  if session[:user_id]
+  end
+
+  def logged_in?
+    !!current_user
+  end
+
+  def require_user
+    if !logged_in?
+      flash[:error] = "You must be logged in to perform that action"
+      redirect_to login_path
+    end
+  end
+end
+```
 
 
+## Auth System - Create and Destroy Sessions
+
+```ruby
+# routes
+Rails.application.routes.draw do
+  # ...
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
+end
+
+# sessions controller
+class SessionsController < ApplicationController
+  # ...
+
+  def create
+    user = User.find_by(username: params[:session][:username])
+    if user && user.authenticate(params[:session][:password])
+      session[:user_id] = user.id
+      flash[:success] = "Logged in"
+      redirect_to root_path
+    else
+      flash.now[:error] = "There was something wrong with your credentials"
+      render 'new'
+    end
+  end
+
+  def destroy
+    session[:user_id] = nil
+    flash[:success] = "Logged out"
+    redirect_to login_path
+  end
+end
+```
+
+```erb
+<!-- _navigation -->
+<div class="right menu">
+  <% if logged_in? %>
+    <%= link_to "Log out" , logout_path, method: :delete, class: "item" %>
+  <% else %>
+    <%= link_to "Log in", login_path, class: "item" %>
+    <div class="item">
+      <div class="ui primary button">Sign Up</div>
+    </div>
+  <% end %>
+</div>
+```
 
 
+## Add Flash Messages Display
 
+```erb
+<!-- layouts/_messages.html.erb -->
+<% flash.each do |type, msg| %>
+  <div class="ui <%= type %> transition" >
+    <div class="header">
+      <%= msg %>
+    </div>
+  </div>
+<% end %>
 
-
-
-
+<!-- application.html.erb -->
+<%= render 'layouts/messages' %>
+```
 
 
 

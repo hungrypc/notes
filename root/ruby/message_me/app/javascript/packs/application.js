@@ -4,9 +4,10 @@
 // that code so it'll be compiled.
 
 require("@rails/ujs").start()
-import('turbolinks').then( t => {
+import('turbolinks').then(t => {
   console.log('start')
-  t.start()} )
+  t.start()
+})
 require("@rails/activestorage").start()
 require("channels")
 // require("jquery")
@@ -25,11 +26,25 @@ import('semantic-ui-sass')
 // window.jQuery = $;
 // window.$ = $;
 
-// $(document).ready(function() {
+$(document).ready(function() {
 //   console.log('ready')
-  $(document).on('turbolinks:load', function() {
-    console.log('hit')
-    $('.ui.dropdown')
+$(document).on('turbolinks:load', function () {
+  console.log('hit')
+  $('.ui.dropdown')
     .dropdown()
-  })
-// })
+  $('.message .close')
+    .on('click', function () {
+      $(this)
+        .closest('.message')
+        .transition('fade')
+        ;
+    });
+})
+$('.close')
+    .on('click', function () {
+      console.log('close')
+      // setTimeout(() => {
+        $('.message').hide()
+      // }, 1000)
+    });
+})

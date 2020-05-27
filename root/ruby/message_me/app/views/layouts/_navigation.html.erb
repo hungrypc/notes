@@ -5,11 +5,11 @@
       Messages
     </a>
     <div class="right menu">
-      <a class="item">Log out</a>
-      <%= link_to "Log in", login_path, class: "item" %>
-      <div class="item">
-        <div class="ui primary button">Sign Up</div>
-      </div>
+      <% if logged_in? %>
+        <%= link_to "Log out" , logout_path, method: :delete, class: "item" %>
+      <% else %>
+        <%= link_to "Log in", login_path, class: "item" %>
+      <% end %>
     </div>
   </div>
 </div>
