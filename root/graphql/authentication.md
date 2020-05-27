@@ -426,8 +426,64 @@ type AuthPayload {
 
 ## Logging in Existing Users
 
+So we know how to hash a password and store it, but now we have to figure out how to compare the hashed password with the password given by a user when they log in.
 
+```js
+const dummy = async () => {
+  const email = 'example@email.com'
+  const password = 'red12345'
 
+  const hashed = '$2a$10$pEY2VV1.oEYaeLxMq.ynheWbG5/1IjLHhZ4lVbYDH1/K50eZ10E9S'
+  // this is a hashed version of 'red12345'
+
+  const isMatch = await bcrypt.compare(password, hashed)
+  console.log(isMatch)  // true
+};
+// we're not decrypting, we're simply comparing via bcrypt
+```
+Let's create our login mutation.
+
+```graphql
+# schema.graphql
+type Mutation {
+  login(data: LoginUserInput!): AuthPayload!
+  # ...
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+```
+
+```js
+// Mutation.js
+const Mutation = {
+  async login(parent, args, { prisma }, info) {
+    const user = await prisma.query.user({
+      where: {
+        email: args.data.email
+      }
+    })
+
+    if (!user) {
+      throw new Error('Unable to login')
+    }
+
+    const isMatch = await bcrypt.compare(args.data.password, user.password)
+
+    if (!isMatch) {
+     throw new Error('Unable to login')
+    }
+
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, 'token_secret')
+    }
+  },
+  // ...
+}
+```
 
 
 
