@@ -2,7 +2,7 @@
 //= require jquery
 
 $(document).ready(function() {
-  $(document).on('turbolinks:load', function() {
+  $(document).on('ready turbolinks:load', function() {
     $('.ui.dropdown')
     .dropdown()
   })
