@@ -75,3 +75,45 @@ function isBalanced(treeRoot) {
   return true
 };
 ```
+
+## Write a function to check that a binary tree ↴ is a valid binary search tree.
+
+Solution:
+
+```js
+function isBinarySearchTree(treeRoot) {
+
+  const stack = []
+  // checking a node against its parent isn't enough to prove that it's in the right place
+  // we need to keep track of the bounds that the children nodes must fall within
+  stack.push({
+    node: treeRoot,
+    lowerBound: Number.NEGATIVE_INFINITY,
+    upperBound: Number.POSITIVE_INFINITY,
+  })
+
+  while (stack.length) {
+    const { node, lowerBound, upperBound } = stack.pop()
+
+    // so if a child node breaks those bounds, our tree is invalid
+    if (node.value <= lowerBound || node.value >= upperBound) return false
+
+    if (node.left) {
+      stack.push({
+        node: node.left,
+        lowerBound,
+        upperBound: node.value,
+      })
+    }
+    if (node.right) {
+      stack.push({
+        node: node.right,
+        lowerBound: node.value,
+        upperBound,
+      })
+    }
+  }
+
+  return true
+}
+```
