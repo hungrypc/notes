@@ -68,6 +68,54 @@ Suppose I in 1925 expect to have 100 pounds to invest in 1926, but wan the money
 How do I lock in an interest rate as an investor from 1926 to 1927? I buy in 1925, this number of two-period discount bonds maturing at 100 pounds in 192. They are two-year bonds. So if I'm buying a number of them, the cost to me is one pound over one plus r one. And then I have to short the 1925 one period dicount bond maturing at $100 in 1926. So I receive one over one plus r one pounds. I have locked in an interest rate equal one plus F which is equal to one plus this two-period yield-to-maturity squared all over one plus one period to maturity.
 
 ## Inflation
+John Bates Clark invented the idea of the real interest rate.
+
+The nominal interest rate is quoted in currency, but is not corrected for inflation. The real rate is quoted in terms of the market basket that underlines the price index.
+
+If you are investing money at 3% for the next year and the inflation rate, consumer price index, is going up at 3%, what is your real rate? How much are you making in real terms? It's obvious, it's 0. If I have $3 more on my $100 investment, but everything that I want to buy has gone up by 3% then I have the same buying power. So I didn't get anything.
+
+real rate = nominal rate - rate of inflation
+
+Formula is more like this:
+
+(1 + nominal rate) = (1 + real rate)(1 + rate of inflation)
+
+Another really important investion in history is the investion of index bonds, which are bonds that pay coupons defined in real terms and a priciple, or one or the other in real terms. It was a clever idea, let's issue bonds whose coupons are just tied to the inflation rate, so that you know in real terms what you're getting.
+
+## Leverage
+
+If a company or an individual borrows money to buy assets, we say that person or company is leveraging.
+
+> Leveraging means you are putting more money into the asset than you have.
+
+That puts you in a riskier situation, but also both up and down. So if you bought $100 worth of stocks and it doubles in value to $200, you've make $100. But if you leveraged and the stock doubles in value, your portfolio goes from 200 - 100 to 400 - 100, or $300. So you double your profits. But on the other side is if the stock falls in value by 50%, then you're wiped out. Leveraging increases risk.
+
+People look at how leveraged economies are and wonder about the chaos that might ensue in a market correction.
+
+China is widely described as a highly leveraged country. Corporate debt, borrowing by corporations in China, is 160% of GDP in China. Whereas in the US, it's only 70%. This means that the Chinese economy is leveraged.
+
+Debt leads to bankrupty - if you have no debt, you normally don't go bankrupt.
+
+So what happens when there's a huge deflation and consumer price index goes down? That magnifies the real value of the debt. What ends up happening in a deflation is that the debtors get beaten down.
+
+The overall level of debt in the economy (hence leverage) rises in real value because of deflation.
+
+Why isn't debt indexed to inflation?
+
+John Geanakoplos has written a number of papers on what he calls the Leverage Cycle. It points out that leverage has varied through time. Before the financial crisis, leverage became very high, particularly in the housing market.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
