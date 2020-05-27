@@ -72,11 +72,101 @@ Notes:
 - Going to keep only important notes here, most changes will be done on the app so if it's something we've done before then there's no need to document it
 
 
+## Build User Resource
+
+```ruby
+# rails generate model User
+# migration file
+class CreateUsers < ActiveRecord::Migration[6.0]
+  def change
+    create_table :users do |t|
+      t.string :username
+      t.string :password_digest
+      t.timestamps
+    end
+  end
+end
+
+# user model
+class User < ApplicationRecord
+  validates :username, presence: true, length: { minimum: 3, maximum: 15 }
+  has_secure_password
+end
+
+# seeds.rb
+User.create(username: 'dolores', password: 'password')
+User.create(username: 'abernathy', password: 'password')
+User.create(username: 'bernardlowe', password: 'password')
+User.create(username: 'rick', password: 'password')
+User.create(username: 'morty', password: 'password')
+User.create(username: 'richardhendricks', password: 'password')
+```
 
 
+## Build Message Resource
+
+```ruby
+# rails generate model Message
+# migration file
+class CreateMessages < ActiveRecord::Migration[6.0]
+  def change
+    create_table :messages do |t|
+      t.text :body
+      t.integer :user_id
+      t.timestamps
+    end
+  end
+end
+
+# message model
+class Message < ApplicationRecord
+  belongs_to :user
+  validates :body, presence: true
+end
+
+# user model
+class User < ApplicationRecord
+  validates :username, presence: true, length: { minimum: 3, maximum: 15 }
+  has_many :messages
+  has_secure_password
+end
+
+# seeds.rb
+Message.create(body: 'hi', user: User.last)
+Message.create(body: 'hello', user: User.first)
+Message.create(body: 'hey', user: User.second)
+
+# rails db:seed
+```
 
 
+## Add Actual Messages from Table
 
+```ruby
+# chatroom controller
+class ChatroomController < ApplicationController
+  def index
+    @messages = Message.all
+  end
+end
+```
+
+```erb
+<!-- views/chatroom/index.html -->
+<!-- ... -->
+<div class="ui feed">
+  <% @messages.each do |message| %>
+    <div class="event">
+      <div class="content">
+        <div class="summary">
+          <em><%= message.user.username %></em>: <%= message.body %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<!-- ... -->
+```
 
 
 
