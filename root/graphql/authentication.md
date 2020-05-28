@@ -728,6 +728,39 @@ type Query {
 ```
 
 
+## Locking Down Individual Types
+
+There's still one more way for users to get unpublished posts of other users, and that's through selection sets (query users and get back their posts). We should lock that down. We should also lock down getting the email of others.
+
+```graphql
+type User {
+  # ...
+  email: String   # make this nullable
+  # ...
+}
+```
+
+```js
+// User.js
+import getUserId from '../utils/getUserId'
+
+const User = {
+  // in here, we can determine whether or not we should send the email back
+  email(parent, args, { request }, info) {
+    // in this case, parent is the user object
+    const userId = getUserId(request, false)
+    // we don't require auth here, if you're not authed youll just get null
+
+    if (userId && userId === parent.id) {
+      return parent.email
+    } else {
+      return null
+    }
+  }
+}
+
+export { User as default }
+```
 
 
 
