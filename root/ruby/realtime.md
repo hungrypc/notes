@@ -317,6 +317,64 @@ end
 ```
 
 
+## Add Messages From the UI
+
+```ruby
+# routes.rb
+Rails.application.routes.draw do
+  # ...
+  post 'message', to: 'messages#create'
+end
+
+# chatroom controller
+class ChatroomController < ApplicationController
+  before_action :require_user
+
+  def index
+    @message = Message.new      # for new messages
+    @messages = Message.all
+  end
+end
+
+# manually create messages controller
+
+class MessagesController < ApplicationController
+  before_action :require_user
+
+  def create
+    message = current_user.messages.build(message_params)
+    if message.save
+      redirect_to root_path
+    end
+  end
+
+  private
+
+  def message_params
+    params.require(:message).permit(:body)
+  end
+end
+```
+
+```erb
+<!-- views/chatroom/index -->
+<%= form_for(@message, html: { class: "ui reply form", role: "form" }, url: message_path) do |f| %>
+  <div class="field">
+    <div class="ui fluid icon input">
+      <%= f.text_field :body %>
+      <%= f.button '<i class="bordered inverted orange edit icon"></i>'.html_safe %>
+    </div>
+  </div>
+<% end %>
+```
+
+
+
+
+
+
+
+
 
 
 
