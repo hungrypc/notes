@@ -8,13 +8,17 @@
 
 ### Programming
 - [Ruby](https://github.com/hungrypc/notes/blob/master/root/ruby/README.md)
-- [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md)
+- [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md) (not yet started)
 
 ## Application
 
-- [Machine Learning](https://github.com/hungrypc/notes/blob/master/root/machine_learning/README.md)
+- [Machine Learning](https://github.com/hungrypc/notes/blob/master/root/machine_learning/README.md) (not yet started)
 
-### Others
+### Data Structures & Algorithms
 
 - [Data Structures & Algorithms](https://github.com/hungrypc/data-structures-and-algorithms)
 - [Interview Cake Practice Qs](https://github.com/hungrypc/notes/blob/master/root/interview_cake/README.md)
+
+### Misc
+
+- [Financial Markets](https://github.com/hungrypc/notes/tree/master/root/financial_markets)
