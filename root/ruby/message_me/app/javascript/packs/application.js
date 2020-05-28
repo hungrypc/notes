@@ -32,10 +32,20 @@ function scroll_bottom() {
   }
 }
 
+function submitMessage() {
+  $('#message_body').on('keydown', function(e) {
+    if (e.keyCode == 13) {
+      $('button').click()
+      $('#message_body').val("")
+    }
+  })
+}
+
 $(document).ready(function () {
   //   console.log('ready')
 
   scroll_bottom();
+  submitMessage();
   
   $(document).on('turbolinks:load', function () {
     console.log('hit')

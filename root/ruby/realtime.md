@@ -489,6 +489,21 @@ consumer.subscriptions.create("ChatroomChannel", {
 ```
 
 
+## Beautify Input Box, Functionality, and Create Custom Scope
+
+```js
+// application.js
+function submitMessage() {
+  $('#message_body').on('keydown', function(e) {
+    if (e.keyCode == 13) {
+      $('button').click()
+      $('#message_body').val("")
+    }
+  })
+}
+```
+
+
 
 
 
