@@ -1,5 +1,11 @@
 # Ruby
 
+## Projects
+- [MessageMe](https://github.com/hungrypc/notes/blob/master/root/ruby/message_me)
+  - Real time messaging app from [this chapter](https://github.com/hungrypc/notes/blob/master/root/ruby/realtime.md)
+
+## Chapters
+
 - [The Ruby Programming Language](https://github.com/hungrypc/notes/blob/master/root/ruby/ruby.md)
 - [Introduction to Ruby on Rails](https://github.com/hungrypc/notes/blob/master/root/ruby/rails_intro.md)
 - [CRUD in Ruby on Rails](https://github.com/hungrypc/notes/blob/master/root/ruby/rails_crud.md)
