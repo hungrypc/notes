@@ -1,4 +1,4 @@
-# Udemy Notes
+# Online Courses Notes
 
 ## Languages
 

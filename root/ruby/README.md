@@ -1,5 +1,7 @@
 # Ruby
 
+[The Complete Ruby on Rails Developer Course](https://www.udemy.com/course/the-complete-ruby-on-rails-developer-course/)
+
 ## Projects
 - [MessageMe](https://github.com/hungrypc/notes/blob/master/root/ruby/message_me)
   - Real time messaging app from [this chapter](https://github.com/hungrypc/notes/blob/master/root/ruby/realtime.md)
