@@ -669,7 +669,7 @@ So now, any user should be able to see published posts but are unable to see unp
 
 ## Locking Down Queries 2
 
-Now, lets make the posts (plural) query only send back published posts.
+Now, lets make the posts (plural) query only send back published posts. Let's also make a myPosts query so users can get back all of their posts, published or unpublished.
 
 ```js
 // Query.js
@@ -694,12 +694,37 @@ const Query = {
 
     return prisma.query.posts(opArgs, info)
   },
+  myPosts(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    const opArgs = {
+      where: {
+        author: {
+          id: userId
+        }
+      }
+    }
+
+    if (args.query) {
+      opArgs.where.OR = [{
+        title_contains: args.query
+      }, {
+        body_contains: args.query
+      }]
+    }
+
+    return prisma.query.posts(opArgs, info)
+  }
   // ...
 };
+```
 
-
-// getUserId.js
-
+```graphql
+type Query {
+  # ...
+  myPosts(query: String): [Post!]!
+  # ...
+}
 ```
 
 

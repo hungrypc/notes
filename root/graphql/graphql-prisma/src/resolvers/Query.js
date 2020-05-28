@@ -17,16 +17,18 @@ const Query = {
     return prisma.query.users(opArgs, info)
   },
   posts(parent, args, { prisma }, info) {
-    const opArgs = {}
+    const opArgs = {
+      where: {
+        published: true
+      }
+    }
 
     if (args.query) {
-      opArgs.where = {
-        OR: [{
-          title_contains: args.query
-        }, {
-          body_contains: args.query
-        }]
-      }
+      opArgs.where.OR = [{
+        title_contains: args.query
+      }, {
+        body_contains: args.query
+      }]
     }
 
     return prisma.query.posts(opArgs, info)
@@ -64,7 +66,28 @@ const Query = {
     }
 
     return posts[0]
-  }
+  },
+  myPosts(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    const opArgs = {
+      where: {
+        author: {
+          id: userId
+        }
+      }
+    }
+
+    if (args.query) {
+      opArgs.where.OR = [{
+        title_contains: args.query
+      }, {
+        body_contains: args.query
+      }]
+    }
+
+    return prisma.query.posts(opArgs, info)
+  },
 }
 
 export { Query as default }
