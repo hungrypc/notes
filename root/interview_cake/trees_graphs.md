@@ -117,3 +117,47 @@ function isBinarySearchTree(treeRoot) {
   return true
 }
 ```
+
+## Write a function to find the 2nd largest element in a binary search tree.
+
+Solution:
+
+```js
+// helper function
+function findLargest(rootNode) {
+  let current = rootNode
+  while (current) {
+    if (!current.right) return current.value
+    current = current.right
+  }
+}
+
+function findSecondLargest(treeRoot) {
+  if (!treeRoot || (!treeRoot.left && !treeRoot.right)) {
+    throw new Error('no')
+  }
+
+  let current = treeRoot
+
+  while (current) {
+    // case: current is largest and has a left subtree
+    // so 2nd largest is in that subtree
+    if (current.left && !current.right) {
+      return findLargest(current.left)
+    }
+
+    // case: current is parent of largest, and largest has no children
+    // so current is 2nd largest
+    if (
+      current.right
+      && !current.right.left
+      && !current.right.right
+    ) {
+      return current.value
+    }
+
+    // otherwise, keep moving
+    current = current.right
+  }
+}
+```
