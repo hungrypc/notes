@@ -447,7 +447,46 @@ consumer.subscriptions.create("ChatroomChannel", {
 ```
 
 
+## Add Auto-scrolling to Chat Window
 
+```erb
+<!-- views/chatroom/index.html -->
+<div class="content" id="messages">
+  <div class="ui feed" id="message-container">
+    <%= render @messages %>
+  </div>
+</div>
+```
+
+```css
+/* custom.css.scss */
+/*...*/
+#messages {
+  height: 15em;
+  overflow: auto;
+}
+```
+
+```js
+// application.js
+function scroll_bottom() {
+  if ($('#messages').length > 0) {
+    $('#messages').scrollTop($('#messages')[0].scrollHeight)
+  }
+}
+scroll_bottom()
+
+// javascripts/channels/chatroom_channel.js
+consumer.subscriptions.create("ChatroomChannel", {
+  // ...
+
+  received(data) {
+    // Called when there's incoming data on the websocket for this channel
+    $("#message-container").append(data.mod_message)
+    scroll_bottom()
+  }
+});
+```
 
 
 

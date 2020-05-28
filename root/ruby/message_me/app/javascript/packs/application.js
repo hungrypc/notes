@@ -26,25 +26,34 @@ import('semantic-ui-sass')
 // window.jQuery = $;
 // window.$ = $;
 
-$(document).ready(function() {
-//   console.log('ready')
-$(document).on('turbolinks:load', function () {
-  console.log('hit')
-  $('.ui.dropdown')
-    .dropdown()
-  $('.message .close')
-    .on('click', function () {
-      $(this)
-        .closest('.message')
-        .transition('fade')
-        ;
-    });
-})
-$('.close')
+function scroll_bottom() {
+  if ($('#messages').length > 0) {
+    $('#messages').scrollTop($('#messages')[0].scrollHeight)
+  }
+}
+
+$(document).ready(function () {
+  //   console.log('ready')
+
+  scroll_bottom();
+  
+  $(document).on('turbolinks:load', function () {
+    console.log('hit')
+    $('.ui.dropdown')
+      .dropdown()
+    $('.message .close')
+      .on('click', function () {
+        $(this)
+          .closest('.message')
+          .transition('fade')
+          ;
+      });
+  })
+  $('.close')
     .on('click', function () {
       console.log('close')
       // setTimeout(() => {
-        $('.message').hide()
+      $('.message').hide()
       // }, 1000)
     });
 })
