@@ -500,9 +500,28 @@ function submitMessage() {
       $('#message_body').val("")
     }
   })
-}
+};
 ```
 
+```ruby
+# chatroom controller
+class ChatroomController < ApplicationController
+  before_action :require_user
+
+  def index
+    @message = Message.new
+    @messages = Message.custom_display
+  end
+end
+
+# message model
+class Message < ApplicationRecord
+  belongs_to :user
+  validates :body, presence: true
+  scope :custom_display, -> { order(:created_at).last(20) }
+end
+
+```
 
 
 
