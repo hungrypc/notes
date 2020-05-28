@@ -597,6 +597,114 @@ const Mutation = {
 ```
 
 
+## Locking Down Queries 1
+
+The database is still entirely readable, we need to make it so that SOME data is still accessible to the public (like published posts), but drafts should only be viewed by the author.
+
+```js
+// Query.js
+import getUserId from '../utils/getUserId'
+
+const Query = {
+  // ...
+  async me(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    return prisma.query.user({
+      where: {
+        id: userId
+      }
+    })
+  },
+  post(parent, args, { prisma }, info) {
+    const userId = getUserId(request, false)
+
+    // we'll be using posts (plural) so we can set up our conditional logic
+
+    const posts = await prisma.query.posts({
+      where: {
+        id: args.id,
+        OR: [{
+          published: true
+        }, {
+          author: {
+            id: userId
+          }
+        }]
+      }
+    }, info)
+
+    if (posts.length === 0) {
+      throw new Error('Post not found')
+    }
+
+    return posts[0]
+  }
+}
+
+
+// getUserId.js
+const getUserId = (request, requireAuth = true) => {  // add requireAuth arg
+  const header = request.request.headers.authorization
+
+  // we're restructuring this because there will be cases where getUserId will require authorization, and cases where it wont
+  if (header) {
+    const token = header.replace('Bearer ', '')
+    const decoded = jwt.verify(token, 'token_secret')
+    return decoded.userId
+  }
+
+  // so this would be if authentication IS required
+  if (requireAuth) {
+    throw new Error('Authentication required')
+  }
+
+  // so if you aren't authenticated, we'll return null
+  return null
+};
+```
+So now, any user should be able to see published posts but are unable to see unpublished posts. Only users who are authenticated as the author can see their unpublished posts.
+
+
+
+## Locking Down Queries 2
+
+Now, lets make the posts (plural) query only send back published posts.
+
+```js
+// Query.js
+import getUserId from '../utils/getUserId'
+
+const Query = {
+  // ...
+  posts(parent, args, { prisma }, info) {
+    const opArgs = {
+      where: {
+        published: true
+      }
+    }
+
+    if (args.query) {
+      opArgs.where.OR = [{
+        title_contains: args.query
+      }, {
+        body_contains: args.query
+      }]
+    }
+
+    return prisma.query.posts(opArgs, info)
+  },
+  // ...
+};
+
+
+// getUserId.js
+
+```
+
+
+
+
 
 
 
