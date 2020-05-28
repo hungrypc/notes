@@ -369,8 +369,82 @@ end
 ```
 
 
+## Implementing Real-time with ActionCable
 
+```ruby
+# rails generate channel Chatroom
+# chatroom_channel.rb
+class ChatroomChannel < ApplicationCable::Channel
+  def subscribed
+    stream_from "chatroom_channel"
+  end
 
+  def unsubscribed
+    # Any cleanup needed when channel is unsubscribed
+  end
+end
+
+# routes.rb
+Rails.application.routes.draw do
+  # ...
+
+  mount ActionCable.server, at: '/cable'
+end
+
+# messages controller
+class MessagesController < ApplicationController
+  before_action :require_user
+
+  def create
+    message = current_user.messages.build(message_params)
+    if message.save
+      ActionCable.server.broadcast "chatroom_channel", mod_message: message_render(message)
+      # this is how we broadcast
+    end
+  end
+
+  private
+
+  def message_params
+    params.require(:message).permit(:body)
+  end
+
+  def message_render(message)
+    render(partial: 'message', locals: { message: message })
+  end
+end
+```
+
+```js
+// javascripts/channels/chatroom_channel.js
+import consumer from "./consumer"
+
+consumer.subscriptions.create("ChatroomChannel", {
+  connected() {
+    // Called when the subscription is ready for use on the server
+  },
+
+  disconnected() {
+    // Called when the subscription has been terminated by the server
+  },
+
+  received(data) {
+    // Called when there's incoming data on the websocket for this channel
+    $("#message-container").append(data.mod_message)
+  }
+});
+```
+
+```erb
+<!-- views/chatroom/index.html -->
+<!-- ... -->
+<div class="ui feed" id="message-container">
+  <%= render @messages %>
+</div>
+<!-- ... -->
+<%= form_for(@message, html: { class: "ui reply form", role: "form" }, url: message_path, remote: true) do |f| %>
+<!-- ... -->
+```
 
 
 
