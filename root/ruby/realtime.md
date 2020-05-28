@@ -286,6 +286,36 @@ end
 ```
 
 
+## Restrict View at Controller Level
+
+```ruby
+# chatroom controller
+class ChatroomController < ApplicationController
+  before_action :require_user
+
+  def index
+    @messages = Message.all
+  end
+end
+
+
+# sessions controller
+class SessionsController < ApplicationController
+  before_action :logged_in_redirect, only: [:new, :create]
+
+  # ...
+
+  private
+
+  def logged_in_redirect
+      if logged_in?
+        flash[:error] = "You are already logged in"
+        redirect_to root_path
+      end
+    end
+end
+```
+
 
 
 

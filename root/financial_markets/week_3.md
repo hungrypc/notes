@@ -104,6 +104,10 @@ Why isn't debt indexed to inflation?
 
 John Geanakoplos has written a number of papers on what he calls the Leverage Cycle. It points out that leverage has varied through time. Before the financial crisis, leverage became very high, particularly in the housing market.
 
+## Market Capitalization by Country
+
+> Market Capitalization is the price per share multiplied by the number of shares, and this is common stock.
+
 
 
 
