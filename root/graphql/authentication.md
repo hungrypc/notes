@@ -1007,7 +1007,41 @@ type Subscription {
 ```
 
 
+## Token Expiration
 
+We can specify how long a token is valid.
+
+```js
+// create utils/generateToken.js
+import jwt from 'jsonwebtoken'
+
+function generateToken(userId) {
+  return jwt.sign({ userId }, 'token_secret', { expiresIn: '7 days' })
+}
+
+export { generateToken as default }
+
+
+// Mutation.js
+import generateToken from '../utils/generateToken'
+
+const Mutation = {
+  async login(parent, args, { prisma }, info) {
+    // ...
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, 'token_secret', { expiresIn: '7 days'})
+    }
+  },
+  async createUser(parent, args, { prisma }, info) {
+    // ...
+    return {
+      user,
+      token: generateToken(user.id)
+    }
+  },
+}
+```
 
 
 
