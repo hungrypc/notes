@@ -1040,9 +1040,72 @@ const Mutation = {
       token: generateToken(user.id)
     }
   },
+};
+```
+
+
+## Update Password
+
+```graphql
+input UpdateUserInput {
+  name: String
+  email: String
+  password: String  # update
 }
 ```
 
+```js
+// create utils/hashPassword.js
+import bcrypt from 'bcryptjs'
+
+function hashPassword(password) {
+  if (password.length < 8) {
+    throw new Error('Password must be 8 characters or longer')
+  }
+  return bcrypt.hash(password, 10)
+}
+
+export { hashPassword as default }
+
+
+// Mutation.js
+const Mutation = {
+  async createUser(parent, args, { prisma }, info) {
+    const emailTaken = await prisma.exists.User({ email: args.data.email })
+    if (emailTaken) {
+      throw new Error('Email taken')
+    }
+
+    const password = await hashPassword(args.data.password)
+
+    const user = await prisma.mutation.createUser({
+      data: {
+        ...args.data,
+        password
+      }
+    })
+
+    return {
+      user,
+      token: generateToken(user.id)
+    }
+  },
+  async updateUser(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    if (typeof args.data.password === 'string') {
+      args.data.password = await hashPassword(args.data.password)
+    }
+
+    return await prisma.mutation.updateUser({
+      where: {
+        id: userId
+      },
+      data: args.data
+    }, info)
+  },
+}
+```
 
 
 
