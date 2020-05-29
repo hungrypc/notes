@@ -161,6 +161,9 @@ function findSecondLargest(treeRoot) {
   }
 }
 ```
+Time complexity: O(log n) if the tree is balanced, O(n) otherwise
+Space complexity: O(1)
+
 
 ## You wrote a trendy new messaging app, MeshMessage, to get around flaky cell phone coverage.
 
@@ -267,6 +270,13 @@ function getPath(graph, startNode, endNode) {
   return null;
 };
 ```
+
+Time complexity: O(n + m)
+
+- n being the nodes
+- m being neighbors
+
+Space complexity: O(n)
 
 
 
