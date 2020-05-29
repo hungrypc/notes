@@ -28,6 +28,7 @@ type AuthPayload {
 type Subscription {
   comment(postId: ID!): CommentSubscriptionPayload!
   post: PostSubscriptionPayload!
+  myPost: PostSubscriptionPayload!
 }
 
 input LoginUserInput {

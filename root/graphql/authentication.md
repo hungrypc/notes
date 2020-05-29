@@ -949,6 +949,65 @@ const Mutation = {
 ```
 
 
+## Locking Down Subscriptions
+
+Let's create a subscription which requires authentication. This will allow a logged in user to subscribe to just their posts.
+
+```js
+// Subscription.js
+import getUserId from '../utils/getUserId'
+
+const Subscription = {
+  // ...
+  myPost: {
+    subscribe(parent, args, { prisma, request }, info) {
+      const userId = getUserId(request)
+
+      return prisma.subscription.post({
+        where: {
+          node: {
+            author: {
+              id: userId
+            }
+          }
+        }
+      }, info)
+    }
+  }
+}
+
+// however, with subs, auth headers dont work the same way
+
+// getUserId.js
+const getUserId = (request, requireAuth = true) => {
+  const header = request.request ? request.request.headers.authorization : request.connection.context.Authorization
+  // fix here
+
+  if (header) {
+    const token = header.replace('Bearer ', '')
+    const decoded = jwt.verify(token, 'token_secret')
+    return decoded.userId
+  }
+
+  if (requireAuth) {
+    throw new Error('Authentication required')
+  }
+
+  return null
+};
+```
+
+```graphql
+# schema.graphql
+type Subscription {
+  comment(postId: ID!): CommentSubscriptionPayload!
+  post: PostSubscriptionPayload!
+  myPost: PostSubscriptionPayload!
+}
+```
+
+
+
 
 
 
