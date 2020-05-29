@@ -763,6 +763,49 @@ export { User as default }
 ```
 
 
+## Fragments
+
+A common complaint complaint is that we are constantly listing the same scalar field that we want back. With Fragments, we no longer have to do that.
+
+> A Fragment allows us to create a reusable selection set so that we can define what we want once, and we can use that anywhere where we want those things
+
+```graphql
+# in playground
+query {
+  users {
+    id
+    name
+    email
+  }
+}
+        # name         type
+
+fragment userFields on User {
+  id
+  name
+  email
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
