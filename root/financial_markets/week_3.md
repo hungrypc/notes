@@ -108,9 +108,51 @@ John Geanakoplos has written a number of papers on what he calls the Leverage Cy
 
 > Market Capitalization is the price per share multiplied by the number of shares, and this is common stock.
 
+The US Stock Market is not America. It's a claim on earnings of the coporate sector.
 
+But what is the tangible assets that we can quantify and value through markets? According to the Federal Reserve, as of 2014, these assets were worth 98 trillion US. It asks people to add up everything they own (house, stocks, bond). But people don't own it free and clear, they have liabilities (for example people borrow money to buy the house, so they have debt). So we want to subtract off those liabilities.
 
+What are mutual funds? They are collections of investments made by an investment company, who then sell shares to the public. Pension funds are investment companies that save for your retirement.
 
+## The Corporation
+
+So what is a stock? First, we have to think about the corporation. It's an organization that is incorporated, which means it's made as if it has a body, as if it's a person. A corporation is an artificial person. The idea is to create something that legally has a lot of the rights that individuals do.
+
+Let's talk about a for-profit company. IT's governed by a board of directors that is elected by the shareholders. So it's called shareholder democracy. Typically, one share is one vote. The CEO is generally the top. So the CEO is hired by the board, serves as an employee, and has to report to the board of directors. Even non-profits are somewhat like this.
+
+There are structures like in Germanym where a company will have two boards. A supervisory board which stands on top of the whole operation, and a board that does details, manages.
+
+A for-profit is owned by shareholders and shareholders have one vote each share. The shareholders have a claim on the earnings of the company, and have to pay a coporate profits tax. The company has to pay a tax to the government on its earnings. Non-profit are not owned by anyone. The directors appoint their own successors. Generally the board appoints other people who have normally some idealistic commitment to the purposes of the non-profit. So the for-profit exists for shareholders. The non-profit exists for whatever the charter of the non-profit says. Non-profit doesn't mean they don't make profits, it means that they don't distribute profits to shareholders (the purpose is not to distribute profits).
+
+- A for-profit has price per share, whereasa a non-profit is not traded in the market
+- a for-profit is subject to corporate profits tax, which is not the case for a non-profit
+- a for-profit is owned by shareholders, whereas a non-profit has self-perpetuating directors
+
+## Shares and Dividends
+
+My share of the company is equal to the total number of shares I own divded by the total number of shares outstanding for the company. So it's my number relative to the total. If I own half of the shares outstanding, then I own half of the company.
+
+Companies do things called splits, where they will break a share in 2. Why do they do that? They seem to think that there's an optimal price per share that encourages investors. And so they will change the number of shares from time to time to try to hit a target for the price per share. This is essentially meaningless, all they're doing is changing the unit of measurement. So why do they do it? One reason is that they think if the share price gets too high, yuo can't buy a graction of the share - it gets too expensive and people like to buy in round lots because the brokers encourage that. It gets expensive you don't split. The compnay has a constitution, called the Coporate Charter, and the charter defines how things are done, but the general principle is guided by state laws. It's state governments that manage. You have to incorporate in a state, which means you choose a state to make your headquarters in. And that state then restricts what you can put into the coporate charter.
+
+So the coporate law in the state defines the rights and responsiblities of shareholders and the board of directors.
+
+You buy shares in a company to get dividends.
+
+> A dividend is a distribution of money from the company's earnings to its shareholders.
+
+It's like interest except its variable and tends to grow over time. The stock market goes up and down, creates capital gains and capital losses, but dividends are what's all about. Companies don't have to pay a dividend but typically young companies don't. Once they're mature they like to start paying dividends and it signals to the world that they're really making money.
+
+So when a compnay pays a dividend, what happens to the share price? It's simple, it drops.  This is because the company used to have the money and now it doesn't, it paid it out. But I have to qualify that - it doesn't drop in value when you get the check in the mail for your dividend. So a company has to define what they call an X dividend date. That means they will pay out the dividend, typically chorally dividend every 3 months. They'll pay out this dividend to shareholders of record on this date. So company values drop routinely on the X dividend date. But that doesn't mean bad news about the company at all.
+
+## Common vs Perferred
+
+Common Stock:
+> Dividend is at discretion of firm, subject to legal restrictions.
+
+Preferred stock:
+> Specified dividend that does not grow through time, and like common stock, it does not have to be paid. But firm cannot pay dividend on common stock unless all past preferred stock dividends are paid.
+
+Typically, the deal is this: the company is supposed to pay out a fixed dividend to the preferred stockholders, but it doesn't have to. But, it cannoy pay a common stock dividend until it's paid up on its preferred stock dividends. In contrast, corporate bonds have a contractual obligation to pay a dividend. So that is, if the company gets in trouble and it doesn't pay out its coupon, the shareholders can come back and sue. Preferred stockholders can't do that.
 
 
 
