@@ -4,9 +4,9 @@
 
 ## Projects
 - [MessageMe](https://github.com/hungrypc/notes/blob/master/root/ruby/message_me)
-  - Real time messaging app from [this chapter](https://github.com/hungrypc/notes/blob/master/root/ruby/realtime.md)
+  - Real time messaging ap to learn how ActionCable works from [this chapter](https://github.com/hungrypc/notes/blob/master/root/ruby/realtime.md)
 - [FinanceTracker](https://github.com/hungrypc/rails_stock_tracker_app)
-  - Stock tracking social media app from [this chapter](https://github.com/hungrypc/notes/blob/master/root/ruby/stocktracker.md)
+  - Stock tracking social media app to learn about rapid prototyping, how to use devise, and utilizing APIs from [this chapter](https://github.com/hungrypc/notes/blob/master/root/ruby/stocktracker.md)
 
 ## Chapters
 
