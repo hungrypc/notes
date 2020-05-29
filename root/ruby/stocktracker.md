@@ -29,10 +29,28 @@ end
 ```
 
 
+## Test Authentication System - Login, Logout
+
+```erb
+<h1>Welcome#index</h1>
+<p>Find me in app/views/welcome/index.html.erb</p>
+
+<%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+```
 
 
+## Add Bootstrap to the App
+
+https://www.mashrurhossain.com/blog/rails6bootstrap4
 
 
+## Update Devise Views
+
+```cli
+gem 'devise-bootstrap-views'
+bundle install
+rails generate devise:views:bootstrap_templates
+```
 
 
 
