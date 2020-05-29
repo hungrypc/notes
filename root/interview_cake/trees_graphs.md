@@ -161,3 +161,123 @@ function findSecondLargest(treeRoot) {
   }
 }
 ```
+
+## You wrote a trendy new messaging app, MeshMessage, to get around flaky cell phone coverage.
+
+Instead of routing texts through cell towers, your app sends messages via the phones of nearby users, passing each message along from one phone to the next until it reaches the intended recipient. (Don't worry—the messages are encrypted while they're in transit.)
+
+Some friends have been using your service, and they're complaining that it takes a long time for messages to get delivered. After some preliminary debugging, you suspect messages might not be taking the most direct route from the sender to the recipient.
+
+Given information about active users on the network, find the shortest route for a message from one user (the sender) to another (the recipient). Return an array of users that make up this route.
+
+There might be a few shortest delivery routes, all with the same length. For now, let's just return any shortest route.
+
+Your network information takes the form of an object where keys are usernames and values are arrays of other users nearby:
+
+```js
+const network = {
+  'Min'     : ['William', 'Jayden', 'Omar'],
+  'William' : ['Min', 'Noam'],
+  'Jayden'  : ['Min', 'Amelia', 'Ren', 'Noam'],
+  'Ren'     : ['Jayden', 'Omar'],
+  'Amelia'  : ['Jayden', 'Adam', 'Miguel'],
+  'Adam'    : ['Amelia', 'Miguel', 'Sofia', 'Lucas'],
+  'Miguel'  : ['Amelia', 'Adam', 'Liam', 'Nathan'],
+  'Noam'    : ['Nathan', 'Jayden', 'William'],
+  'Omar'    : ['Ren', 'Min', 'Scott'],
+  ...
+};
+
+// For the network above, a message from Jayden to Adam should have this route:
+// ['Jayden', 'Amelia', 'Adam']
+```
+
+Solutions:
+
+```js
+class Queue {
+  constructor() {
+    this.queue = [];
+    this.size = 0;
+  }
+
+  enqueue(item) {
+    this.queue.unshift(item);
+    this.size += 1;
+  }
+
+  dequeue() {
+    this.size -= 1;
+    return this.queue.pop();
+  }
+}
+
+function reconstructPath(howWeReachedNodes, startNode, endNode) {
+
+  const shortestPath = []
+
+  // because our map gives us the node that got us to a specific node
+  // we start from the endNode and work backwards
+  let currentNode = endNode
+
+  while (currentNode !== null) {
+    shortestPath.push(currentNode)
+    currentNode = howWeReachedNodes[currentNode]
+  }
+
+  // reverse because we went backwards
+  return shortestPath.reverse()
+}
+
+function getPath(graph, startNode, endNode) {
+  if (!graph.hasOwnProperty(startNode)) {
+    throw new Error('Start node not in graph')
+  }
+  if (!graph.hasOwnProperty(endNode)) {
+    throw new Error('End node not in graph')
+  }
+
+  // queue
+  const nodesToVisit = new Queue()
+  nodesToVisit.enqueue(startNode)
+
+  // map of how we got to each node
+  // also helps us keep track of nodes we've seen
+  const map = {}
+  map[startNode] = null
+
+  while (nodesToVisit.size > 0) {
+    const current = nodesToVisit.dequeue()
+
+    if (current === endNode) {
+      return reconstructPath(map, startNode, endNode)
+    }
+
+    graph[current].forEach(neighbor => {
+      if (!map.hasOwnProperty(neighbor)) {
+        // add to queue
+        nodesToVisit.enqueue(neighbor)
+
+        // keep track and map how we got there
+        map[neighbor] = current
+      }
+    })
+  }
+
+  return null;
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
