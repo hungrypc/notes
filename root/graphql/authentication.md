@@ -773,20 +773,105 @@ A common complaint complaint is that we are constantly listing the same scalar f
 # in playground
 query {
   users {
-    id
-    name
-    email
+    ...userFields
   }
 }
-        # name         type
 
+#        (name)        (type)
 fragment userFields on User {
   id
   name
   email
 }
 ```
+You could even use a combo of an explicit field + fragment.
 
+```js
+// User.js
+import getUserId from '../utils/getUserId'
+
+const User = {
+  email: {
+    fragment: 'fragment userId on User { id }',
+    resolve(parent, args, { request }, info) {
+      const userId = getUserId(request, false)
+
+      if (userId && userId === parent.id) {
+        return parent.email
+      } else {
+        return null
+      }
+    }
+  }
+}
+
+export { User as default }
+
+// restructuring
+
+// resolvers/index.js
+import { extractFragmentReplacements } from 'prisma-binding'
+
+import Query from './Query'
+import Mutation from './Mutation'
+import Subscription from './Subscription'
+import User from './User'
+import Post from './Post'
+import Comment from './Comment'
+
+const resolvers = {
+  Query,
+  Mutation,
+  Subscription,
+  User,
+  Post,
+  Comment
+}
+
+const fragmentReplacements = extractFragmentReplacements(resolvers)
+// takes resolvers, and extracts fragments we set up
+
+export { resolvers, fragmentReplacements }
+
+
+// index.js
+import { GraphQLServer, PubSub } from 'graphql-yoga'
+import { resolvers, fragmentReplacements } from './resolvers/index'
+import prisma from './prisma'
+
+const pubsub = new PubSub()
+
+const server = new GraphQLServer({
+  typeDefs: './src/schema.graphql',
+  resolvers,
+  context(request) {
+    return {
+      pubsub,
+      prisma,
+      request
+    }
+  },
+  fragmentReplacements
+})
+
+server.start(() => {
+  console.log('The server is up!')
+})
+
+
+// prisma.js
+import { Prisma } from 'prisma-binding'
+import { fragmentReplacements } from './resolvers/index'
+
+const prisma = new Prisma({
+  typeDefs: 'src/generated/prisma.graphql',
+  endpoint: 'http://localhost:4466',
+  secret: 'secret_text',
+  fragmentReplacements
+})
+
+export { prisma as default }
+```
 
 
 
