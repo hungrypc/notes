@@ -521,3 +521,9 @@ class Message < ApplicationRecord
   scope :custom_display, -> { order(:created_at).last(20) }
 end
 ```
+
+Note:
+
+https://stackoverflow.com/questions/36662924/rails-5-action-cable-list-of-connected-users
+
+
