@@ -14,3 +14,4 @@
 4. [Database Storage with Prisma](https://github.com/hungrypc/notes/blob/master/root/graphql/prisma.md)
 5. [Authentication with GraphQL](https://github.com/hungrypc/notes/blob/master/root/graphql/authentication.md)
 6. [Pagination and Sorting with GraphQL](https://github.com/hungrypc/notes/blob/master/root/graphql/pagination.md)
+7. [Production Deployment](https://github.com/hungrypc/notes/blob/master/root/graphql/production.md)

@@ -53,7 +53,7 @@ function mergeRanges(meetings) {
     // a meeting will overlap if the current meeting's start time overlaps with the last meetings end time
     if (currentMeeting.startTime <= lastMergedMeeting.endTime) {
       // if this is the case, we merge the meetings by taking the larger end time and set that as the merged meeting's end time
-      currentMeeting.endTime = Math.max(currentMeeting.endTime, lastMergedMeeting.endTime);
+      lastMergedMeeting.endTime = Math.max(currentMeeting.endTime, lastMergedMeeting.endTime);
     } else {
       // otherwise, push the current meeting into mergedMeetings
       mergedMeetings.push(currentMeeting);
