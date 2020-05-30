@@ -154,7 +154,37 @@ Preferred stock:
 
 Typically, the deal is this: the company is supposed to pay out a fixed dividend to the preferred stockholders, but it doesn't have to. But, it cannoy pay a common stock dividend until it's paid up on its preferred stock dividends. In contrast, corporate bonds have a contractual obligation to pay a dividend. So that is, if the company gets in trouble and it doesn't pay out its coupon, the shareholders can come back and sue. Preferred stockholders can't do that.
 
+## Corporate Charter
 
+The basic coporate charter emphasizes that all common shareholders are treated equally. They don't have to pay out dividends to them, but if they do, it has to be that every share gets the same. That's where the word equity comes it, it's equality of shareholders.
+
+The firm can also repurchase shares instead of paying a dividend. They can do what they want, but the fundamental thing that ties it down is that all shareholders have one vote, and they elect the board.
+
+But Berle and Means thought that it doesn't work so well for big companies. When there are millions of people voting, it doesn't work so well. Berle and Means said that, while in practice we have shareholder democracy, in practice the democracy is imperfect. It's really self-perpetuating Boards of Directors. And what that lead to was new regulation that tried to allow for takeovers of companies. They said that a lot of companies were ill managed and managed fro the interest of the board of directors. You can't influence the votes of so many people. So they made it easier, 1935 the Securities and Exchange Commission under authority of the act that had just created it in 1934, established rules for proxy contests. So that people who wanted to change the governance of the company could reach the shareholders and ask them to sign a contract to let you vote on my behalf. You would give them the right to be a proxy for you at the shareholder's meeting. In 1956, amendments made proxy contests difficult. But then people later as we move to a more free market governance, relaxed the 1956 amendment so that proxy contests came back.
+
+Some companies have classes of shares, as permitted by state law. You can have both voting and non-voting shares. The NY Times have both class A shares and Class B shares. Class A has less voting rights than class B. Why? They think that the NYT serves a higher purpose. So they gave the original NYT family more voting rights that the other shareholders. This has been under criticism but is still maintained.
+
+## Corporations Raise Money
+
+There's three major ways to raise money as a company.
+
+1. Retained earnings
+  - You can wait until you've made enough money, and then build your new factory
+  - But this is slow because you have to wait until you've got the retained earnings to do that
+2. Borrow money, either through banks or issue debt and sell that through a broker
+3. Issue new shares
+
+When issuing new shares, shareholders are going to look at that and say wait a minute. I used to own 10% of the company and now I only own 5%. But then the board would say don't worry, we brought in millions of dollars, and you own a share of that so the company has more now.
+
+When they issue more shares, your share in the company goes down, defined as the total shares you have divided by total shares. You've given up some voting power in order to get money to expand the company. But here's why they call it equity, because all common shareholders are equal.
+
+Myers (prof in MIT) proposed what he called the Pecking Order Theory of coporate finance. The best way to raise money for corporate actions, according to what he said board think, is retained earnings. You feel most comoftable. But if you say let's go to the bank and borrow money, then they get a little nervous. The other thing you can say is let's issue new shares. Now they get creeped out, they're thinking I'm going to be giving up power to other people.
+
+## Dilution
+
+Sometimes companies will issue a dividend in shares, it's called a stock dividend. So you might get a letter from your broker saying the company has now paid a stock dividend of 5%, which means your 100 shares are now 105 shares. The price per share is $30, so you've got five new shares. It's like getting a dividend of $150. But that's what most people think. What is the next question you ask your broker? The company has issued new shares, so that I can be paid a dividend in shares, and now I have 105 shares, is that the same as getting $150 in cash? The question you would ask your broker is, wait a minute, every share holder is getting these share dividends, it's equity, they can't pay me a stock dividend without paying the other. So the total number of shares when up by 5%. Calculating what fraction of the company I own, it's the same. That means nothing.
+
+Typically they issue stock dividends as kind of a trick. It's fishing for fools.
 
 
 
