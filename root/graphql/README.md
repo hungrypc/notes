@@ -4,7 +4,7 @@
 
 ## Projects
 - [Blog API](https://github.com/hungrypc/notes/tree/master/root/graphql/graphql-prisma)
-  - GraphQL + Prisma API for a blogging app that handles authentication and verification with jwt, from chapters 4 and 5
+  - GraphQL + Prisma API for a blogging app that handles authentication and verification with jwt, from chapters 4, 5, and 6
 
 ## Chapters
 
@@ -13,3 +13,4 @@
 3. [Basics: Subscriptions](https://github.com/hungrypc/notes/blob/master/root/graphql/subscriptions.md)
 4. [Database Storage with Prisma](https://github.com/hungrypc/notes/blob/master/root/graphql/prisma.md)
 5. [Authentication with GraphQL](https://github.com/hungrypc/notes/blob/master/root/graphql/authentication.md)
+6. [Pagination and Sorting with GraphQL](https://github.com/hungrypc/notes/blob/master/root/graphql/pagination.md)
