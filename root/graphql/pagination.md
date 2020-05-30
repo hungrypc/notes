@@ -112,6 +112,32 @@ const Query = {
 ```
 
 
+## Working with updatedAt and createdAt
+
+```graphql
+# datamodel.graphql
+type User {
+  # ...
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}
+
+# cd prisma
+# prisma deploy
+# cd ..
+# npm run get-schema
+
+
+# schema.graphql
+type User {
+  # ...
+  updatedAt: String!
+  createdAt: String!
+}
+```
+
+
+
 
 
 
