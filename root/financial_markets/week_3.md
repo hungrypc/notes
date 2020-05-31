@@ -186,6 +186,43 @@ Sometimes companies will issue a dividend in shares, it's called a stock dividen
 
 Typically they issue stock dividends as kind of a trick. It's fishing for fools.
 
+## Share Repurchase
+
+Instead of issuing new shares to raise money, the company can repurchase shares outstanding. It's an alternative way of paying a dividend.
+
+Imagine that a company is about to pay its dividend - it's been paying $2 a quarter regularly per share and they're about to pay it. And then someone says, why don't we send out a different letter this time? Instead of saying this is a dividend, let's send a letter that says this $2 is repurchasing 1% of your shares. Everyone gets the same letter. So if you get this in the mail, you would say what's this? I got my $2 dividend check and I also get a letter saying this is share repurchase. You might be confused, what does this mean? It's $2, and the share repurchase if it's everyone equal doesn't affect the fraction of the company that I own, so the letter is nonsense. It's just the same thing as paying a dividend.
+
+Now, some people say that's because the stock market was low, and so companies were buying back their shares at a low price. But now prices are way back up aggain and companies are still repurchasing their shares. So what's going on here? It's been 2% of shares per year, which is comparable to the dividend rate. On the aggregate US stock market has been something like 2%. So how do they get that? It seems the important thing is that there's a tax break. If they do share repurchase instead of dividends, it's the same thing, buy you can fool the IRS. Suppose the company pays out a $2 dividend, and then I would get $2 in dividends, and then I would have to pay income taxes on those. But if they do share repurchase, if I didn't participate in selling my shares to the company, then my value of shares goes up by something like $. But I don't have to pay taxes on it because I don't have to pay taxes until I sell. So I can postpone them maybe indefinitely.
+
+Capital gains taxes do not have to be paid until you sell the shares. So there's a tax incentive for share repurchase rather than dividends.
+
+## PDV of Expected Dividends
+
+Most of the return people have gotten historicall from stocks is in dividends, not in capital gains. It's correct ot think that efficient markets implies that what you're really pricing in the stock market is a claim on dividend. It's all about dividends.
+
+There's two important ratios:
+
+1. Price earnings ration, price per share divided by earnings per share
+2. Price dividend ratio, where its dividends per share divided by price per share
+
+What does price earnings ratio mean? It's different for different companies, some have a high price earnings ratio. It could be as high as 100 (very unusual), which would mean that you'd have to wait 100 years to get your money back based on dividends, if you bought it. That's a long time to wait, more typically the price earnings ratio is something liek 15. So you'd buy a share and in 15 years, if you're getting all the earnings as dividends, you'd have your money back.
+
+So what determines the price earnings ratio? The efficient markets idea is that the price of a share is the present discounted value of its expected future dividends. And then I can apply the Gordon Rule, which says that the price should equal to earnings divided by r minus g (r is the discount rate, and g is the growth rate of earnings). So the price earnings ratio is 1 / (r - g).
+
+This is an important model because it gives you a theory why some firms have high price earnings ratio and other firms have low price earnings ratio. It always has to do with r and g. So if a company has a low price earnings ratio, according to efficient markets, that means either r is high for that company or g is low for that company or a combination of both. Why would r be high for a company? The expected return on a stock is a function of its covariance with the market. So that would mean that companies whose return covaries with the market should tend to have via this r thing low price earnings ratio. In simple terms, they're riskier in that they co-vary with the market. The other thing is g. Some companies have very high growth prospects. But in efficient markets, that's not a reason to invest in them because the price will reflect the growth in earnings already, so it will already be discounted into the present value. So anyway, high growth companies should tend to have high PE, a low PE would be a low growth company.
+
+The question is, does the efficient markets model work? It half works. But there's another approach to investing called value investing. Graham and DOdd wrote a textbook that outlined their thought that PE varies for other reasons than just this technical reason that we talked about, because companies go in and out of fashion. And when they're hot, people bid them up too high. And when they get ignored, they get low PEs. So value investing is still with us and it still works, although it hasn't worked int he last five years (generally it does work).
+
+## Why Do Firms Pay Dividends?
+
+ALmost all the value of the stock inherently is due to the dividends. But firms don't even have to pay dividends, and they often go through years and years without paying dividends. Firms can get money to their shareholders in another way besides paying dividends. You can buy back shares. But there are other reasons why firms pay dividends. Shefrin and Statman described what they call a self-control theory of dividend. There's a lot of people who invest in stocks and have a personal rule of thumb that I will never dip into principal. But if dividends go to zero, they're in trouble, they won't have any income.
+
+Another theory is that they use dividends to prove to the public that they're really worth something. It's called signaling theory where you do something not for its intrinsic valye but because it proves something about you. And so firms are signaling. They pay dividends just to show that there's real money here. But this kind of signaling does impose taxes, whereas repurchase of shares will not involve any tax until you sell the shares again.
+
+Linter interviewed people who set dividend policies for firms and asked how they did it. They said all sorts of things but the bottom line is, they just gradually adjust toward earnings per share. So they have some target payout ratio. They change the dividends only slightly each quarter, reglecting an adjustment toward the target dividend price ratio. Earnings jump around. So when earnings jump, you don't raise your dividends right away, you just lag behind.
+
+Just to give you some idea, back in 1968, general public utilites court (utilities company) proposed a substitute stock dividend for cash dividends, and offered to sell the stock dividend to the stockholders for a minimal cost. They were saying "Instead of paying the dividends, we decided to buy back some of your shares. So you now have less shares, but you get the same check, and you're going to get the same check in the future because everybody's shares went down". He explained all this, and they didn't get it. He was trying to save them on taxes but instead he got death threats. Investors are emotional and they somehow didn't like the sound of this.
+
 
 
 
