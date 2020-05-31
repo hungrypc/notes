@@ -205,13 +205,13 @@ There's two important ratios:
 1. Price earnings ration, price per share divided by earnings per share
 2. Price dividend ratio, where its dividends per share divided by price per share
 
-What does price earnings ratio mean? It's different for different companies, some have a high price earnings ratio. It could be as high as 100 (very unusual), which would mean that you'd have to wait 100 years to get your money back based on dividends, if you bought it. That's a long time to wait, more typically the price earnings ratio is something liek 15. So you'd buy a share and in 15 years, if you're getting all the earnings as dividends, you'd have your money back.
+What does price earnings ratio mean? It's different for different companies, some have a high price earnings ratio. It could be as high as 100 (very unusual), which would mean that you'd have to wait 100 years to get your money back based on dividends, if you bought it. That's a long time to wait, more typically the price earnings ratio is something like 15. So you'd buy a share and in 15 years, if you're getting all the earnings as dividends, you'd have your money back.
 
 So what determines the price earnings ratio? The efficient markets idea is that the price of a share is the present discounted value of its expected future dividends. And then I can apply the Gordon Rule, which says that the price should equal to earnings divided by r minus g (r is the discount rate, and g is the growth rate of earnings). So the price earnings ratio is 1 / (r - g).
 
 This is an important model because it gives you a theory why some firms have high price earnings ratio and other firms have low price earnings ratio. It always has to do with r and g. So if a company has a low price earnings ratio, according to efficient markets, that means either r is high for that company or g is low for that company or a combination of both. Why would r be high for a company? The expected return on a stock is a function of its covariance with the market. So that would mean that companies whose return covaries with the market should tend to have via this r thing low price earnings ratio. In simple terms, they're riskier in that they co-vary with the market. The other thing is g. Some companies have very high growth prospects. But in efficient markets, that's not a reason to invest in them because the price will reflect the growth in earnings already, so it will already be discounted into the present value. So anyway, high growth companies should tend to have high PE, a low PE would be a low growth company.
 
-The question is, does the efficient markets model work? It half works. But there's another approach to investing called value investing. Graham and DOdd wrote a textbook that outlined their thought that PE varies for other reasons than just this technical reason that we talked about, because companies go in and out of fashion. And when they're hot, people bid them up too high. And when they get ignored, they get low PEs. So value investing is still with us and it still works, although it hasn't worked int he last five years (generally it does work).
+The question is, does the efficient markets model work? It half works. But there's another approach to investing called value investing. Graham and Dodd wrote a textbook that outlined their thought that PE varies for other reasons than just this technical reason that we talked about, because companies go in and out of fashion. And when they're hot, people bid them up too high. And when they get ignored, they get low PEs. So value investing is still with us and it still works, although it hasn't worked int he last five years (generally it does work).
 
 ## Why Do Firms Pay Dividends?
 
@@ -223,29 +223,21 @@ Linter interviewed people who set dividend policies for firms and asked how they
 
 Just to give you some idea, back in 1968, general public utilites court (utilities company) proposed a substitute stock dividend for cash dividends, and offered to sell the stock dividend to the stockholders for a minimal cost. They were saying "Instead of paying the dividends, we decided to buy back some of your shares. So you now have less shares, but you get the same check, and you're going to get the same check in the future because everybody's shares went down". He explained all this, and they didn't get it. He was trying to save them on taxes but instead he got death threats. Investors are emotional and they somehow didn't like the sound of this.
 
+Quiz notes:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Market capitalization is calculated by using: the price per share and total number of outstanding shares
+- The greater an investors ownership in a corporation is, the greater: the total number of shares he/she owns with respect to the total number of shares outstanding
+- A firm must make its dividend payments to preferred shareholders before it makes any dividend payments to its common shareholders
+- The basic coporate charter:
+  - does not say that the firm ever has to raise debt the board deciides
+  - does not say that the firm ever has to issue warrants, convertible debt, or any other debt securities
+- In the Pecking Order Theory, the companies prioritize their sources of financing in the following order: Internal financing, debt issuance, equity
+- A dilution is: a reduction in the owndership percentage of a share stock caused by the issuance of new shares
+- A share repurcahase is:
+  - a program by which a company buys back its own shares from the marketplace or from its shareholders (at a fixed price)
+  - the reverse of a dilution
+  - an alternative to paying dividends in order to return cash to investors
+- The price to earnings ratio:
+  - effectively shows the number of years of earnings at which the company is valued given the current level of the share price
+  - shows how much an investor is willing to pay for the stock of the company for each dollar of the company's earnings
+- Generally, a reduction in dividend is interpreted by investors as: bad news, with often a drop in the stock price
