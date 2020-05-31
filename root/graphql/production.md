@@ -32,6 +32,63 @@ prisma deploy -e ../config/prod.env
 ```
 Now, we have a service on Prisma Cloud.
 
+## Node.js Production App Deployment
+
+```cli
+npm i -g heroku
+heroku login
+```
+
+```js
+// index.js
+// ...
+server.start({ port: process.env.PORT || 4000 }, () => {
+  console.log('The server is up!')
+})
+
+// npm i env-cmd@8.0.2
+
+// package.json
+"scripts": {
+    "start": "",
+    "dev": "env-cmd ./config/dev/env nodemon src/index.js --exec babel-node",
+    // now when we're in development, we run: npm run dev
+    // ...
+  },
+
+// prisma.js
+const prisma = new Prisma({
+  typeDefs: 'src/generated/prisma.graphql',
+  endpoint: process.env.PRISMA_ENDPOINT,    // SET UP
+  secret: 'secret_text',
+  fragmentReplacements
+})
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
