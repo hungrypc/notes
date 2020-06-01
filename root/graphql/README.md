@@ -5,6 +5,7 @@
 ## Projects
 - [Blog API](https://github.com/hungrypc/graphql-prisma-blog-api)
   - GraphQL + Prisma API for a blogging app that handles authentication and verification with jwt, and production deployment from chapters 4, 5, and 6
+  - [Deployed API](https://ancient-plateau-18883.herokuapp.com/)
 
 ## Chapters
 

@@ -212,7 +212,78 @@ end
 ```
 
 
+## Setup UserStock Resource
 
+rails generate resource UserStock user:references stock:references
+rails db:migrate
+
+```ruby
+# user model
+class User < ApplicationRecord
+  has_many :user_stocks
+  has_many :stocks, through: :user_stocks
+
+  # ...
+end
+
+# stock model
+class Stock < ApplicationRecord
+  has_many :user_stocks
+  has_many :users, through: :user_stocks
+
+  validates :name, :ticker, presence: true
+
+  # ...
+end
+```
+
+
+## Stocks Listing Views
+
+```ruby
+# User controller
+class UsersController < ApplicationController
+  def my_portfolio
+    @tracked_stocks = current_user.stocks
+  end
+end
+```
+
+```erb
+<!-- _navigation.html.erb -->
+<li class="nav-item <%= 'active' if request.path == my_portfolio_path %>">
+  <%= link_to 'My Portfolio', my_portfolio_path, class: 'nav-link' %>
+</li>
+```
+
+
+## Track Stocks from Front-end: browser
+
+```ruby
+# stock model
+class Stock < ApplicationRecord
+  # ...
+
+  def self.check_db(ticker_symbol)
+    where(ticker: ticker_symbol).first
+  end
+end
+
+# user_stock controller
+class UserStocksController < ApplicationController
+
+  def create
+    stock = Stock.check_db(params[:ticker])
+    if stock.blank?
+      stock = Stock.new_lookup(params[:ticker])
+      stock.save
+    end
+    @user_stock = UserStock.create(user: current_user, stock: stock)
+    flash[:notice] = "Stock #{stock.name} successfully added"
+    redirect_to my_portfolio_path
+  end
+end
+```
 
 
 
