@@ -4,3 +4,4 @@
 - [Hashing and Hash Tables](https://github.com/hungrypc/notes/blob/master/root/interview_cake/hash.md)
 - [Greedy Algorithms](https://github.com/hungrypc/notes/blob/master/root/interview_cake/greedy.md)
 - [Sorting, Searching, and Logarithms](https://github.com/hungrypc/notes/blob/master/root/interview_cake/sorting_searching.md)
+- [Trees and Graphs](https://github.com/hungrypc/notes/blob/master/root/interview_cake/trees_graphs.md)
