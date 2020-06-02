@@ -87,7 +87,162 @@ test('Should correctly validate a valid password', () => {
   const isValid = isValidPassword('43hjd9jd82')
 
   expect(isValid).toBe(true)
+});
+```
+
+
+## Apollo Client in the Browser
+
+File structure for my project isn't in sync with lecture so I will document what I learn here, rather than in the project.
+
+Create folder apollo-client, in it create src folder, and create an index.html & index.js.
+
+```html
+<body>
+  <div id="users"></div>
+  <script src="./index.js" type="text/javascript"></script>
+</body>
+```
+
+```js
+// in apollo-client
+// npm init
+// npm i parcel-bundler --save-dev
+
+// package.json
+{
+  "scripts": {
+    "start": "parcel src/index.html"
+  }
+}
+
+// npm i apollo-boost graphql
+
+// index.js
+import ApolloBoost, { gql } from 'apollo-boost'
+
+const client = new ApolloBoost({
+  uri: 'http://localhost:4000'
 })
+
+// this will be parsed
+const getUsers = gql`
+  query {
+    users {
+      id
+      name
+    }
+  }
+`
+
+client.query({
+  // this takes in an abstract syntax tree
+  query: getUsers
+}).then((response) => {
+  let html = ''
+
+  response.data.users.forEach((user) => {
+    html += `
+      <div>
+        <h3>${user.name}</h3>
+      </div>
+    `
+  })
+
+  document.getElementById('users').innerHTML = html
+});
+
+// npm run start
+// this starts a web server
+```
+
+### Challenge
+
+```html
+<body>
+  <div id="users"></div>
+  <div id="posts"></div>
+  <script src="./index.js" type="text/javascript"></script>
+</body>
+```
+
+```js
+// index.js
+import ApolloBoost, { gql } from 'apollo-boost'
+
+const client = new ApolloBoost({
+  uri: 'http://localhost:4000'
+})
+
+const getUsers = gql`
+  query {
+    users {
+      id
+      name
+    }
+  }
+`
+
+client.query({
+  query: getUsers
+}).then((response) => {
+  let html = ''
+
+  response.data.users.forEach((user) => {
+    html += `
+      <div>
+        <h3>${user.name}</h3>
+      </div>
+    `
+  })
+
+  document.getElementById('users').innerHTML = html
+});
+
+const getPosts = gql`
+  query {
+    posts {
+      title
+      author {
+        name
+      }
+    }
+  }
+`
+
+client.query({
+  query: getPosts
+}).then((response) => {
+  let html = ''
+
+  response.data.posts.forEach((post) => {
+    html += `
+      <div>
+        <h4>${post.title}</h4>
+        <p>${post.author.name}</p>
+      </div>
+    `
+  })
+
+  document.getElementById('posts').innerHTML = html
+})
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
