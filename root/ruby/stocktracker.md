@@ -286,6 +286,126 @@ end
 ```
 
 
+## Implementing Stock Tracking Restrictions
+
+```ruby
+# user model
+class User < ApplicationRecord
+  # ...
+
+  def stock_already_tracked?(ticker_symbol)
+    stock = Stock.check_db(ticker_symbol)
+    return false unless stock
+    stocks.where(id: stock.id).exists?
+  end
+
+  def under_stock_limit?
+    stocks.count < 10
+  end
+
+  def can_track_stock?(ticker_symbol)
+    under_stock_limit? && !stock_already_tracked?(ticker_symbol)
+  end
+end
+```
+
+```erb
+<% if @stock %>
+  <!-- ... -->
+    <% if current_user.can_track_stock?(@stock.ticker) %>
+      <%= link_to 'Add to portfolio', user_stocks_path(user: current_user, ticker: @stock.ticker), class: "btn btn-success", method: :post %>
+    <% else %>
+      <span class="badge badge-secondary">
+        You are already tracking
+        <% if !current_user.under_stock_limit? %>
+          10 stocks
+        <% end %>
+        <% if !current_user.stock_already_tracked?(@stock.ticker) %>
+          this stock
+        <% end %>
+      </span>
+    <% end %>
+  </div>
+<% end %>
+```
+
+
+## Accept Additional Fields in App
+
+```erb
+<!-- _nav -->
+<li class="nav-item dropdown">
+  <!-- ... -->
+  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <%= link_to edit_user_registration_path, class: 'dropdown-item' do %>
+      <%= fa_icon 'edit' %> Edit profile
+    <% end %>
+    <!-- ... -->
+  </div>
+</li>
+```
+
+```ruby
+class ApplicationController < ActionController::Base
+  before_action :authenticate_user!
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name])
+  end
+end
+```
+
+SKIPPED LECTURE 275, UNNECESSARY (BUT REFERENCE IN FUTURE IF NEED)
+
+## Self Referential Association - Users and Friends
+
+```ruby
+# rails g Friendship user:references
+class CreateFriendships < ActiveRecord::Migration[6.0]
+  def change
+    create_table :friendships do |t|
+      t.references :user, null: false, foreign_key: true
+      t.references :friend, references: :users, foreign_key: { to_table: :users }
+      t.timestamps
+    end
+  end
+end
+
+
+class Friendship < ApplicationRecord
+  belongs_to :user
+  belongs_to :friend, class_name: 'User'
+end
+
+
+class User < ApplicationRecord
+  # ...
+  has_many :friendships
+  has_many :friends, through: :friendships
+  # ...
+end
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
