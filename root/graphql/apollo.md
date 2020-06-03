@@ -93,7 +93,7 @@ test('Should correctly validate a valid password', () => {
 
 ## Apollo Client in the Browser
 
-File structure for my project isn't in sync with lecture so I will document what I learn here, rather than in the project.
+File structure for my project isn't in sync with lecture so I will document what I learn here for this part, rather than in the project.
 
 Create folder apollo-client, in it create src folder, and create an index.html & index.js.
 
@@ -225,9 +225,81 @@ client.query({
   })
 
   document.getElementById('posts').innerHTML = html
-})
+});
 ```
 
+
+## Configuring Jest to Start the GraphQL Server
+Back to our graphql-prisma folder.
+
+```js
+// create a folder in test: /jest
+// create two files: globalSetup.js + globalTeardown.js
+// then, in the src folder, create server.js
+
+// server.js
+import { GraphQLServer, PubSub } from 'graphql-yoga'
+import { resolvers, fragmentReplacements } from './resolvers/index'
+import prisma from './prisma'
+
+const pubsub = new PubSub()
+
+const server = new GraphQLServer({
+  typeDefs: './src/schema.graphql',
+  resolvers,
+  context(request) {
+    return {
+      pubsub,
+      prisma,
+      request
+    }
+  },
+  fragmentReplacements
+})
+
+export { server as default }
+
+
+// index.js
+import '@babel/polyfill/noConflict'
+import server from './server'
+
+server.start({ port: process.env.PORT || 4000 }, () => {
+  console.log('The server is up!')
+})
+
+
+// npm i babel-register
+
+
+// globalSetup.js
+require('babel-register')
+require('@babel/polyfill/noConflict')
+const server = require('../../src/server').default
+
+module.exports = async () => {
+  global.httpServer = await server.start({ port: 4000 })
+}
+
+// globalTeardown.js
+module.exports = async () => {
+  await global.httpServer.close()
+}
+
+
+// package.json
+"scripts": {
+  // ...
+  "test": "env-cmd ./config/test.env jest --watch",
+  // "...
+},
+"jest": {
+  "globalSetup": "./tests/jest/globalSetup.js",
+  "globalTeardown": "./tests/jest/globalTeardown.js"
+},
+
+// npm run test
+```
 
 
 
