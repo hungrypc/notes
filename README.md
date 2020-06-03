@@ -8,7 +8,7 @@
 
 ### Programming
 - [Ruby](https://github.com/hungrypc/notes/blob/master/root/ruby/README.md)
-- [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md) (not yet started)
+- [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md)
 
 ## Application
 
