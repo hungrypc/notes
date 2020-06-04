@@ -585,6 +585,210 @@ test('Should not signup user with invalid password', async() => {
 ```
 
 
+## Supporting Multiple Test Suites
+
+If we set up multiple test suites, we'd set it up like this:
+
+```js
+// create a utils folder, in which we have a seedDatabase.js file
+import bcrypt from 'bcryptjs'
+import prisma from '../../src/prisma'
+
+const seedDatabase = async () => {
+  // ...
+  // seeding DB code goes here
+}
+
+export { seedDatabase as default }
+
+
+// create new file in test folder: post.test.js
+import 'cross-fetch/polyfill'
+import ApolloBoost, { gql } from 'apollo-boost'
+// import prisma from '../src/prisma'
+import seedDatabase from './utils/seedDatabase'
+
+const client = new ApolloBoost({
+  uri: 'http://localhost:4000'
+})
+
+beforeEach(seedDatabase) // now we can reuse our seedDatabase code
+
+// ...
+
+
+// and now since we don't want our seeding to conflict, we have to add this to package.json
+"test": "env-cmd ./config/test.env jest --watch --runInBand";
+
+// note the --runInBand
+```
+
+
+## Testing with Authentication
+
+Now, we need to figure out how to send an authentication token along with our operations.
+
+```js
+// create a new file in utils: getClient.js
+import ApolloBoost from 'apollo-boost'
+
+const getClient = () => {
+  return new ApolloBoost({
+    uri: 'http://localhost:4000'
+  })
+}
+
+export { getClient as default }
+
+// so now
+
+// user.test.js AND post.test.js
+import getClient from './utils/getClient'
+
+const client = getClient();
+```
+Next, let's set it up so that when we seed data, we get a token back that we can use.
+
+```js
+// seedDatabase.js
+// ...
+import jwt from 'jsonwebtoken'
+
+const userOne = {
+  input: {
+    name: 'Jen',
+    email: 'jen@example.com',
+    password: bcrypt.hashSync('red12345')
+  },
+  user: undefined,
+  jwt: undefined
+}
+
+const seedDatabase = async () => {
+  // ...
+  userOne.user = await prisma.mutation.createUser({
+    data: userOne.input
+  })
+  userOne.jwt = jwt.sign({ userId: userOne.user.id }, process.env.JWT_SECRET)
+
+  await prisma.mutation.createPost({
+    data: {
+      // ...
+      author: {
+        connect: {
+          id: userOne.user.id
+        }
+      }
+    }
+  })
+  // refactor so any connects to id references userOne.user.id
+  // ...
+}
+
+export { seedDatabase as default, userOne }
+
+
+// getClient.js
+const getClient = (jwt) => {
+  return new ApolloBoost({
+    uri: 'http://localhost:4000',
+    request(operation) {
+      if (jwt) {
+        operation.setContext({
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        })
+      }
+    }
+  })
+}
+
+
+// user.test.js
+import seedDatabase, { userOne } from './utils/seedDatabase'
+
+// ...
+test('Should fetch user profile', async () => {
+  const client = getClient(userOne.jwt)
+  const getProfile = gql`
+    query {
+      me {
+        id
+        name
+        email
+      }
+    }
+  `
+
+  await client.query({ query: getProfile })
+
+  const { data } = await client.query({ query: getProfile })
+
+  expect(data.me.id).toBe(userOne.user.id)
+  expect(data.me.name).toBe(userOne.user.name)
+  expect(data.me.email).toBe(userOne.user.email)
+});
+```
+
+### Challenge
+Write a test case for the myPosts query
+
+1. Create the test case and an authenticated client
+2. Fire off a myPosts operation getting scalar fields for posts
+3. Assert that the two posts were fetched
+4. Test your work
+
+```js
+test('Should expose published posts', async () => {
+  const getPosts = gql`
+    query {
+      posts {
+        id
+        title
+        body
+        published
+      }
+    }
+  `
+
+  const response = await client.query({
+    query: getPosts
+  })
+
+  expect(response.data.posts.length).toBe(1)
+  expect(response.data.posts[0].published).toBe(true)
+})
+
+test('Should return users posts', async () => {
+  const client = getClient(userOne.jwt)
+  const getPosts = gql`
+    query {
+      myPosts {
+        id
+        title
+        body
+        published
+      }
+    }
+  `
+
+  const { data } = await client.query({ query: getPosts })
+
+  expect(data.myPosts.length).toBe(2)
+})
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
