@@ -776,19 +776,230 @@ test('Should return users posts', async () => {
   const { data } = await client.query({ query: getPosts })
 
   expect(data.myPosts.length).toBe(2)
-})
+});
 ```
 
 
+## Testing Auth part 2
+
+```js
+// seedDatabase.js
+const postOne = {
+  input: {
+    title: 'Test Published Post',
+    body: '',
+    published: true,
+  },
+  post: undefined
+}
+
+// create post one
+const seedDatabase = async () => {
+  // ...
+  postOne.post = await prisma.mutation.createPost({
+    data: {
+      ...postOne.input,
+      author: {
+        connect: {
+          id: userOne.user.id
+        }
+      }
+    }
+  })
+  // ...
+}
+
+export { seedDatabase as default, userOne, postOne }
 
 
+// post.test.js
+import seedDatabase, { userOne, postOne } from './utils/seedDatabase'
+import prisma from '../src/prisma'
+
+test('Should be able to update own post', async () => {
+  const client = getClient(userOne.jwt)
+  const updatePost = gql`
+    mutation {
+      updatePost(
+        id: "${postOne.post.id}"
+        data: {
+          published: false
+        }
+      ) {
+        id
+        title
+        body
+        published
+      }
+    }
+  `
+
+  const { data } = await client.mutate({ mutation: updatePost })
+  const exists = await prisma.exists.Post({ id: postOne.post.id, published: false })
+
+  expect(data.updatePost.published).toBe(false)
+  expect(exists).toBe(true)
+});
+```
+
+### Challenge
+Write a test for createPost and deletePost
+
+1. Write a test for createPost
+  - Use auth, assert that post exists in database with correct field values
+2. Write a test for deletePost
+  - Use auth, assert that second post is deleted from database
+
+```js
+test('Should be able to create post', async () => {
+  const client = getClient(userOne.jwt)
+  const createPost = gql`
+    mutation {
+      createPost(
+        data: {
+          title: "test create",
+          body: ""
+          published: false
+        }
+      ) {
+        id
+        title
+        body
+        published
+      }
+    }
+  `
+
+  const { data } = await client.mutate({ mutation: createPost })
+  const exists = await prisma.exists.Post({
+    id: data.createPost.id
+  })
+
+  expect(data.createPost.title).toBe('test create')
+  expect(data.createPost.body).toBe('')
+  expect(data.createPost.published).toBe(false)
+  expect(exists).toBe(true)
+});
+
+test('Should be able to delete second post', async () => {
+  const client = getClient(userOne.jwt)
+  const deletePost = gql`
+    mutation {
+      deletePost(
+        id: "${postTwo.post.id}"
+      ) {
+        id
+        title
+        body
+        published
+      }
+    }
+  `
+
+  const { data } = await client.mutate({ mutation: deletePost })
+  const exists = await prisma.exists.Post({ id: postTwo.post.id })
+
+  expect(exists).toBe(false)
+});
+```
 
 
+## GraphQL Variables
 
+In GraphQL, we can define specific variables that we want to use.
 
+```graphql
+# on graphql playground
+mutation($name:String!) {
+  createUser(
+    data: {
+      name: $name,
+      email: "gunther@email.com",
+      password: "red12345"
+    }
+  ) {
+    user {
+      id
+      name
+      email
+    }
+    token
+  }
+}
+```
 
+```js
+// in QUERY VARIABLES
+{
+  "name": "Gunther"
+}
+```
+When setting variable type, we can actually use ANY of the types that we've defined in our graphql schema.
 
+```graphql
+# on graphql playground
+mutation($data:CreateUserInput!) {
+  createUser(
+    data: $data
+  ) {
+    user {
+      id
+      name
+      email
+    }
+    token
+  }
+}
+```
 
+```js
+// QUERY VARIABLES
+{
+  "data": {
+    "name": "Ben",
+    "email": "ben@email.com",
+    "password": "red12345"
+  }
+}
+```
+We can make use of this in our test suites.
+
+```js
+// user.test.js
+const createUser = gql`
+  mutation($data:CreateUserInput!) {
+    createUser(
+      data: $data
+    ) {
+      token,
+      user {
+        id
+        name
+        email
+      }
+    }
+  }
+`
+
+test('Should create a new user', async () => {
+  const variables = {
+    data: {
+      name: "Phil",
+      email: "phil@example.com",
+      password: "mypass123"
+    }
+  }
+
+  const response = await client.mutate({
+    mutation: createUser,
+    variables
+  })
+
+  const exists = await prisma.exists.User({ id: response.data.createUser.user.id })
+  expect(exists).toBe(true)
+});
+```
+To make things cleaner, we can actually put all our operations in a util file and import them into our test files.
 
 
 
