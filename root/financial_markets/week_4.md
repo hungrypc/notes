@@ -116,9 +116,19 @@ How do we relate this to excess reserves? Some people will say when they look at
 
 So what you need is a business that invests in information and trusting relationships. So a well run bank will have local offices in every city. The local banker then gets involved with people in that city. And bankers then use their gut intuition and their information to decide whether to make loans, or whether to take risks.
 
+## The Bubble
 
+Most people would think, as the population grows and the economy grows, homes would keep going up in price. There is some truth to that, we have limited land, and people especially like to live in established cities where they have jobs. But offsetting that is that our technology for building homes is getting better and so we can mass produce things more and we can build them more efficiently. So we don't need to do all the expensive things to maintain a home. Building costs have been falling. The building cost might go up because of labor costs, but labor is only part of building. And the price of land is actually a rather small component of home prices. Structures depreciate and wear out and they go out of fashion. In fact, they will tear these houses down sometimes when they buy and put up a completely new house. So home prices don't tend to go up. But somehow in this period in the 90s and early 2000s, home prices were just seen as always going up. It had something to do with the culture with the story about the emerging world. About the rich Chinese or Russians that were coming in and buying out properties, they got exaggerated and so it lead to a bubble. (Interesting to note that this was a comment from mid 2010s, where now in the 2020s we see that the story is really true and not just speculation).
 
+On a survey asking people whether they agreed that real estate is the best investment for long-term holders who can buy and sell through the ups and downs of the market, it's shown that when home prices have been going up, agreement to this statement also goes up, and when home prices start going down, they start losing their agreement. So this is evidence of a bubble.
 
+Now, the housing sector has a big impact on the economy. Through residential investment. Residential investment in the GDP accounts, consists of building of new houses, new apartment buildings, and improvements/additions to houses and apartment buildings.
+
+The biggest boom ever was in the 1990s until 2006 in home prices. And then suddenly the home prices collapsed. Housing starts went down by 80%. And then they recovered dramatically, and so did home prices.
+
+What happened to new housing projects in 2007? : They had been increasing dramatically and then suddenly fell to a record low when the price of homes collapsed. Low home prices disincentivized new housing projects.
+
+Why did this turning point happen? Why did everyone seem to believe and then suddenly not? Public attitudes were changing around 2005. The Economist magazine wrote "Perhaps the best evidence that America's house prices have reached dangerous levels is the fact that house-buying mania has been  plastered on the front of virtually every American newspaper and magazine over the past month". They noticed that everyone was talking about crazed homebuyers. Time magazine also wrote something similar.
 
 
 
