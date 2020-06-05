@@ -130,7 +130,29 @@ What happened to new housing projects in 2007? : They had been increasing dramat
 
 Why did this turning point happen? Why did everyone seem to believe and then suddenly not? Public attitudes were changing around 2005. The Economist magazine wrote "Perhaps the best evidence that America's house prices have reached dangerous levels is the fact that house-buying mania has been  plastered on the front of virtually every American newspaper and magazine over the past month". They noticed that everyone was talking about crazed homebuyers. Time magazine also wrote something similar.
 
+## Regulation Overview
 
+So regulation is substantially aimed at dealing with human problems and with manipulation and deception. It's not that people are bad, it's that people are constrained by the market. If everyone else is doing something, you have to do it too, or you won't stay in business. This is what we call the Phishing Equilibrium.
+
+So we need regulation. One thing we need to do is distinguish between microprudential and macroprudential regulation.
+> Microprudential is regulation to protect individuals from abuse.
+> Macroprudential is regulation to help prevent big crisis that affects the economy.
+
+Regulators are not just there to protect you as a stockholder/consumer, it's to protect the whole economy.
+
+When you bring up regulation, there will always be some business people who will oppose it. Namely the business people whose interests are harmed by the regulation. But on the other hand, business people want regulation because they don't want to live in a system that forces them to do corrupt things, or to do things thar are not in the public interest. They would rather compete in an environment that encourages good behavior.
+
+## Salon - Regulation and Housing
+
+What regulations has the Dodd-Frank Act put in place to prevent the financial crisis from happening again?
+
+The act set in motion a lot of regulatory rule that is supposed to prevent that from happening again. The rule puts specific requirements on mortgages that are qualified, namely QRMs, mortgages that are not subject to the five percent retention rule. And the rules specify that the debt payments, your monthly debt payments, cannot be more than 43% of your monthly income.
+
+They also have to verify that you have a job, what your total debt payments are. So it's going to be harder, and that should keep prices more under control. At least you won't be able to borrow to build these prices up.
+
+Maybe government should defend the price of the stock market if it's in a free fall panic. They tend to do that. The problem is that the public starts to expect the government to do that, and then they lose their sense of connection to reality. This is especially true in China. There have been big drops in home prices at certain times, and people get very upset. People get angry and they protest to their local government. This has lead to some pressure being put on firms to try to keep the price up. And so it leads again to public expectations that prices can never fall. This is a factor in a number of countries. They think that real estate is such a fundamental right of citizens and that a comptent government will never let the price fall.
+
+Robert thinks that the purpose of creating a tax benefit to homeowndership is to encourage homeownership because it's long been a theory that homeowners are better citizens.
 
 
 

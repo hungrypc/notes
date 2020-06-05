@@ -1078,26 +1078,3 @@ test('Should subscribe to post', async (done) => {
 ## More Test Ideas
 
 For more test ideas, [here](https://gist.github.com/andrewjmead/b1a4ad4cba8623b9b06fbdd5a8e4fdb8) are a couple examples.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
