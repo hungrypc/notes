@@ -1002,7 +1002,82 @@ test('Should create a new user', async () => {
 To make things cleaner, we can actually put all our operations in a util file and import them into our test files.
 
 
+## Testing Subscriptions
 
+Apollo-boost doesn't currently support testing subscriptions. To test subs, we'll have to use the getClient file that the course provides [here](https://gist.github.com/andrewjmead/acdd7bc29d853f8d7a8962d6a1d9ae5a).
+
+This file works with the tests we've already set up, it just adds support for subs until apollo-boost adds support for subs.
+
+```js
+// operations
+const subscribeToComments = gql`
+  subscription($postId:ID!) {
+    comment(postId: $postId) {
+      mutation
+      node {
+        id
+        text
+      }
+    }
+  }
+`
+
+// comment.test.js
+// note: jest takes in a done argument. This means that jest won't consider a test case finished until done is called
+test('Should subscribe to comments for a post', async (done) => {
+  const variables = {
+    postId: postTwo.post.id
+  }
+
+  client.subscribe({ query: subscribeToComments, variables }).subscribe({
+    next(response) {
+      // assertions
+      expect(response.data.comment.mutation).toBe('DELETED')
+      done()
+    }
+  })
+
+  // change a comment
+  await prisma.mutation.deleteComment({ where: { id: commentTwo.comment.id }})
+})
+// so here, we're confirmed that we're getting notified and that notification is of the comment being deleted
+
+const subscribeToPost = gql`
+  subscription {
+    post {
+      mutation
+      node {
+        id
+        title
+        body
+        published
+      }
+    }
+  }
+`
+
+test('Should subscribe to post', async (done) => {
+  client.subscribe({ query: subscribeToPost }).subscribe({
+    next(response) {
+      expect(response.data.post.mutation).toBe('UPDATED')
+      done()
+    }
+  })
+
+  await prisma.mutation.updatePost({
+    where: {
+      id: postTwo.post.id,
+    },
+    data: {
+      published: true,
+    }
+  })
+});
+```
+
+## More Test Ideas
+
+For more test ideas, [here](https://gist.github.com/andrewjmead/b1a4ad4cba8623b9b06fbdd5a8e4fdb8) are a couple examples.
 
 
 
