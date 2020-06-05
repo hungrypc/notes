@@ -269,6 +269,156 @@ function combine(
 }
 ```
 
+### Type Aliases/Custom Types
+
+When using the same union type multiple times, it might be hasslesome to have to retype it over and over. This is where type aliases come in.
+
+```ts
+type Combinable = number | string
+// you can call this anything that's not already being used by ts or js
+
+type ConversionDesc = 'as-number' | 'as-string'
+// we also can make this with literal types 
+
+type User = {
+  name: string;
+  age: number;
+}
+
+function freet(user: User) {
+  console.log("hi, i'm " + user.name)
+}
+// or even do this
+```
+
+
+## Function Return Types and "void"
+
+Types actually go even further - we have things called Return Types, which are the types that are expected to be returned from a function.
+
+```ts
+function add(n1: number, n2: number) {
+  return n1 + n2
+}
+// =
+function add(n1: number, n2: number): number
+// this function takes in number types, but also expects to return a number type
+
+
+// we also have something called a void type
+function printResult(num: number) {
+  console.log('result: ' + num)
+}
+
+printResult(add(5, 10))
+// because we're not returning anything in printResult, the return type is 'void'
+
+// this is not to be confused with the type undefined. undefined is used when you actually expect undefined as a value
+```
+
+## Function as Types
+
+```ts
+// in js, we can do this
+let combineValues;
+
+combineValues = add
+
+console.log(combineValues(8, 8))
+// we can set a variable as a pointer to a function, and it would work
+
+// HOWEVER, at any point in the code, we can interfere and reset combineValues to be anything else:
+let combineValues
+
+combineValues = add
+combineValues = 5     // changing it up
+
+console.log(combineValues(8, 8))
+
+// what if we want to make sure that combineValues will be a value?
+let combineValues: Function
+
+combineValues = add
+combineValues = 5     // so this wouldn't work
+
+console.log(combineValues(8, 8))
+
+// BUT now, the problem will be that we can reset combineValues into another functionlet 
+
+combineValues = printResult     // so this would work
+
+// it'd be nice if we could be more precise regarding how the function that we want to store in combineValues 
+// should look like, this is where function types come into play
+
+let combineValues: (a: number, b: number) => number
+
+// now, we're telling ts that we want combineValues to be a function that takes two numbers and returns a number 
+```
+
+### Function Types and Callbacks
+
+```ts
+function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
+  const result = n1 + n2
+  cb(result)
+}
+
+addAndHandle(10, 20, (result) => {
+  console.log(result)
+})
+// the advantage of us defining the cb function definition is that inside the function that we pass in as a callback, ts is able to infer that result will be a number
+```
+
+
+## The Unknown Type
+
+```ts
+let userInput: unknown;
+// if we don't know what the variable will hold yet, we can give it an unknown type
+
+// we can store any type into the variable without getting any errors
+// it would be the same as the any type 
+// the key difference though is as shown:
+
+let userInput: unknown;
+let userName: string;
+
+userInput = 5
+userInput = 'Max'
+userName = userInput
+// this wouldn't work. userName wants a string but userInput is not guaranteed to be a string. it's unknown. 
+
+// so unknown is a bit more restrictive. we first have to check the type before assigning
+let userInput: unknown;
+let userName: string;
+
+userInput = 5
+userInput = 'Max'
+if (typeof userInput === 'string') {
+  userName = userInput  
+}
+
+// so unknown is the better choice over any for this sort of situation
+```
+
+
+### The Never Type
+
+```ts
+// never is another type that functions can return
+function generateError(message: string, code: number): never {
+  throw {
+    message,
+    errorCode: code
+  }
+}
+
+generateError('An error occured', 500)
+// this function never produces a return value but it's different to void
+// since an error is thrown, it cancels our script, so this function truly never returns anything 
+```
+
+
 
 
 
