@@ -9,12 +9,19 @@ And we're set!
 
 ## Understanding VueJS Templates
 
-```vue
-<template>
-
-</template>
-
-<script>
-
-</script>
+```html
+<div id="app">
+    <p>{{ title }}</p>
+</div>
 ```
+
+```js
+new Vue({
+    el: '#app',
+    data: {
+        title: 'Hello World!'
+    }
+})
+```
+
+Vue creates a template based on our html code, stores it internally, and then basically uses the template to create the real html code, which is then rendered as the DOM. This allows us to use template syntax like `<p>{{ title }}</p>`. 
