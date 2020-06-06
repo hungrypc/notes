@@ -154,6 +154,28 @@ Maybe government should defend the price of the stock market if it's in a free f
 
 Robert thinks that the purpose of creating a tax benefit to homeowndership is to encourage homeownership because it's long been a theory that homeowners are better citizens.
 
+## Within Firm Regulation
+
+Five levels of Financial Regulation:
+
+1. Within-firm Regulation
+2. Trade Groups
+3. Local Gov Regulation
+4. National Gov Regulation
+5. 5. International Regulation
+
+Let's start with within-firm.
+
+The board of directors is a uniform policy practically everywhere in the world. They typically have ourside directors, people from other walks of life who come in to represent the community, or to just give them a sense of perspective. The board of directors hires the president and fires the president if he or she is not acting properly. You want people who are connected to the world, and you value that, so you can't ask them to make being part of the a board of directors a full-time job. So a board of directors is usually a part-time job, and they're out there involved in different things.
+
+So you put peope in with reputations. When you're appointing directors, you don't appoint people who have any shade of suspicion of having a personality disorder. That's part of what makes directors work. It's people that there's relative agreement that are not criminals, not liars, and have some sense of community spirit. A problem with companies is we put people on the corporation or board of directors who have such good reputations that they're not going to compromise it. Because if you have a reputation, it's precious. And that's what partly what prevents devious tricks from being played. (why is this a problem? he doesn't explain.)
+
+The word tunneling is often used to describe tricks that people in companies use to steal money from the company.
+
+US has Common law, which means that they have legislators making laws, but they also have courts making laws in a different environment. Their laws are not public laws officially, but they're legal precedent. Common law has an advantage in that the courts are making judgement in a specific case where there's a dispute. So that makes them really close to the problem and really close to human issues. Common law is better than civil law, because it has this aspect to it, and it's better able to deal with tunnelling.
+
+So how do you achieve tunnelling? You gotta disguise it in business complexities so that when someone sues you, it gets all into a quagmire that they can't figure out what you did.
+
 
 
 
