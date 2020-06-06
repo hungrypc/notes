@@ -64,7 +64,7 @@ function isBalanced(treeRoot) {
     } else {
       // keep stepping down
       if (node.left) {
-        nodes.push([node.left], depth + 1)
+        nodes.push([node.left, depth + 1])
       }
       if (node.right) {
         nodes.push([node.right, depth + 1])
