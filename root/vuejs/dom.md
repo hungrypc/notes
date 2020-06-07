@@ -392,10 +392,125 @@ new Vue({
 })
 ```
 
+## Dynamic Styling with CSS Classes - Basics
 
+```html
+<div id="app">
+    <div 
+        class="demo" 
+        @click="attachRed = !attachRed"
+        :class="{red: attachRed}"
+    ></div>
+</div>
+```
 
+```js
+new Vue({
+    el: '#app',
+    data: {
+        attachRed: false
+    },
+})
+```
 
+```css
+.red {
+    background-color: red;
+}
+```
+This lets us attach and detach the class: red on the div by clicking it.
 
+## Dynamic Styling with CSS Classes - Objects
+
+```html
+<div id="app">
+    <div 
+        class="demo" 
+        @click="attachRed = !attachRed"
+        :class="divClasses"
+    ></div>
+    <!-- now, we're outsourcing the class via an computed property -->
+</div>
+```
+
+```js
+new Vue({
+    el: '#app',
+    data: {
+        attachRed: false
+    },
+    computed: {
+        divClasses() {
+            return {
+                red: this.attachRed,
+                blue: !this.attachRed
+            }
+        }
+    }
+})
+```
+
+```css
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: blue;   
+}
+```
+
+## Dynamic Styling with CSS Classes - Using Names
+
+```html
+<div id="app">
+    <input type="text" v-model="color">
+    <!-- type red, blue, or green, the div color below will change -->
+    <div class="demo" :class="color"></div>
+    <!-- note: you can give it more classes with an array: :class="[color, somethingelse]" -->
+</div>
+```
+
+```js
+new Vue({
+    el: '#app',
+    data: {
+        color: 'green'
+    },
+})
+```
+
+```css
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: blue;   
+}
+
+.green {
+    background-color: green;
+}
+```
+
+## Dynamic Styling with CSS Classes - Inline Styling
+
+```html
+<div id="app">
+    <input type="text" v-model="color">
+    <div class="demo" :style="{backgroundColor: color}"></div>
+</div>
+```
+
+```js
+new Vue({
+    el: '#app',
+    data: {
+        color: 'green'
+    },
+})
+```
 
 
 
