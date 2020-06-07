@@ -6,3 +6,4 @@
 - [The TypeScript Compiler (and its Configuration)](https://github.com/hungrypc/notes/tree/master/root/typescript/compiler.md)
 - [ES6 and TS](https://github.com/hungrypc/notes/tree/master/root/typescript/es6.md)
 - [Classes and Interfaces](https://github.com/hungrypc/notes/tree/master/root/typescript/classes.md)
+- [Advanced Types](https://github.com/hungrypc/notes/tree/master/root/typescript/advanced.md)
