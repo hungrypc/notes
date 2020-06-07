@@ -176,6 +176,42 @@ US has Common law, which means that they have legislators making laws, but they 
 
 So how do you achieve tunnelling? You gotta disguise it in business complexities so that when someone sues you, it gets all into a quagmire that they can't figure out what you did.
 
+## Trade Groups
+
+One example of a trade group is the stock exchange. The first stock exchange in the US was founded in 1792, and they signed an agreement (Buttonwood Agreement) that says "We, the subscribers, brokers for the purchase and sale of public stock, do hereby solemnly promise and pledge ourselves to each other that we will not buy or sell from this day for any person whatsoever any kind of public stock, at a less rate than one-quarter of one percent commission on the specie value, and that we will give preference to each other in our negotiations." It basically is a price-fixing agreement. They don't want to compete with each other, and in order to prevent someone undercutting them. They also promised not to trade with any other broker that doesn't sign this agreement. It's collusion as we'd call it.
+
+So the NY stock exchange was a monopoly, it was enforcing commission. The commission is hat you pay for the service of having your shares sold or being able to buy a share through a broker. So, the US finally outlawed fixed commissions, it took until 1975, long after 1792.
+
+## Local Regulation
+
+So the US started out as a confederation of individual states, and financial regulation was mostly local, but I'm calling a state a local government. They had two banks of the US. One created in the 1790s called the Bank of the United States. It was a central bank of sorts but it didn't conduct monetary policy. But id expired, according to the original legislation, after 20 years and they renewed it in 1816 with what was called the Second Bank of the United States, which also had a 20 year charter and it expired in 1836. After that there was really no central government regulation of financial activities. Until the National Banking Act of 1863 under President Lincoln during the Civil War, which created a system of national banks that were regulated by the federal government instead of the state government.
+
+So a lot of cities then started setting up, starting right after the legislation, with national banks that had a national bank charter, so they weren't regulated by the local state government. And some of them listed their name as First National Bank of whatever city, meaning they were created right after the act.
+
+But even so, then still most of the regulation was in the state governments. The big change came in 1934 when the federal government set up the Securities and Exchange Commission.
+
+At this point the securities law passed substantially to the central government, there has been a trend toward centralization. However, corporate law is still held by the state government.
+
+It was partly inspired by the observation that there was a lot of shenanigans being played in the financial sector. Before the SEC there was some expansion of regulation in what was called the progressive era in the US. That was the first 20 years or so of the 20th century, and a lot of states created what were called Blue Sky Laws, which were laws regulating tricks and deception in financial markets.
+
+There was a lot fo fraud and deception in the 1920s brought on perhaps by the telephone, which made it possible for people to make cold calls with financial deals offered to the general public. They could easily get away, because the person never met the person on the other side of the phone call. The first blue sky laws was in Kansas in 1911, and it became a model for other states. They virtually all established blue sky laws, which typically required the registration and regulated the offering and sale of securities.
+
+## National Regulation pt 1
+
+After the sense that you can't regulate financial activies at the local government level, because they they spread across state borders, the SEC was set up in 1934. It was highly opposed by many people in the business community, thinking that it was usurpation of powers. The Constitution grants to the states anything not enumerated in the Constitution as federal, and the Constitution doesn't mention financial regulation. But somehow they passed the Supreme Court as constitutional.
+
+The critical thing is that the SEC following Lous Brandeis, emphasized disclosure. "If you force people to cmoe out with all the details of what they're doing, that will expose manipulations and fraud". So the idea of the SEC was to require security issuers to submit standardized forms/statements of what they're doing, and public corporations to put up for public view, balance sheets and profit and loss statements regularly.
+
+William O Douglas, Yale professor, was a leader at that time of what was called the "Legal Realist Movement". It's something like the behaviour economics revolution that came much later, but this is a revolution in law schools. So this was a law school movement, which Robert thinks enhanced the law enormously, recognizing human limitations. That there was too much of putting in legal documents, things in fine print, that you know nobody is going to figure out. So, the idea is that you have to force companies, or ginancial institutions to put it out in clear and consistent standardized way.
+
+So, one thing that happened in regulation was, some of the regulation was captured. The regulators until 1975, allowed stock exchanges to fix cmmissions that brokers would charge. All these guys were into fixing commissions to make a good amount of money, but that was anti-competetive.
+
+Another major thing that the SEC did was to define the distinction between public and private securities. Public securities are securities that the SEC has approved for general public investment. And it had to go through an approval process through the SEC. If you want to be listed, your company shares to be listed on the stock exchange, you have to get approved. You have to make the appropriate filings and get approval as a public company on the SEC, and then you have to make these quarterly filings that appear on the Edgar database.
+
+Initial Public Offering (IPO) is the procedure of going public. It means all companies start as private companies, but there's a point in the life of a company when they do an IPO, which means they issue stock to the public. Companies can also go private. That is a public company may not want to stay public. Why  wouldn't they? They might have secrets, and they feel that their business is threatened by that. For example, it's easier for someone to take them over if they're a public company. So, sometimes companies are taken private through a procedure, again which the SEC recognizes.
+
+Hedge funds are examples of companies that are private. They are for wealthy investors only. You have to circumvent the SEC rulings as an investment company, if you want to do certain things like charge high commission, or high salaries for your leaders.
+
 
 
 
