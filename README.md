@@ -9,10 +9,14 @@
 ### Programming
 - [Ruby](https://github.com/hungrypc/notes/blob/master/root/ruby/README.md)
 - [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md)
+- [Python](https://github.com/hungrypc/notes/blob/master/root/python/README.md)
+- [Java](https://github.com/hungrypc/notes/blob/master/root/java/README.md) (not yet started)
 
 ## Application
 
-- [Machine Learning](https://github.com/hungrypc/notes/blob/master/root/machine_learning/README.md) (not yet started)
+- [Machine Learning with JS](https://github.com/hungrypc/notes/blob/master/root/machine_learning/README.md) (not yet started)
+- [Ethereum and Solidity](https://github.com/hungrypc/notes/blob/master/root/ethereum/README.md) (not yet started)
+- [Data Science](https://github.com/hungrypc/notes/blob/master/root/data_science/README.md) (not yet started)
 
 ### Frameworks
 - [Vue.js](https://github.com/hungrypc/notes/blob/master/root/vuejs/README.md)
