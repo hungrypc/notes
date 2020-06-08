@@ -58,6 +58,33 @@ line
 ```
 
 ## Type Conversion
+```py
+str(100)    # '100'
+int('100')  # 100
+```
+
+## Formatted Strings
+```py
+name = 'Phil'
+age = 26
+
+print(f'hi {name}. You are {age} years old')                # Python 3
+print('hi {0}. You are {1} years old'.format(name, age))    # Python 2
+```
+
+## String Indexes
+```py
+numbers = '01234567'
+
+print(numbers[3])       # '3'
+print(numbers[2:5])     # [start:stop] '234'
+print(numbers[0:8:2])   # [start:stop:step] '0246'
+print(numbers[1:])      # '1234567'
+print(numbers[:5])      # '01234'
+print(numbers[::3])     # '036'
+print(numbers[-1])      # '7'
+```
+
 
 
 
