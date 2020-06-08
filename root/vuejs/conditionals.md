@@ -48,3 +48,97 @@ new Vue({
 })
 ```
 
+## Getting Current Index
+
+What if you not only wanted to display the string, but also the index/position of the item?
+
+```html
+<div id="app">
+    <ul>
+        <li v-for="(item, i) in ingredients">{{ item }}, index: {{ i }}</li>
+    </ul>
+</div>
+```
+
+```js
+new Vue({
+    el: '#app',
+    data: {
+        ingredients: ['meat', 'fruits', 'cookies']
+    }
+})
+```
+
+## Using an Alternative v-for Syntax
+
+```html
+<div id="app">
+    <ul>
+        <template v-for="(item, i) in ingredients">
+            <h1>{{ item }}</h1>
+            <p>index: {{ i }}</p>
+        </template>
+    </ul>
+</div>
+```
+
+```js
+new Vue({
+    el: '#app',
+    data: {
+        ingredients: ['meat', 'fruits', 'cookies']
+    }
+})
+```
+
+## Looping through Objects
+
+```html
+<div id="app">
+    <ul>
+        <li v-for="(value, key, index) in persons">{{ index }}: {{ key }} is a {{ value }}</li>
+    </ul>
+</div>
+```
+
+```js
+new Vue({
+    el: '#app',
+    data: {
+        persons: {
+            Max: 'Teacher',
+            Phil: 'Student'
+        }
+    }
+})
+```
+
+## Looping through a List of Numbers
+
+```html
+<div id="app">
+    <ul>
+        <li v-for="n in 10">{{ n }}</li>
+    </ul>
+</div>
+```
+
+## Keeping Track of Elements with v-for
+
+
+```html
+<div id="app">
+    <ul>
+        <li v-for="item in ingredients" :key="item">{{ item }}</li>
+    </ul>
+</div>
+```
+
+```js
+new Vue({
+    el: '#app',
+    data: {
+        ingredients: ['meat', 'fruits', 'cookies']
+    }
+})
+```
