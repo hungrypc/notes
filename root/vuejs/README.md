@@ -11,3 +11,4 @@
 
 - [Using VueJS to Interact with the DOM](https://github.com/hungrypc/notes/tree/master/root/vuejs/dom.md)
 - [Using Conditionals and Rendering Lists](https://github.com/hungrypc/notes/tree/master/root/vuejs/conditionals.md)
+- [Understanding the VueJS Instance](https://github.com/hungrypc/notes/tree/master/root/vuejs/instance.md)
