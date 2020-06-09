@@ -8,3 +8,4 @@
 - [Classes and Interfaces](https://github.com/hungrypc/notes/tree/master/root/typescript/classes.md)
 - [Advanced Types](https://github.com/hungrypc/notes/tree/master/root/typescript/advanced.md)
 - [Generics](https://github.com/hungrypc/notes/tree/master/root/typescript/generics.md)
+- [Decorators](https://github.com/hungrypc/notes/tree/master/root/typescript/decorators.md)
