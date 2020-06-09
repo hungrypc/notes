@@ -16,7 +16,7 @@
 
 - [Machine Learning with JS](https://github.com/hungrypc/notes/blob/master/root/machine_learning/README.md) (not yet started)
 - [Ethereum and Solidity](https://github.com/hungrypc/notes/blob/master/root/ethereum/README.md) (not yet started)
-- [Data Science](https://github.com/hungrypc/notes/blob/master/root/data_science/README.md) (not yet started)
+- [Data Science](https://github.com/hungrypc/notes/blob/master/root/data_science/README.md)
 
 ### Frameworks
 - [Vue.js](https://github.com/hungrypc/notes/blob/master/root/vuejs/README.md)
