@@ -1,5 +1,7 @@
 # Vue.js
 
+[Vue JS 2 - The Complete Guide (incl. Vue Router & Vuex)](https://www.udemy.com/course/vuejs-2-the-complete-guide/)
+
 ## Projects From This Course
 
 - [Monster Hunter](https://jsfiddle.net/hungrypc/k3f4t7bm/): Mini monster battle game using what's learned from section 1 and 2
