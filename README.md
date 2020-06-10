@@ -25,6 +25,7 @@
 
 - [Data Structures & Algorithms](https://github.com/hungrypc/data-structures-and-algorithms)
 - [Interview Cake Practice Qs](https://github.com/hungrypc/notes/blob/master/root/interview_cake/README.md)
+- [Coderust: Hacking the Coding Interview](https://github.com/hungrypc/notes/blob/master/root/coderust/README.md)
 
 ### Misc
 
