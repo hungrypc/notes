@@ -1,4 +1,4 @@
-# Python Basics
+# Python Basics I
 
 ## Python Data Types
 Fundamental Data Types
@@ -166,7 +166,6 @@ matrix = [
 ```
 
 ## List Methods
-
 ```py
 basket = [1, 2, 3, 4, 5]
 
@@ -203,44 +202,113 @@ new_sentence = sentence.join(['hi', 'there', 'friend'])
 # new_sentence = 'hi!there!friend'
 ```
 
+## List Unpacking
+```py
+a, b, c, *other, d = [1, 2, 3, 4, 5, 6, 7, 8]
+print(a)        # 1
+print(b)        # 2
+print(c)        # 3
+print(other)    # [4, 5, 6, 7]
+print(d)        # 8
+```
 
+## Dictionaries
+Objects/hash table/hash map.
 
+```py
+dictionary = {
+    'a': 1,
+    'b': 2,
+    555: True
+}
+print(dictionary['b'])  # 2
+print(dictionary[555])  # True
+```
 
+## Dictionary Methods
+```py
+user = {
+    'name': 'Phil',
+    'age': 26
+}
 
+user.get('age')        # 26 (note: user.get(key, default_value))
+# if key doesn't exist, usually returns None
+# different to something like user['missing_key'] which causes an error
+'name' in user          # True
+'name' in user.keys()   # True
+'Phil' in user.values() # True
+user.items()    # returns a list of tuples [('name', 'Phil'), ('age', 26)]
+user.pop('age') # removes and returns value
+user.popitem()  # random pop(), returns tuple
+user.update({'name': 'John'})  # updates 'name' to 'John'
+user.clear()    # clears object
+user2 = user.copy()
 
+user3 = dict(name = 'Jill')
+# user3 = {'name': 'Jill'}
+```
 
+## Tuples
+> Like lists, but we cannot modify them (immutable)
 
+```py
+my_tuple = (1, 2, 3, 4, 5)
+# just like a list, we can use a lot of the same methods other than modifying ones
 
+new_tuple = my_tuple[1:2]
+print(new_tuple)    # (2,)
 
+new_tuple = my_tuple[1:4]
+print(new_tuple)    # (2, 3, 4)
 
+x,y,z, *other = (1, 2, 3, 4, 5)
+# same stuff as lists
 
+# you can actually use tuples as keys in dicts
+user = {
+    (1, 2): [1, 2, 3]
+} 
 
+# methods
+my_tuple = (1, 2, 3, 4, 4, 5, 5, 5)
+my_tuple.count(4)   # counts number of occurance (2)
+my_tuple.index(5)   # index of first occurance (5)     
+len(my_tuple )
+```
+Why tuples? Makes things easier and safer, signals that we want the tuple to stay consistent because they're less flexible.
 
+## Sets
+Unordered collections of unique elements.
 
+```py
+my_set = {1, 2, 3, 4, 5}
+my_set.add(100)
 
+my_list = [1, 2, 2, 3, 4, 5, 5]
+set(my_list)    # {1, 2, 3, 4, 5}
 
+# set objects don't support indexing
+1 in my_set    
+len(my_set)
+new_set = my_set.copy()
+my_set.clear()
 
+# methods
+my_set = {1, 2, 3, 4, 5}
+new_set = {4, 5, 6, 7, 8}
 
+my_set.difference(new_set)      # returns {1, 2 ,3} (new_set doesn't have 1, 2, 3)
+my_set.discard(5)                  # my_set = {1, 2, 3, 4} (discards 5)
+my_set.difference_update(new_set)  # my_set = {1, 2, 3} (remove similarities)
+my_set.intersection(new_set)       # returns {4, 5}
+# my_set & new_set does the same as intersection
+my_set.isdisjoint(new_set)         # returns False (intersect ? False : True)
+my_set.union(new_set)              # returns {1, 2, 3, 4, 5, 6, 7, 8}
+# my_set | new_set does the same as union
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+my_set = {4, 5}
+new_set = {2, 3, 4, 5, 6}
+my_set.issubset(new_set)           # True
+new_set.issuperset(my_set)         # True
+```
