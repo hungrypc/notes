@@ -186,8 +186,34 @@ class Product {
 }
 ```
 
+## When Do Decorators Execute
+All these decorators execute when the class is defined. They're NOT called when we create an instance of the class, only when the class itself is defined.
 
+## Returning (and Changing) a Class in a Class Decorator
+```ts
+function WithTemplate(template: string, hookId: string) {
+    return function<T extends {new(...args: any[])}: {name: string}>(ogConstructor: T) {
+        return class extends ogConstructor {
+            constructor(..._: any[]) {
+                super()
+                const hookEl = document.getElementById(hookId)
+                if (hookEl) {
+                    hookEl.innterHTML = template
+                    hookEl.querySelector('h1')!.textContent = this.name
+                }
+            }
+        }
+    }
+}
+// once again, maximilian is terrible
 
+@WithTemplate('<h1></h1>', 'app')
+class Person {
+    name = 'Max'
+    constructor() {
+        console.log('Creating person obj...')
+    }
+}
 
 
 
