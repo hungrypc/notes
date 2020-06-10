@@ -178,7 +178,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Home from './Home.vue'
 
-Vue.component('app-server-status', Home)
+Vue.component('app-servers', Home)
 
 new Vue({
     el: '#app',
@@ -189,35 +189,85 @@ Then on App.vue
 ```vue
 // Home.vue
 <template>
-    <app-server-status></app-server-status>
+    <app-servers></app-servers>
 </template>
 
 <script>    
 </script>
 ```
-I don't understand why Max is showing it this way, it's so fucking useless we this guy is SUCH a bad udemy teacher, I'm never getting any courses from this fucker again. fucking frustrating. 
+I don't understand why Max is showing it this way, it's so fucking useless  this guy is SUCH a bad udemy teacher, I'm never getting any courses from this fucker again. fucking frustrating. 
 
+## Using Components
 
+Create a new vue file: ServerStatus.vue
+```vue
+// ServerStatus.vue
+<template>
+    <div>
+        <p>Server Status: {{ status }}</p>
+        <button @click="changeStatus">Change Status</button>
+    </div>
+</template>
 
+<script>    
+    export default {
+        data() {
+            return {
+                status: 'Critical'
+            }
+        },
+        methods: {
+            changeStatus() {
+                this.status = 'Normal'
+            }
+        }
+    }
+</script>
 
+// Home.vue
+<template>
+    <div>
+        <app-server-status v-for="server in 5"></app-server-status>
+    </div>
+</template>
 
+<script>   
+    import ServerStatus from './ServerStatus.vue'
 
+    export default {
+        components: {
+            'app-server-status': ServerStatus
+        }
+    } 
+</script>
+```
+I only have so much patience for this piece of shit.
 
+## Component Tags (Selectors)
+```vue
+// App.vue
+<template>
+    <div>
+        <appHeader></appHeader>
+        <app-servers></appservers>
+        <app-footer></app-footer>
+    </div>
+</template>
 
+<script>   
+    import Header from './Header.vue'
+    import Server from './Servers.vue'
+    import Footer from './Footer.vue'
 
+    export default {
+        components: {
+            appHeader: Header,
+            'app-server': Server,
+            'app-footer': Footer
+        }
+    } 
+</script>
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Scoping Component Styles
+You can scope styles by adding `scoped` in the style tag so styles are applied to html elements specific to that component. Which I find ridiculous because why not use classes and ids, which are the whole fucking POINT to them, this guy wants to make fucking custom html elements, is this the vue standard?? I guess it is?
