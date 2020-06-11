@@ -1,7 +1,7 @@
 # Arrays
 
 ## Find Maximum in Sliding Window
-Given a large array of integers and a window of size ww, find the current maximum value in the window as the window slides through the entire array.
+Given a large array of integers and a window of size w, find the current maximum value in the window as the window slides through the entire array.
 
 ```js
 // findMaxSlidingWindow([1,2,3,4,3,2,1,2,5] returns [4,4,4,4,3,5]
@@ -22,7 +22,7 @@ function findMaxSlidingWindow(arr, num) {
 ```
 
 ## Rotate an Array by N Elements
-Given an array of integers, rotate the array by NN elements where NN is an integer:
+Given an array of integers, rotate the array by N elements where N is an integer:
 
 - For positive values of NN, perform a right rotation.
 - For negative values of NN, perform a left rotation.
