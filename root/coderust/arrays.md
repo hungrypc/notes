@@ -18,7 +18,7 @@ function findMaxSlidingWindow(arr, num) {
         result.push(Math.max(...windowArr))
     }
     return result
-}
+};
 ```
 
 ## Rotate an Array by N Elements
@@ -52,7 +52,7 @@ function rotateArray(arr, n) {
     for (let i = 0; i < n; i++) {
         arr[i] = temp[i]
     }
-}
+};
 ```
 
 ## Search a Rotated Array
@@ -92,5 +92,97 @@ function binarySearchRotated(arr, key) {
     }
 
     return -1
+};
+```
+
+## Move All Zeroes to the Beginning of the Array
+
+Given an integer array, move all elements that are 0 to the left while maintaining the order of other elements in the array. The array has to be modified in-place.
+
+```js
+function moveZeroesToLeft(arr) {
+    let readIndex = arr.length - 1
+    let writeIndex = arr.length - 1
+
+    while (readIndex >= 0) {
+        if (arr[readIndex] !== 0) {
+            arr[writeIndex] = arr[readIndex]
+            writeIndex--
+        }
+        readIndex--
+    }
+
+    while (writeIndex >= 0) {
+        arr[writeIndex] = 0
+        writeIndex--
+    }
+
+    return arr 
 }
 ```
+
+## Find Longest Subarray by Sum
+
+Given an array and a number `n`, return the indices of the longest subarray that sum to `n`.
+
+```js
+function findLongestSubarrayBySum(arr, n) {
+    let left = 0
+    let right = 0
+    let sum = 0
+    let result = [0, 0]
+
+    while (right < arr.length) {
+        sum += arr[right]
+        while (left < right && sum > n) {
+            sum -= arr[left++]
+        }
+        if (sum === n && result[1] - result[0] < left - right) {
+            result = [left, right]
+        }
+        right++
+    }
+    return result
+}
+const array = [ 8, 6, 4, 3, 2, 6, 4, 2, 3, 1, 5, 6]
+findLongestSubarrayBySum(array, 15) // [6, 10]
+```
+
+## Maximum Subarray
+Given an integer array `nums`, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+```js
+function maxSubArray(nums) {
+    let maxSum = nums[0]
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i - 1] > 0) nums[i] += nums[i - 1]
+        maxSum = Math.max(nums[i], maxSum)
+    }
+    return maxSum
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
