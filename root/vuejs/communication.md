@@ -73,3 +73,80 @@ Starter Code:
 </style>
 ```
 
+## Using Props for Parent => Child Communication
+
+```vue
+// UserDetail.vue
+<template>
+    <div class="component">
+        <h3>You may view the User Details here</h3>
+        <p>User Name: {{ name }}</p>
+    </div>
+</template>
+<script>
+    export default {
+        props: ['name']
+    }
+</script>
+
+
+// User.vue
+<template>
+    <div class="component">
+        //...
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <app-user-detail :name="name"></app-user-detail>
+            </div>
+            // HERE IS WHERE WE PASS PROPS ^^
+            <div class="col-xs-12 col-sm-6">
+                <app-user-edit></app-user-edit>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    import UserDetail from './UserDetail.vue';
+    import UserEdit from './UserEdit.vue';
+
+    export default {
+        data() {
+            return {
+                name: 'Max'
+            }
+        },
+        components: {
+            appUserDetail: UserDetail,
+            appUserEdit: UserEdit
+        }
+    }
+</script>
+```
+basically `v-bind` but we're using shorthand
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
