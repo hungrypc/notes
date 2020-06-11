@@ -123,7 +123,7 @@ def productOfThree(a, b, c):
     '''
     return a * b * c
 
-# basically a multiline comment that the IDE will actually show when you use the function
+# basically a multiline comment that the editor will actually show when you use the function
 
 # if you're not sure what a function does, you could do
 help(productOfThree)
