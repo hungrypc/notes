@@ -202,13 +202,162 @@ Here's something interesting. For reference types, when you're passing a prop fr
 
 ## Unidirectional Data Flow
 So data can only be passed from parent to child, or from child to parent. We cannot pass data between siblings. If we want siblings to share some sort of data, we have to use pass callbanks as a prop, which will be used to pass data back to parent, and then parent to sibling.
- 
 
 
+## Communicating with Callback Function
+
+```vue
+// User.vue
+<template>
+    <div class="component">
+        //...
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <app-user-detail 
+                    :name="name" 
+                    :resetFn="resetName"
+                    // ^passing callback as prop
+                ></app-user-detail>
+            </div>            
+            // ...
+        </div>
+    </div>
+</template>
+<script>
+    import UserDetail from './UserDetail.vue';
+    import UserEdit from './UserEdit.vue';
+
+    export default {
+        data() {
+            return {
+                name: 'Max'
+            }
+        },
+        methods: {
+            resetName() {
+                this.name = "Default"
+            }
+        }
+        components: {
+            appUserDetail: UserDetail,
+            appUserEdit: UserEdit
+        }
+    }
+</script>
 
 
+// UserDetail.vue
+<template>
+    <div class="component">
+        <h3>You may view the User Details here</h3>
+        <p>User Name: {{ name }}</p>
+        <button @click="resetFn">Reset</button>
+    </div>
+</template>
+<script>
+    export default {
+        props: {
+            name: String,
+            resetFn: Function
+        },
+        // ...
+    }
+</script>
+```
+
+## Communication between Siblings
+
+```vue
+// User.vue
+<template>
+    <div class="component">
+        //...
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <app-user-detail 
+                    :name="name" 
+                    :resetFn="resetName"
+                    :userAge="age"
+                ></app-user-detail>
+            </div>            
+            <div class="col-xs-12 col-sm-6">
+                <app-user-edit
+                    :userAge="age"
+                    @editAge="age = $event"
+                ></app-user-edit>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    import UserDetail from './UserDetail.vue';
+    import UserEdit from './UserEdit.vue';
+
+    export default {
+        data() {
+            return {
+                name: 'Max',
+                age: 26
+            }
+        },
+        methods: {
+            resetName() {
+                this.name = "Default"
+            }
+        }
+        components: {
+            appUserDetail: UserDetail,
+            appUserEdit: UserEdit
+        }
+    }
+</script>
 
 
+// UserEdit.vue
+<template>
+    <div class="component">
+        <h3>You may edit the User here</h3>
+        <p>Edit me!</p>
+        <button @click="editAge">Edit Age</button>
+    </div>
+</template>
+
+<script>
+    export default {
+        props: ['userAge']
+        methods: {
+            editAge() {
+                this.userAge = 30
+                this.$emit('editAge', this.userAge)
+                // ^^ emitting change
+            }
+        }
+    }
+</script>
+
+
+// UserDetail.vue
+<template>
+    <div class="component">
+        <h3>You may view the User Details here</h3>
+        <p>User Name: {{ name }}</p>
+        <p>User Age: {{ userAge }}</p>
+        <button @click="resetFn">Reset</button>
+    </div>
+</template>
+<script>
+    export default {
+        props: {
+            name: String,
+            resetFn: Function,
+            userAge: Number
+        },
+        // ...
+    }
+</script>
+```
+
+## Using an Event Bus for Communication
 
 
 
