@@ -358,22 +358,123 @@ So data can only be passed from parent to child, or from child to parent. We can
 ```
 
 ## Using an Event Bus for Communication
+We can set up a central object to pass the data. 
+
+```js
+// main.js
+import Vue from 'vue'
+import App from './App.vue'
+
+// event bus
+export const eventBus = new Vue()
+
+new Vue({
+    el: '#app',
+    render: h => h(App)
+})
+```
+
+```vue
+// UserEdit.vue
+<template>
+    <div class="component">
+        <h3>You may edit the User here</h3>
+        <p>Edit me!</p>
+        <button @click="editAge">Edit Age</button>
+    </div>
+</template>
+
+<script>
+    import { eventBus } from '../main'
+    // importing event bus
+
+    export default {
+        props: ['userAge']
+        methods: {
+            editAge() {
+                this.userAge = 30
+                this.$emit('editAge', this.userAge)
+                eventBus.$emit('editAge', this.userAge)
+                // emitting on event bus
+            }
+        }
+    }
+</script>
 
 
+// UserDetail.vue
+<template>
+    <div class="component">
+        <h3>You may view the User Details here</h3>
+        <p>User Name: {{ name }}</p>
+        <p>User Age: {{ userAge }}</p>
+        <button @click="resetFn">Reset</button>
+    </div>
+</template>
+<script>
+    import { eventBus } from '../main'
 
+    export default {
+        props: {
+            name: String,
+            resetFn: Function,
+            userAge: Number
+        },
+        created() {
+            // setting up a listener for the eventBus emit
+            eventBus$on('editAge', (data) => {
+                this.userAge = data
+            })
+        }
+    }
+</script>
+```
+This allows communication between children without having to go through the parent.
 
+However, managing state can start to get compilcated as the app gets more complex. To simplify this, vue has a tool that we can use, which we will come back to later. 
 
+For now, we can continue using this method.
 
+We can also set some methods in our event bus.
 
+```js
+// main.js
+import Vue from 'vue'
+import App from './App.vue'
 
+// event bus
+export const eventBus = new Vue({
+    methods: {
+        changeAge(age) {
+            this.$emit('editAge', age)
+        }
+    }
+})
 
+new Vue({
+    el: '#app',
+    render: h => h(App)
+})
+```
 
+```vue
+// UserEdit.vue
+//...
+<script>
+    import { eventBus } from '../main'
+    // importing event bus
 
-
-
-
-
-
-
-
-
+    export default {
+        props: ['userAge']
+        methods: {
+            editAge() {
+                this.userAge = 30
+                // this.$emit('editAge', this.userAge)
+                // eventBus.$emit('editAge', this.userAge)
+                // using event bus method:
+                eventBus.changeAge(this.userAge)
+            }
+        }
+    }
+</script>
+```
