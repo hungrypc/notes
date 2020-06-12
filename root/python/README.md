@@ -6,3 +6,4 @@
 
 - [Python Basics I](https://github.com/hungrypc/notes/blob/master/root/python/basics.md)
 - [Python Basics II](https://github.com/hungrypc/notes/blob/master/root/python/basics2.md)
+- [Advanced Python: Object Oriented Programming](https://github.com/hungrypc/notes/blob/master/root/python/oop.ipynb)

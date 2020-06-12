@@ -1,4 +1,4 @@
-# Coderust: Hacking the Coding Interview
+# Coderust: Hacking the Coding Interview (+ extras)
 
 [Link to course](https://www.educative.io/courses/coderust-hacking-the-coding-interview)
 
