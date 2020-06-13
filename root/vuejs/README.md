@@ -14,3 +14,4 @@
 - [Understanding the VueJS Instance](https://github.com/hungrypc/notes/tree/master/root/vuejs/instance.md)
 - [Moving to a "Real" Dev Workflow with Webpack and Vue CLI](https://github.com/hungrypc/notes/tree/master/root/vuejs/development.md)
 - [Communication between Components](https://github.com/hungrypc/notes/tree/master/root/vuejs/communication.md)
+- [Advanced Component Usage](https://github.com/hungrypc/notes/tree/master/root/vuejs/advanced_components.md)
