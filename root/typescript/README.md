@@ -1,5 +1,9 @@
 # TypeScript
 
+## Projects
+
+- [Drag and Drop](https://github.com/hungrypc/typescript-dragdrop)
+
 ## Sections
 
 - [TypeScript Basics & Basic Types](https://github.com/hungrypc/notes/tree/master/root/typescript/basics.md)
@@ -9,3 +13,4 @@
 - [Advanced Types](https://github.com/hungrypc/notes/tree/master/root/typescript/advanced.md)
 - [Generics](https://github.com/hungrypc/notes/tree/master/root/typescript/generics.md)
 - [Decorators](https://github.com/hungrypc/notes/tree/master/root/typescript/decorators.md)
+- [Modules and Namespaces](https://github.com/hungrypc/notes/tree/master/root/typescript/modules_namespaces.md)
