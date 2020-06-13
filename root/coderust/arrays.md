@@ -230,9 +230,73 @@ function findMin(arr) {
 }
 ```
 
+## Merge Intervals
+Given a collection of intervals, merge all overlapping intervals.
 
+```js
+// Input: [[1,3],[2,6],[8,10],[15,18]]
+// Output: [[1,6],[8,10],[15,18]]
+// Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
 
+function mergeIntervals(intervals) {
+    if (intervals.length <= 1) return intervals
 
+    const sorted = intervals.sort((a, b) => a - b)
+    let merged = [sorted[0]]
+
+    for (let i = 1; i < sorted.length; i++) {
+        const current = sorted[i]
+        let lastMerged = merged[merged.length - 1]
+
+        if (lastMerged[1] >= current[0]) {
+            lastMerged[1] = Math.max(lastMerged[1], current[1])
+        } else {
+            merged.push(current)
+        }
+    }
+    return merged
+};
+```
+
+## Longest Palindrome Substring (not array, but worth keeping note of)
+Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+
+```js
+// Input: "babad"
+// Output: "bab"
+// Note: "aba" is also a valid answer.
+
+function longestPalindrome(s) {
+    if (!s || s.length === 0) return ""
+    
+    let start = 0
+    let end = 0
+    
+    for (let i = 0; i < s.length; i++) {
+        const len1 = expandFromMiddle(s, i, i)
+        const len2 = expandFromMiddle(s, i, i + 1)
+        const len = Math.max(len1, len2)
+        if (len > end - start) {
+            start = i - ((len - 1) / 2)
+            end =  i + (len / 2)
+        }
+    }
+    
+    return s.substring(Math.round(start), end + 1)
+    
+};
+
+function expandFromMiddle(str, left, right) {
+    if (!str || left > right) return 0
+    
+    while (left >= 0 && right < str.length && str.charAt(left) === str.charAt(right)) {
+        left--
+        right++
+    }
+    
+    return right - left - 1
+}
+```
 
 
 
