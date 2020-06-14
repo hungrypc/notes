@@ -155,7 +155,39 @@ What about an extra slot where we're not sure whether we'll assign something to 
 ```
 
 ## Switching Multiple Components with Dynamic Components
+```vue
+// App.vue
+<template>
+    <div>
+        <button @click="selectedComponent = 'appQuote'">Quote</button>
+        <button @click="selectedComponent = 'appAuthor'">Author</button>
+        <button @click="selectedComponent = 'appNew'">New</button>
+        <p>{{ selected Component }}</p>
+        <component :is="selectedComponent"></component> 
+        // THIS IS WHERE WE DYNAMICALLY ADD COMPONENTS
+    </div>
+</template>
+<script>
+    import Quote from './Quote.vue'
+    import Author from './Author.vue'
+    import New from './New.vue'
 
+    export default {
+        data() {
+            return {
+                quoteTitle: 'The Quote',
+                selectedComponent: 'appQuote'
+            }
+        },
+        components: {
+            appQuote: Quote,
+            appAuthor: Author,
+            appNew: New
+        }
+    }
+</script>
+```
+This allows us to dynamically replace a part in our template with different components triggered by button clicks and stored in a property which is bound by the `:is` keyword.
 
 
 
