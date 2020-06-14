@@ -30,7 +30,8 @@ namespace App {
 ```
 `///` allows us to import the namespace
 
-```json
+```js
+// .tsconfig
 {
   "compilerOptions": {
     // ...
@@ -44,5 +45,48 @@ namespace App {
 ```html
 <script src="dist/bundle.js" defer></script>
 ```
+
+## Using ES Modules
+Namespaces are nice, but they're still not the BEST way to organize our files.
+
+```js
+// use regular js import export (remove namespaces)
+import { ProjectInput } from './components/project-input.js'
+import { ProjectList } from './components/project-list.js'
+
+// .tsconfig
+{
+  "compilerOptions": {
+    // ...
+    "module": "es2015", 
+    // ...
+    // "outFile": "./dist/bundle.js",   // must comment this out now
+    // ...
+}
+```
+
+```html
+<script src="dist/app.js" type="module"></script>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
