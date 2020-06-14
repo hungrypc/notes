@@ -189,6 +189,71 @@ What about an extra slot where we're not sure whether we'll assign something to 
 ```
 This allows us to dynamically replace a part in our template with different components triggered by button clicks and stored in a property which is bound by the `:is` keyword.
 
+The component gets destroyed and recreated whenever it is rendered through this way. 
+
+## Keeping Dynamic Components Alive
+To keep our component from getting destroyed when replaced dynamically, we can use `<keep-alive></keep-alive>`. This allows us to preserve the state.
+```vue
+// App.vue
+<template>
+    <div>
+        <button @click="selectedComponent = 'appQuote'">Quote</button>
+        <button @click="selectedComponent = 'appAuthor'">Author</button>
+        <button @click="selectedComponent = 'appNew'">New</button>
+        <p>{{ selected Component }}</p>
+        <keep-alive>
+            <component :is="selectedComponent"></component> 
+        </keep-alive>
+    </div>
+</template>
+<script>
+    import Quote from './Quote.vue'
+    import Author from './Author.vue'
+    import New from './New.vue'
+
+    export default {
+        data() {
+            return {
+                quoteTitle: 'The Quote',
+                selectedComponent: 'appQuote'
+            }
+        },
+        components: {
+            appQuote: Quote,
+            appAuthor: Author,
+            appNew: New
+        }
+    }
+</script>
+```
+
+## Dynamic Component Lifecycle Hooks
+Because we're using keep-alive, we lose the destroy lifecycle hook. What if we want to react to change in navigation so that another component gets loaded?
+
+```vue
+// New.vue
+<template>
+    <div>
+        <h3>New Quote</h3>
+    </div>
+</template>
+<script>
+    import Quote from './Quote.vue'
+    export default {
+        destroyed() {
+            console.log('destroyed') // destroy lifecycle hook
+        },
+        deactivated() {
+            // executed when we are on the component and then load another component
+            console.log('deactivated')
+        },
+        activated() {
+            // executes whenever we load the dynamic component
+            console.log('activated')
+        }
+    }
+</script>
+```
 
 
 
