@@ -68,25 +68,3 @@ import { ProjectList } from './components/project-list.js'
 ```html
 <script src="dist/app.js" type="module"></script>
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

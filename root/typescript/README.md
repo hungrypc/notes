@@ -14,3 +14,4 @@
 - [Generics](https://github.com/hungrypc/notes/tree/master/root/typescript/generics.md)
 - [Decorators](https://github.com/hungrypc/notes/tree/master/root/typescript/decorators.md)
 - [Modules and Namespaces](https://github.com/hungrypc/notes/tree/master/root/typescript/modules_namespaces.md)
+- [Using Webpack with TypeScript](https://github.com/hungrypc/notes/tree/master/root/typescript/webpack.md)
