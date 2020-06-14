@@ -1,6 +1,6 @@
 # Strings
 
-## Longest Palindrome Substring (not array, but worth keeping note of)
+## Longest Palindrome Substring
 Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
 
 ```js
@@ -39,3 +39,40 @@ function expandFromMiddle(str, left, right) {
     return right - left - 1
 }
 ```
+
+## Partition Labels
+A string S of lowercase English letters is given. We want to partition this string into as many parts as possible so that each letter appears in at most one part, and return a list of integers representing the size of these parts.
+
+```js
+// Input: S = "ababcbacadefegdehijhklij"
+// Output: [9,7,8]
+// Explanation:
+// The partition is "ababcbaca", "defegde", "hijhklij".
+// This is a partition so that each letter appears in at most one part.
+// A partition like "ababcbacadefegde", "hijhklij" is incorrect, because it splits S into less parts.
+
+function partitionLabels(str) {
+    const indexs = []
+    const res = []
+
+    for (let i = 0; i < str.length; i++) {
+        indexs[str[i]] = i 
+    }
+
+    let bound = 0
+    let len = 0
+    for (let j = 0; j < str.length; j++) {
+        bound = Math.max(bound, index[str[j]])
+        if (bound === j) {
+            res.push(j - len + 1)
+            len = j + 1
+        }
+    }
+    return res
+}
+```
+
+
+
+
+

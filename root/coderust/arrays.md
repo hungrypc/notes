@@ -24,8 +24,8 @@ function findMaxSlidingWindow(arr, num) {
 ## Rotate an Array by N Elements
 Given an array of integers, rotate the array by N elements where N is an integer:
 
-- For positive values of NN, perform a right rotation.
-- For negative values of NN, perform a left rotation.
+- For positive values of N, perform a right rotation.
+- For negative values of N, perform a left rotation.
 Make sure you make changes to the original array.
 
 ```js
