@@ -9,3 +9,4 @@
 - [Advanced Python: Object Oriented Programming](https://github.com/hungrypc/notes/blob/master/root/python/OOP.ipynb)
 - [Advanced Python: Functional Programming](https://github.com/hungrypc/notes/blob/master/root/python/functional_programming.ipynb)
 - [Advanced Python: Decorators](https://github.com/hungrypc/notes/blob/master/root/python/decorators.ipynb)
+- [Advanced Python: Error Handling](https://github.com/hungrypc/notes/blob/master/root/python/errors.ipynb)
