@@ -3,6 +3,7 @@
 ## Projects
 
 - [Drag and Drop](https://github.com/hungrypc/typescript-dragdrop)
+- [Select and Share](https://github.com/hungrypc/typescript_select_and_share)
 
 ## Sections
 
