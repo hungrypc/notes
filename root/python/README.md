@@ -11,3 +11,4 @@
 - [Advanced Python: Decorators](https://github.com/hungrypc/notes/blob/master/root/python/decorators.ipynb)
 - [Advanced Python: Error Handling](https://github.com/hungrypc/notes/blob/master/root/python/errors.ipynb)
 - [Advanced Python: Generators](https://github.com/hungrypc/notes/blob/master/root/python/generators.ipynb)
+- [Modules in Python](https://github.com/hungrypc/notes/blob/master/root/python/modules.ipynb)
