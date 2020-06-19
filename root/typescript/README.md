@@ -17,3 +17,4 @@
 - [Modules and Namespaces](https://github.com/hungrypc/notes/tree/master/root/typescript/modules_namespaces.md)
 - [Using Webpack with TypeScript](https://github.com/hungrypc/notes/tree/master/root/typescript/webpack.md)
 - [3rd Party Libraries & TypeScript](https://github.com/hungrypc/notes/tree/master/root/typescript/3rdpartylibraries.md)
+- [React and TS](https://github.com/hungrypc/notes/tree/master/root/typescript/react.md)
