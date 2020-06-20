@@ -12,4 +12,5 @@
 - [Advanced Python: Error Handling](https://github.com/hungrypc/notes/blob/master/root/python/errors.ipynb)
 - [Advanced Python: Generators](https://github.com/hungrypc/notes/blob/master/root/python/generators.ipynb)
 - [Modules in Python](https://github.com/hungrypc/notes/blob/master/root/python/modules.ipynb)
+- [Debugging](https://github.com/hungrypc/notes/blob/master/root/python/debugging.ipynb)
 - [File I/O](https://github.com/hungrypc/notes/blob/master/root/python/file_io.ipynb)
