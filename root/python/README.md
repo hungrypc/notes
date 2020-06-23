@@ -15,3 +15,4 @@
 - [Debugging](https://github.com/hungrypc/notes/blob/master/root/python/debugging.ipynb)
 - [File I/O](https://github.com/hungrypc/notes/blob/master/root/python/file_io.ipynb)
 - [Regular Expressions](https://github.com/hungrypc/notes/blob/master/root/python/regex.ipynb)
+- [Testing](https://github.com/hungrypc/notes/blob/master/root/python/testing.ipynb)
