@@ -1,5 +1,7 @@
 # React and TypeScript
 
+[TS and React Playground repo](https://github.com/hungrypc/typescript-react-playground)
+
 ## Setup
 create-react-app can set up a react app with ts:
 
