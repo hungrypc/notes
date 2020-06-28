@@ -17,3 +17,4 @@
 - [Regular Expressions](https://github.com/hungrypc/notes/blob/master/root/python/regex.ipynb)
 - [Testing](https://github.com/hungrypc/notes/blob/master/root/python/testing.ipynb)
 - [Scripting](https://github.com/hungrypc/notes/blob/master/root/python/scripting.ipynb)
+- [Scraping Data](https://github.com/hungrypc/notes/blob/master/root/python/scraping.ipynb)
