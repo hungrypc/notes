@@ -99,7 +99,7 @@ Given a collection of intervals, merge all overlapping intervals.
 function mergeIntervals(intervals) {
     if (intervals.length <= 1) return intervals
 
-    const sorted = intervals.sort((a, b) => a - b)
+    const sorted = intervals.sort((a, b) => a[0] - b[0])
     let merged = [sorted[0]]
 
     for (let i = 1; i < sorted.length; i++) {
