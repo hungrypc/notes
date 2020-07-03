@@ -19,3 +19,4 @@
 - [Scripting](https://github.com/hungrypc/notes/blob/master/root/python/scripting.ipynb)
 - [Scraping Data](https://github.com/hungrypc/notes/blob/master/root/python/scraping.ipynb)
 - [Web Development](https://github.com/hungrypc/notes/blob/master/root/python/web-development.ipynb)
+- [Automation/Testing](https://github.com/hungrypc/notes/blob/master/root/python/testing-automation.ipynb)

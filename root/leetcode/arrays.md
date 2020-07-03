@@ -139,3 +139,45 @@ function findUnsortedSubarray(nums) {
 }
 ```
 
+## [Two Sum IV (input is a bst)](https://leetcode.com/problems/two-sum-iv-input-is-a-bst/)
+Given a Binary Search Tree and a target number, return true if there exist two elements in the BST such that their sum is equal to the given target.
+
+```js
+// Input: 
+//     5
+//    / \
+//   3   6
+//  / \   \
+// 2   4   7
+
+// Target = 9
+
+// Output: True
+
+function findTarget(root, k) {
+    const arr = inOrder(root, [])
+    let left = 0
+    let right = arr.length - 1
+
+    while (left < right) {
+        const sum = arr[left] + arr[right]
+        if (sum === k) return true
+        if (sum < k) left++
+        else right--
+    }
+
+    return true
+}
+
+function inOrder(root, list) {
+    if (!root) return null
+
+    if (root.left) inOrder(root.left, list)
+    list.push(root.val)
+    if (root.right) inOrder(root.right, list)
+
+    return list
+}
+```
+
+
