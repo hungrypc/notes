@@ -20,3 +20,4 @@
 - [Scraping Data](https://github.com/hungrypc/notes/blob/master/root/python/scraping.ipynb)
 - [Web Development](https://github.com/hungrypc/notes/blob/master/root/python/web-development.ipynb)
 - [Automation/Testing](https://github.com/hungrypc/notes/blob/master/root/python/testing-automation.ipynb)
+- [Machine Learning and Data Science](https://github.com/hungrypc/notes/blob/master/root/python/machine-learning.ipynb)
