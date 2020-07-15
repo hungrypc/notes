@@ -8,3 +8,4 @@
 - [Measuring Investment Risk](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/investment_risk.ipynb)
 - [Using Regressions for Financial Analysis](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/regressions.ipynb)
 - [Markowitz Portfolio Optimization](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/markowitz.ipynb)
+- [The Capital Asset Pricing Model](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/capm.ipynb)
