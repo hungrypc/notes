@@ -10,6 +10,7 @@
 - [Markowitz Portfolio Optimization](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/markowitz.ipynb)
 - [The Capital Asset Pricing Model](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/capm.ipynb)
 - [Multivariate Regression Analysis](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/multivariate_regression.ipynb)
-- [Multivariate Regression Analysis](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/montecarlo.ipynb)
+- [Monte Carlo Simulations as a Decision Making Tool](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/montecarlo.ipynb)
+- [Derivative Contracts](https://github.com/hungrypc/notes/tree/master/root/python_finance/fundamentals/derivatives.ipynb)
 
 
