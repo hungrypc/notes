@@ -9,8 +9,10 @@
 ### Programming
 - [Ruby](https://github.com/hungrypc/notes/blob/master/root/ruby/README.md)
 - [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md)
+- [TypeScript 2](https://github.com/hungrypc/notes/blob/master/root/typescript2/README.md)
 - [Python](https://github.com/hungrypc/notes/blob/master/root/python/README.md)
 - [Java](https://github.com/hungrypc/notes/blob/master/root/java/README.md) (not yet started)
+- [Javascript Advanced Concepts](https://github.com/hungrypc/notes/blob/master/root/js/readme.md)
 
 ## Application
 
