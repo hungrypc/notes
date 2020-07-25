@@ -62,7 +62,18 @@ words.forEach(word => {
     }
 })
 ```
-3. When we want a variable to have a type that can't be inferred
+3. When we want a variable to have a type that can't be inferred (correctly)
+```ts
+// if there is a number above zero, assign that number to the variable, else assign false
+let numbers = [-10, -1, 12]
+let numberAboveZero: boolean | number = false
+
+for (num of numbers) {
+    if (num > 0) {
+        numberAboveZero = num
+    }
+}
+```
 
 
 
