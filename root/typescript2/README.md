@@ -15,3 +15,4 @@ Second TS course notes, because the first one was insufficient.
 - [Type Annotations in Action](https://github.com/hungrypc/notes/blob/master/root/typescript2/type_annotations.md)
 - [Annotations with Functions and Objects](https://github.com/hungrypc/notes/blob/master/root/typescript2/annotations_func_obj.md)
 - [Typed Arrays](https://github.com/hungrypc/notes/blob/master/root/typescript2/typed_arrays.md)
+- [Interfaces](https://github.com/hungrypc/notes/blob/master/root/typescript2/interfaces.md)
