@@ -18,3 +18,4 @@ Second TS course notes, because the first one was insufficient.
 - [Interfaces](https://github.com/hungrypc/notes/blob/master/root/typescript2/interfaces.md)
 - [Building Functionality with Classes](https://github.com/hungrypc/notes/blob/master/root/typescript2/classes.md)
 - [Generics](https://github.com/hungrypc/notes/blob/master/root/typescript2/generics.md)
+- [Decorators](https://github.com/hungrypc/notes/blob/master/root/typescript2/decorators.md)
