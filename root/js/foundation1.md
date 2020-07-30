@@ -151,6 +151,36 @@ There are three common memory leaks that happen:
 2. Event listeners
 3. setInterval
 
+## Single Threaded
+
+> Single Threaded means that only one set of instructions is executed at a time. 
+
+One thing that makes js a single threaded language is that it has only one call stack. This one call stack allows us to run code one at a time, we're never running functions in parallel. This makes js synchronous. 
+
+### Issues with Single Threaded Synchronous Code?
+
+It makes it difficult if we have long running tasks. So why use js? The thing is, when we talk about js, most of the time we're never just using the js engine. It's not just the js engine that's running our code, we have something called the js runtime. In order for us to write code that we can use in modern day, we need stuff beyond just the js engine. 
+
+## Javascript Runtime
+
+So the web browser is working in the background while the synchronous js code is running. It's using the web API to communicate and lets the js engine know when it comes back with data that it was told to do in the background. 
+
+All browsers have their js engine implementation as well as a js runtime that provide a web api. These web apis are applications that can do a variety of things such as sending http requests, listen to DOM events, delay execution, caching or database storage on the browser, etc. Browsers are helping us create rich web apps so that users aren't just sitting around waiting for js to execute. Anything that can be offloaded can be taken care of in the background. 
+
+Under the hood, browsers actually use low level programming languages to perform these operations in the background. 
+
+These web apis are asynchronous, meaning we can instruct these apis to do something in the background and return data once it's done. Meanwhile, we can just continue working on our js callstack and execute functions. 
+
+So what happens is:
+
+- JS functions execute, gets put in the callstack
+- When the callstack receives something that the web api is supposed to do, it hands it over
+- Callstack pops off the functions while the web api is off doing its thing
+- When the web api is done, it sends over stuff to the callback queue
+- The callback queue will send stuff over to the callstack when the callstack is empty
+- Callstack executes the thing its been sent
+- Finish
+
 
 
 
