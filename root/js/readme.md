@@ -5,3 +5,4 @@
 ## Sections
 
 - [Foundation I](https://github.com/hungrypc/notes/tree/master/root/js/foundation1.md)
+- [Foundation II](https://github.com/hungrypc/notes/tree/master/root/js/foundation2.md)

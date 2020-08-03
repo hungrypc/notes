@@ -98,6 +98,52 @@ That's also why there's an issue with `delete`.
 
 The key takeaway is that we should write code that is predictable, not only for humans but also for machines. The more predictable, the better.
 
+## Memoization
+Memoization is a way to cache a return value of a function based on its parameters. This makes the function that takes a long time run much faster after one execution. If the parameter changes, it will still have to reevaluate the function.
+
+```js
+// Bad Way
+function addTo80(n) {
+  console.log('long time...')
+  return n + 80
+}
+
+addTo80(5)
+addTo80(5)
+addTo80(5)
+
+// long time... 85
+// long time... 85
+// long time... 85
+
+// Memoized Way
+functions memoizedAddTo80() {
+  let cache = {}
+  return function(n) { // closure to access cache obj
+    if (n in cache) {
+      return cache[n]
+    } else {
+      console.log('long time...')
+      cache[n] = n + 80
+      return cache[n]
+    }
+  }
+}
+const memoized = memoizedAddTo80()
+
+console.log('1.', memoized(5))
+console.log('2.', memoized(5))
+console.log('3.', memoized(5))
+console.log('4.', memoized(10))
+
+// long time...
+// 1. 85
+// 2. 85
+// 3. 85
+// long time...
+// 4. 90
+```
+
 ## WebAssembly
 Why not just use machine code from the beginning? Why not just compile our js and then give websites our machine code so they don't have to worry about interpretation and so on?
 
@@ -181,13 +227,8 @@ So what happens is:
 - Callstack executes the thing its been sent
 - Finish
 
+## NodeJS
 
+So the Node runtime looks pretty similar to the browser runtime. We have the v8 engine, the event loop, callback queue, etc. However, it does a little bit more. In the case of the browser, we're limited to what we can do in the background. The browser isn't going to allow us to do much on the person's computer (such as accessing the file system). Node uses the libuv that works along to extend what we can do in the background. 
 
-
-
-
-
-
-
-
-
+Node doesn't have `window` like in the browser. Instead, node has `global` which is its global api. This is why node is set to be a server side platform based on asynchronous io that is non-blocking. This means that it uses js but outside of the browser and it creates this entire environment that allows us to have the same model as a single-threaded model with asynchronous tasks that can be non-blocking. 
