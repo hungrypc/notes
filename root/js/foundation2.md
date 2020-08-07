@@ -141,6 +141,78 @@ This is something that caused a lot of problems, which is why people add `'use s
 
 ## Function Scope and Block Scope
 
+JS has a function scope - every time we create a function, we create a new execution context which has its own variable environment. However, most other programming languages have something called block scope.
+
+With a function scope, we can do something like this:
+```js
+function test() {
+    if (true) {
+        var secret = 12345
+    }
+
+    return secret // returns 12345
+} 
+```
+
+The variable `secret` is functionally scoped, meaning we only create a new scope when there is a function. 
+
+Block scope is where anytime there is an enclosure `{}`, a new environment is created. With ES6, let and const allow us to use block scope.
+
+## Global Variables
+
+So why don't we just put all our variables in the global environment? Remember, we have limited space, limited memory. Memory leaks can happen where we just have too much stored and it overflows, making things slower. One of the main ways we do that is with global variables. The issue with global variables is that we can have variable collisions. The variables can get overwritten.
+
+## IIFE
+
+To avoid this global variable issue, we have something called Immediately Invoked Function Expression (IIFE). 
+```js
+(function() {
+    // ...
+})()
+// or
+(function() {
+
+}())
+```
+
+IIFEs are a common js design pattern used by a lot of popular libraries. The idea was that using this pattern allows us to place all library code inside of the local scope to avoid namespace collisions. 
+
+What's the benefit? Since it's a function expression not assigned to any global variable, no global property is really being created. All the properties inside are going to be scoped inside. 
+
+An IIFE simply allows us define what it is and call it immediately after. It'll create a new execution context with its own variable scope, which allows us to attach private data that can be accessed by the global execution context. 
+
+```js
+var script1 = (function() {
+    function a() {
+        return 5
+    }
+    return {
+        a: a
+    }
+})()
+
+function a() {
+    return 'hahaha'
+}
+
+a() // 'hahaha'
+script1.a() // 5
+```
+
+With this, we still have a global namespace `script1`, but the good thing is that we can have just one variable that can be an object that contains many properties that we might want to use - it only pollutes the global namespace once.
+
+Libraries like jquery used to do this a lot. 
+
+## this
+
+> `this` is the object that the function is a property of
+
+That means that we have an object that has some function and when we do something inside of the function, we have access to the `this` keyword as a reference to the object that the function is a property of. 
+
+However, most of the time we don't really want `this` to refer to the global object. One of the pitfalls of `this` is that it refers to the global object when we think it refers to something else. 
+
+If we add `'use strict'`, it allows us to work with `this` more predictably.   
+
 
 
 
