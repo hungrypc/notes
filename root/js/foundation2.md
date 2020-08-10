@@ -464,3 +464,28 @@ console.log(archer.health)  // 130
 ```
 
 So `bind()` allows us to store the `this` keyword or this function borrowing for later use. `bind()` is like a bandaid to fix this idea of a dynamically scoped `this` keyword that ruins our entire lexical scoping. 
+
+## bind() and Function Currying
+
+Currying refers to only partially giving functions a parameter.
+```js
+function multiply(a, b) {
+    return a * b
+}
+
+let multiplyByTwo = multiply.bind(this, 2)
+
+console.log(multiplyByTwo(4))   // 8
+```
+Here, we created a new function out of `multiply`.
+
+## Scope vs Context
+
+Scope is a function based thing - it refers to 'What is the variable access of a function when it is invoked'. What is in the variable environment.
+
+Context is more object based - it refers to 'What is the value of `this`, which is a reference to the object that owns that current executing code. 
+
+Just remember this:
+> Scope refers to the visibility of variables 
+
+> Context is determined most often by how a function is invoked with the value of `this`.
