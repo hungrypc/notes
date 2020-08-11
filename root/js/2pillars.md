@@ -374,3 +374,57 @@ for (let prop in lizard) {
 // only logs these two because the other props were inherited
 ```
 So we're not actually just copying these properties, it goes up the prototype chain.
+
+Btw, we shouldn't directly use `__proto__` and create the chain ourselves. This is for demostration purposes only.
+
+So why is prototypal inheritance useful? The fact that objects can share prototypes means that we can have objects with properties that point to the same place in memory, thus being more efficient. 
+
+Whenever the engine doesn't find anything up the prototype chain, it returns and error or undefined. It looks all the way up the prototype chain til the end.
+
+### Even More
+
+```js
+onst obj = {
+	name: 'Sally'
+}
+obj.hasOwnProperty('name')	// true
+obj.hasOwnProperty('hasOwnProperty')  // false
+// this is false because obj itself doesn't have it, it has it as a property *up the prototype chain*
+
+
+function a() {	
+	// ...
+}
+a.hasOwnProperty('call')	// false
+a.hasOwnProperty('bind')	// false
+a.hasOwnProperty('apply')	// false
+a.hasOwnProperty('name')	// true (the name is 'a')
+// why is call, bind, and apply false? these properties aren't exactly on a(),
+// it's up the prototype chain
+```
+
+`__proto__` is simply a reference or a pointer to up the chain `prototype` object. 
+```js
+const array = []
+array.__proto__.hasOwnProperty('map') 	// true
+```
+`array.__proto__` is pointing to the father `array.prototype`.
+
+### Creating Our Own Prototype
+
+```js
+let human - {
+	mortal: true,
+}
+let socrates = Object.create(human)	// one of the ways we can inherit
+socrates.age = 45
+console.log(socrates) // { age: 45 }
+console.log(socrates.mortal) // true
+human.isPrototypeOf(socrates) // true
+```
+
+Using `Object.create()`, we've created a prototype chain up to human.
+
+### More
+
+Only functions have the prototype property. Remember how `__proto__` points to the prototype object - the thing that contains this prototype object is always a function.
