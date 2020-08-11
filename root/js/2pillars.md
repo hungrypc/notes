@@ -253,10 +253,124 @@ const booStringName = booString()
 ```
 This is because parameters are treated just like local variables that get stored in variable environments.
 
-### Closures and Memory
+### Memory and Encapsulation
 
 Closures have 2 main benefits:
 1. Memory efficient
+```js
+// memory efficient
+function heavyDuty(index) {
+	const bigArray = new Array(7000).fill('hi')
+	return bigArray[index]
+}
+heavyDuty(688)
+heavyDuty(688)
+heavyDuty(688)
+heavyDuty(688)
+```
+Everytime we run this function, we create this memory, return it, then destroy it over and over. That's not efficient. It'd be great if we could create this array and, because we know it's going to be used a lot, only create it once and have it in memory:
+```js
+function heavyDuty(index) {
+	const bigArray = new Array(7000).fill('hi')
+	return function(index) {
+		return bigArray[index]
+	}
+}
+const getHeavyDuty = heavyDuty()
+getHeavyDuty(688)
+getHeavyDuty(688)
+getHeavyDuty(688)
+getHeavyDuty(688)
+```
+With this, we've created a closure (a reference to bigArray). We called it over and over without the creation/destruction work.
+
 2. Encapsulation
+```js
+const makeNuclearButton = () => {
+	let countdown = 10
+	const passTime = () => countdown--
+	const getTime = () => countdown
+	const launch = () => 'boom'
+	setInterval(passTime, 1000)
+	return {
+		launch,
+		getTime
+	}
+}
 
+const ohNo = makeNuclearButton()
+ohNo.getTime() // 10
+// wait 5 seconds
+ohNo.getTime() // 5
+ohNo.launch() // 'boom'
+```
+Here, we can access `launch()` from `ohNo` because it's part of the returned object. If we were to remove it from the return statement, `launch()` wouldn't be accessible. This is what encapsulation is: it's the hiding of information that is unnecessary to be seen or manipulated by the outside world. This gets into the idea of least privilege where you don't want to give everyone access you special functions or variables. 
 
+With encapsulation, we can make it so that `countdown` isn't able to be  directly accessed or manipulated by the outside world, but still able to be stored and worked with through closures. 
+
+## Pillar: Prototypal Inheritance
+
+Inheritance is an object getting access to the properties and methods of another object. Prototypal inheritance is the same where an object gets access to properties and methods of another object through the prototype chain.
+
+With `__proto__`, we get the base object for all objects. It's through this that things like functions or arrays are created from. 
+
+```js
+let dragon = {
+	name: 'Eragon',
+	fire: true,
+	fight() {
+		return 5
+	},
+	sayMyName() {
+		if (this.fire) {
+			return `I am ${this.name}, breather of fire.`	
+		}
+	}
+}
+
+dragon.sayMyName() // I am Eragon
+
+let lizard = {
+	name: 'Kiki',
+	fight() {
+		return 1
+	}
+}
+
+const lizardName = dragon.sayMyName.bind(lizard)
+lizardName() // undefined (!this.fire)
+```
+What if we had a big object and we want to borrow more than just one method?
+How do we inherit a bunch of these properties for `lizard`? This is where prototypal inheritance comes in.
+
+What if we create a prototype chain for `lizard` to inherit all the properties from `dragon`. How do we do this?
+```js
+lizard.__proto__ = dragon
+
+lizard.sayMyName() 	// I am Kiki, breather of fire
+lizard.fire			// true
+lizard.fight		// 1 (because we have fight already defined in lizard)
+```
+Through this prototype chain, we were able to inherit all the properties and methods from dragon. 
+
+### More on Prototype
+
+```js
+dragon.isPrototypeOf(lizard) 	// true
+lizard.hasOwnProperty('name') 	// true
+
+for (let prop in lizard) {
+	console.log(prop)
+}
+// name, fight, sayMyName, fire
+// BUT
+
+for (let prop in lizard) {
+	if (lizard.hasOwnProperty(prop)) {
+		console.log(prop)
+	}
+}
+// name, fight
+// only logs these two because the other props were inherited
+```
+So we're not actually just copying these properties, it goes up the prototype chain.
