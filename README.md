@@ -19,6 +19,7 @@
 - [Machine Learning with JS](https://github.com/hungrypc/notes/blob/master/root/machine_learning/README.md) (not yet started)
 - [Ethereum and Solidity](https://github.com/hungrypc/notes/blob/master/root/ethereum/README.md)
 - [Data Science](https://github.com/hungrypc/notes/blob/master/root/data_science/README.md)
+- [AWS Serverless APIs & Apps - Intro]((https://github.com/hungrypc/notes/blob/master/root/aws/intro/README.md)
 
 ### Frameworks
 - [Vue.js](https://github.com/hungrypc/notes/blob/master/root/vuejs/README.md)

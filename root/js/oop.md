@@ -134,3 +134,4 @@ Elf.prototype.attack = function() {
 const peter = new Elf('Peter', 'stones')
 peter.attack() // attack with stones
 ```
+
