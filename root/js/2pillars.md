@@ -428,3 +428,36 @@ Using `Object.create()`, we've created a prototype chain up to human.
 ### More
 
 Only functions have the prototype property. Remember how `__proto__` points to the prototype object - the thing that contains this prototype object is always a function.
+
+The `Object` constructor creates an object wrapper. In order for us to perform an action in a program, we have to have a function. When we do something like:
+```js
+const obj = {}
+```
+Under the hood, js has to create that object. To create that object, it uses the `Object` constructor. This is why the `Object` constructor has the prototype property, every function has it and it references to an object used to attach properties that will be inherited by objects further down the prototype chain. The last object in the chain is the `prototype` property (base object). 
+
+This applies to all other constructors (`String`, `Boolean`, etc), cementing the fact that everything in js in an object. 
+
+Arrays and objects are objects that inherit through the prototype chain from the base object. You go up the prototype chain looking for properties on this `prototype` property. This `prototype` property also has the `__proto__` property inside it that links higher up to the next prototype chain. `__proto__` always points to `prototype`. This is useful because we avoid repeating ourselves and can create programming paradigms and practices.
+
+### Exercises
+
+```js
+// add a new method `.lastYear()` to the Date object that shows you last year in 'YYYY' format
+Date.prototype.lastYear = function() {
+	return this.getFullYear() - 1
+}
+new Date('1987-10-10').lastYear() 	// 1986
+
+// modify .map() to print 'hi' at the end of each item
+Array.prototype.map = function() {
+	let array = []
+	for (let i = 0; i < this.length; i++) {
+		array.push(this[i] + 'hi')
+	}
+	return array
+}
+console.log([1,2,3].map()) 		// [1hi,2hi,3hi]
+```
+
+However, this is dangerous, we should never modify existing methods. This way of creating methods and inheritance is old school, there's newer and cleaner ways to do this.
+
