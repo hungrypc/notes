@@ -5,3 +5,4 @@
 ## Sections
 
 - [The Core Serverless Services](https://github.com/hungrypc/notes/tree/master/root/aws/intro/start.md)
+- [Creating an API with API Gateway & AWS Lambda](https://github.com/hungrypc/notes/tree/master/root/aws/intro/api.md)
