@@ -105,3 +105,22 @@ It's a service that allows you to host your code and run it upon certain events.
 - Could interact with other AWS Services
 - Return the response or execute a callback to indicate that this function is done, can shut down, and possibly pass any data back to the event source that called it
 
+## Creating a Lambda Function
+
+When creating a lambda function, you can select how you want to author the function (from scratch, from a blueprint, from serverless app repositories), enter a function name, and then choose a runtime to select the language used to write the function. 
+
+Once we click Create Function, we'll be directed to an interface. Here, we can test the function, add triggers to run the function, add destinations, monitor the function, view logs, etc. 
+
+Scrolling down, we arrive at the meat of the function. At the moment, we're editing in the browser but we can upload either a zipfile or via S3. The function in the browser editor is the function that gets called whenever the lambda function executes. 
+
+## Accessing the API from the Web and Fixing CORS Issues
+
+So if we want to call the API from the web, we need to deploy it.
+
+Things that we've set up in resources isn't live yet. Click actions -> deploy API, create new stage, deploy. 
+
+Here's the thing though, although CORS is enabled on our OPTIONS resource, our POST resource won't work. We have to set the headers.
+
+Click resources -> POST -> Method Response -> Add Header Access-Control-Allow-Origin -> back to Integration Response -> on the header value add `'*'`
+
+Then redeploy.
