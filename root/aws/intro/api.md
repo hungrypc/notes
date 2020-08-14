@@ -124,3 +124,93 @@ Here's the thing though, although CORS is enabled on our OPTIONS resource, our P
 Click resources -> POST -> Method Response -> Add Header Access-Control-Allow-Origin -> back to Integration Response -> on the header value add `'*'`
 
 Then redeploy.
+
+There's a quicker way to enable CORS. Click Actions -> Enable CORS.
+
+## Understanding "event" in Lambda Functions
+
+With this, we can move on to how we can actually work with data our request might hold, and use lambda to return a meaningful response. 
+
+### Forwarding Requests with "Proxy Integration"
+
+Let's start by changing the data which reaches lambda/whatever our endpoint may be. 
+
+We do this at Integration Request, under body mapping templates where we can change the behavior. 
+
+Another way to do this is by checking 'Use Lambda Proxy Integration' to forward the complete request object with all the meta data to the lambda function. 
+
+If we test this, we'll get an error with a status code of 502. Notice that Integration Response is greyed out. The reason for this is that it never gets to work. This was originally the place where API Gateway allowed us to define our response or to fill it with values - it automatically took what lambda returned and put it into the response body.  
+
+If we edit the lambda function to:
+```js
+exports.handler = async (event) => {
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify('Hello from Lambda!'),
+    };
+    return {
+        headers: {
+            "Control-Access-Allow-Origin": "*"
+        }
+    };
+};
+```
+...and hit test again, we don't get an error but just get no response data since we've added no body property. 
+
+This is how we can work with this integration proxy that we forward to complete requests to lambda. 
+
+If we want to take a look at the complete request, we will need to look into the running lambda function.
+
+### Accessing Lambda Logs
+
+If we want to see inside the event object, we can't do it by returning data back as the example above. Instead, we can `console.log(event)` it. But where do we see the console? Test it again, go to the CloudWatch service, and under the Logs tab. It's here that we see our entire request object. 
+
+There is a disadvantage of using this proxy integration. We get all this meta data that might be useful, but there is another way of getting this in a better way. If we want to extract the body, we have to access it on this global object on body and then JSON parse it. 
+
+### Getting Started with Body Mapping Templates
+
+Maybe the lambda function shouldn't need to parse any incoming event and extract exactly what it needs if it doesn't need 90% of that data. Instead, that should be the job the the API Gateway - we should ensure that we only pass our action, lambda in this case, what this action needs. 
+
+Going back to Integration Request, uncheck Proxy, and we're back to our old setup. Since no template is selected, the whole request body is forwarded to lambda. Fix the lambda to return event. 
+
+In the lambda function, maybe we don't want the entire body. We could edit the lambda function to:
+```js
+exports.handler = async (event) => {
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify('Hello from Lambda!'),
+    };
+    const age = event.age
+    return age
+};
+```
+So this makes sense, but the lambda function has to care about the structure of the data it receives. It would be better if the lambda function could simply access `age` on the event becaue it knows that there will be an `age` property. 
+
+This is where body mapping templates enter the stage. In the integration request and response, we can use them to map - in the case of request: the data we pass, and in the case of response: data we get out of the action. 
+
+On Integration Request, under Mapping Templates, switch 'Request body passthrough' to 'When there are no templates defined', and add a mapping template with the name 'application/json'. With that, the request body will not be forwarded by default anymore but this template will be used. Set it to an empty object and hit save, go back to test and test it - we'll get back null as a response. 
+
+The reason for this is that in our template, we transformed the incoming data and passed on an empty object to lambda. Typically, we don't overwrite the data with an empty object. Instead, we want to do is use mapping template language that API Gateway provides us with. 
+
+### Extracting Request Data with Mapping Templates 
+
+We can learn more about this language [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html). 
+
+A quick example can be found if we select Method Request passthrough in 'Generate template' on our mapping template. This basically extracts a lot of data from the request and returns it as a mapped json response. It also doesn't override our integration response, we're still in API Gateway doing request and response handling, we just happened to extract a bunch of data from the request and pass it to the action. We can narrow this down even more. 
+
+On the template, get rid of all the stuff at the bottom and leave this:
+```js
+{
+"body-json" : $input.json('$')
+}
+```
+`$` refers to the request body, `json` parses it. 
+
+With this, we can even rename:
+
+```js
+{
+"age" : $input.json('$')
+}
+```
+
