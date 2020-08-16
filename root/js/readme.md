@@ -10,3 +10,4 @@
 - [The 2 Pillars: Closures and Prototypal Inheritance](https://github.com/hungrypc/notes/tree/master/root/js/2pillars.md)
 - [Object Oriented Programming](https://github.com/hungrypc/notes/tree/master/root/js/oop.md)
 - [Functional Programming](https://github.com/hungrypc/notes/tree/master/root/js/fp.md)
+- [OOP vs FP](https://github.com/hungrypc/notes/tree/master/root/js/oopvsfp.md)
