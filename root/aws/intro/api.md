@@ -194,7 +194,7 @@ The reason for this is that in our template, we transformed the incoming data an
 
 ### Extracting Request Data with Mapping Templates 
 
-We can learn more about this language [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html). 
+Learn more about this language [here](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html). 
 
 A quick example can be found if we select Method Request passthrough in 'Generate template' on our mapping template. This basically extracts a lot of data from the request and returns it as a mapped json response. It also doesn't override our integration response, we're still in API Gateway doing request and response handling, we just happened to extract a bunch of data from the request and pass it to the action. We can narrow this down even more. 
 
@@ -206,12 +206,188 @@ On the template, get rid of all the stuff at the bottom and leave this:
 ```
 `$` refers to the request body, `json` parses it. 
 
-With this, we can even rename:
+With this, we can even rename and make it so it grabs the data we're looking for:
 
 ```js
 {
-"age" : $input.json('$')
+"age" : $input.json('$.personData.age')
 }
 ```
 
- 
+With this, no matter whatever else we've included in the request, our integration request transforms the data so that the endpoint only receives `age`.
+```
+Endpoint request body after transformations: {
+"age" : 50
+}
+```
+
+### What's the Idea behind Body Mappings?
+
+```js
+{
+"age" : $input.json('$.personData.age')
+}
+```
+
+`$input` refers to our request data. With `.json()`, we extract some data or some json from that request. `$` in that refers to a request body. On that, we can use the dot notation to explore the different layers of that body. We name this `"age"` for lambda to access. 
+
+We're basically restructuring the input data and mapping a complex data to an easier one. With that, we have a clear separation between API Gateway (where we receive our request and work with it), and lambda (where we expect to get data in a certain structure and then do something with it). Therefore, lambda doesn't have to care about which structure our request has, and API Gateway simply needs to provide the right structure to lambda. 
+
+eg. You can transform incoming data of the following shape:
+```json
+{
+    "person": {
+        "name": "Max",
+        "age": 28
+    },
+    "order": {
+        "id": "6asdf821ssa"
+    }
+}
+```
+
+to:
+```json
+{
+    "personName": "Max",
+    "orderId": "6asdf821ssa"
+}
+```
+
+with the following template:
+```js
+{
+    "personName": $input.json('$.person.name'),
+    "orderId": $input.json('$.order.id')
+}
+```
+
+### Mapping Response Data
+
+We learned how to pass certain data to lambda, now let's use body mapping templates in the integration response to also change the data we get back out of lambda. 
+
+```js
+{
+    "your-age": $input.json('$')
+}
+```
+
+We don't have to adjust our lambda function to our client, we only have to adjust our API Gateway to our client and transform the data we get by lambda into the format we want to use.
+
+That's the power of body mapping templates, you can clearly separate lambda from API Gateway and you can control what goes into lambda and what you should do with what comes out of lambda. 
+
+## Using Models and Validating Requests
+
+When we talk about controlling data, we need to look at models. Taking our example project, we have age, height, and income as data we want to store in our db. We can create a compare data model which defines that the data we want to work with in our app shall just have these three properties. 
+
+Click on Models, then create.
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "CompareData",
+  "type": "object",
+  "properties": {
+    "age": {"type": "integer"},
+    "height": {"type": "integer"},
+    "income": {"type": "integer"}
+  },
+  "required": ["age", "height", "income"]
+}
+```
+
+With this, we have a model which we can use. A good place to start using it is on our POST method in our Gatekeeper to validate incoming requests whether they are fulfilling our schema or not. 
+
+Click Method Request, and under Request Body we can register our model. After registering the model, click Request Validator and select Validate body. With this, incoming requests are validated whether the request body fits our model or not. 
+
+Go to test, set up a request body of:
+```json
+{
+    "age": 26,
+    "height": 175
+}
+```
+
+This request is going to be blocked because we're missing the `income` property. If we add it, it passes and goes through. 
+
+## Understanding JSON Schemas
+
+Models are defined using JSON schema. 
+
+- [Learn more about JSON schema](http://json-schema.org/)
+- [Best place to start learning](https://spacetelescope.github.io/understanding-json-schema/)
+
+## Models and Mappings 
+
+The whole idea of using models is optional, we dont *have* to do validations of incoming bodies. We could do the same logic in lambda, so if we pass data from our request body to lambda we could also do validation in lambda. The idea of using a model and using this built-in validator API Gateway offers simply is to give us an wasier way of adding such implementation. 
+
+Validation of incoming requests is not all that we can do with models. We can also use them to map data. 
+
+Going to Integration Request, let's adjust our body mapping template by clicking the dropdown on Generate template, and select CompareData. The template will be generated for us. 
+
+```js
+#set($inputRoot = $input.path('$'))
+{
+  "age" : $inputRoot.age,
+  "height" : $inputRoot.height,
+  "income" : $inputRoot.income
+}
+```
+In the first line, it sets our own variable `inputRoot` and extracts the request body with `$input.path()`. So `inputRoot` is our whole request body, through which we can choose to pass on the relevant data to lambda. 
+
+We can do the same with Integration Response. 
+
+## Adding a DELETE Method Endpoint to the API
+
+On /compare-yourself, create method, select DELETE.
+
+Create a new lamda (blank) function, name cy-delete-data, select cy-store-data role.
+
+## Using Path Parameters
+
+Time to add a GET method with a variable path. The thing is, we're going to want some other urls to be the place where we either fetch all the data or a single piece of data. 
+
+To add a variable resource, select /compare-yourself, click create resource, name type, and now enclose the path in `{}`. The resource path text box should look like: `/compare-yourself/{type}`. Don't forget to enable CORS.
+
+Now, we can create a GET method on that path that will also receive the parameters encoded in the url because API Gateway automatically detects that we have the `type` parameter from the syntax we used. 
+
+Create a new lambda function (cy-get-data), make function code:
+```js
+exports.handler = async (event) => {
+    const type = event.type
+    if (type === 'all') {
+        return 'ALL'
+    } else if (type === 'single') {
+        return 'SINGLE'
+    } else {
+        return 'GET route'
+    }
+};
+```
+
+So how do we pass `type`? Integration Request, body mapping templates. We gotta set this up because the default behavior is to send the body and GET requests don't have a body. So how do we get access to the url?
+
+```js
+{
+    "type": "$input.params('type')"
+}
+```
+
+So this extracts part of the data that's in the url and passes it to lambda. In order to pass it as a string, we have to enclose the value we extract from the URL in quotation marks to make it a string. 
+
+## Accessing the API from the Web - The Right Way
+
+Quickest way to enable CORS for the entire resource is by clicking it, click Actions, then Enable CORS.
+
+Nex, deploy the API.
+
+On CodePen:
+```js
+var xhr = new XMLHttpRequest()
+xhr.open('POST', /* url here */)
+xhr.onreadystatechange = function(event) {
+  console.log(event.target.response)
+}
+xhr.setRequestHeader('Content-Type', 'application/json')
+xhr.send(JSON.stringify({age: 26, height: 175, income: 75000}))
+```
