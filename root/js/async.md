@@ -91,4 +91,4 @@ addEventListener('message')
 
 Most of the time, we won't be working with these, this is just to show that we have them. The main takeaway is that web worker is a js program running on a different thread alongside our main thread. 
 
-Keep in mind that these web workers communicate through these messages like the one above but they don't really have access to all the browser web API
+Keep in mind that these web workers communicate through these messages like the one above but they don't really have access to all the browser web API, but they do have some set abilities like `setTimeout`, `location` or navigator(?). Luckily, that's taken care of for us on the browser, we don't need to worry about different threads working on something else. 
