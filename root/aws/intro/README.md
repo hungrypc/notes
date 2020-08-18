@@ -6,4 +6,4 @@
 
 - [The Core Serverless Services](https://github.com/hungrypc/notes/tree/master/root/aws/intro/start.md)
 - [Creating an API with API Gateway & AWS Lambda](https://github.com/hungrypc/notes/tree/master/root/aws/intro/api.md)
-- [Data Storage with DynamoDB](https://github.com/hungrypc/notes/tree/master/root/aws/intro/db.md
+- [Data Storage with DynamoDB](https://github.com/hungrypc/notes/tree/master/root/aws/intro/db.md)

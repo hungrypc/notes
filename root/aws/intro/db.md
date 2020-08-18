@@ -122,3 +122,5 @@ const params = {
 }
 // ...
 ```
+Test via API Gateway, should be successful.
+
