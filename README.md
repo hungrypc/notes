@@ -19,6 +19,7 @@
 - [Machine Learning with JS](https://github.com/hungrypc/notes/blob/master/root/machine_learning/README.md) (not yet started)
 - [Ethereum and Solidity](https://github.com/hungrypc/notes/blob/master/root/ethereum/README.md)
 - [Data Science](https://github.com/hungrypc/notes/blob/master/root/data_science/README.md)
+- [AWS Certified Developer Associate](https://github.com/hungrypc/notes/blob/master/root/aws/readme.md)
 
 ### Frameworks
 - [Vue.js](https://github.com/hungrypc/notes/blob/master/root/vuejs/README.md)
