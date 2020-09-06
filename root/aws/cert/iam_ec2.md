@@ -9,6 +9,7 @@ The whole of AWS security is here:
 - Groups
 - Roles
 
+note:
 - The root account should never be used (or shared). 
 - Users must be created with proper permissions. 
 - IAM is at the center of AWS (every aws service is connected with this).
@@ -75,6 +76,95 @@ whoami
 We'll get back `ec2-user`. 
 
 To exit, ctrl+d.
+
+## EC2 Instance Connect
+
+On our Instances tab, if we check our instance and click the Connect button, we can connect to our instance using EC2 Instance Connect, which is a browser-based ssh connection. We simply specify the username, click connect, and we're in. 
+
+Now, from the browser, we can issue commands. This wouldn't work if we blocked the ssh port. This only works with Amazon Linux 2 for now.
+
+## Intro to Security Groups
+
+> Security Groups are the fundamental of network security in AWS. They control how traffic is allowed into or out of our EC2 Machines. Basically acting as a firewall on EC2 instances.
+
+We'll look at how to use them to allow inbound and outbound ports.
+
+Looking at the inbound rules of our instance, port 22 is allowed (for ssh).
+
+When we click on it, we're sent to the security group. Under *inbound*, these are all the rules that will allow traffic **into** our ec2 machine. By default, there are no rules. Earlier we set up an inbound rule for port22. going to *outbound*, all traffic is enabled out of the machine by default. This means that the machine can communicate with everything everywhere. Finally, there are tags but we don't really care about it right now. 
+
+Security groups regulate:
+- Access to ports
+- Authorized IP ranges - IPv4 and IPv6 
+- Control of inbound network (from other to the instance)
+- Control of outbound network (from the instance to other)
+
+Note: Security Groups...
+- Can be attached to multiple instances
+- Are locked down to a region/VPC combination
+- Live 'outside' the EC2 - so if traffic is blocked, the EC2 instance will never see it
+- It's good to maintain one separate security group for ssh access
+- If your application is not accessible (timeout), then it's a security group issue
+- If your app gives a 'connection refused' error, then it's an app error or it's not launched
+- By default:
+    + All inbound traffic is blocked
+    + All outbound traffic is authorised
+
+We can also reference security groups from other security groups, but it's an advanced feature.
+
+## Private vs Public vs Elastic IP
+
+Networking has two sorts of IPs: IPv4 and IPv6.
+
+Example:
+- IPv4: 1.160.10.240
+    + What we're used to
+    + Most common format used online
+- IPv6: 3ffe: 1900:4545:3:200:f8ff:fe21:67cf
+    + Much longer
+    + Is newer and solves problems for the Internet of Things (IoT)
+
+In this course, we'll mainly use IPv4.
+
+So using public IPs, public servers can talk to each other. When we have a company and it has a private network, the private network has a private IP range, which has a very specific way of being defined. This basically means that all the computers within that private network can talk to each other using the private IP. Whereas, when you touch an internet gateway, which is a public gateway, these instances will also get access to other servers and so on.
+
+Fundamental differences:
+
+- Public IP:
+    + The machine can be identified on the interest (WWW)
+    + Must be unique across the whole web (no two machines can have the same public IP)
+    + Can be geo-located easily
+- Private IP:
+    + The machine can only be identified on a private network only
+    + The IP must be unique across the private network
+    + BUT two different private networks can have the same IPs
+    + Machines connect to WWW using a NAT + internet gateway (a proxy)
+    + Only a specified range of IPs can be used as a private IP
+- Elastic IPs
+    + An elastic IP is a public IPv4 IP you own as long as you don't delete it
+    + When you stop and then start an EC2 instance, it can change its public IP
+    + If you need to have a fixed public IP, you need an elastic IP
+    + You can attach it to one instance at a time
+    + With an elastic IP address, you can mask the failure of an instance or software by rapidly remapping the address to another instance in your account
+    + You can only have 5 elastic IPs in your account (can ask aws to increase)
+    + Overall, try to avoid using this
+        * Often reflects poor architectural decisions
+        * Instead, use a random public IP and register a DNS name to it
+        * Or, use a Load Balancer and don't use a public IP
+
+
+By default, our EC2 machine comes with:
+- A private IP for the internal AWS network
+- A public IP for the WWW
+
+
+When we ssh into our EC2 machines:
+- We can't use a private IP because we are not in the same network
+- We can only use the public IP
+
+If our machine is stopped then started, *the public IP can change*.
+
+
 
 
 
