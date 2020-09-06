@@ -213,19 +213,279 @@ However, most of the time we don't really want `this` to refer to the global obj
 
 If we add `'use strict'`, it allows us to work with `this` more predictably.   
 
+What is `this` useful for?
+
+```js
+// Gives methods access to their object
+const person1 = {
+    name: 'Billy',
+    sing() {
+        return 'lalala ' + this.name
+    }
+}
+person1.sing() // 'lalala Billy'
 
 
+// Execute same code for multiple objects
+function importantPerson() {
+    console.log(this.name)
+}
+const name = 'Sunny'
+const obj1 = {
+    name: 'Cassy',
+    importantPerson
+}
+const obj2 = {
+    name: 'Jacob',
+    importantPerson
+}
+
+importantPerson()       // Sunny
+obj1.importantPerson()  // Cassy
+obj2.importantPerson()  // Jacob
+```
+
+Essentially, `this` asks *'Who called me?'*
+
+### this: Dynamic Scope vs Lexical Scope
+
+```js
+const a = function() {
+    console.log('a', this)
+
+    const b = function() {
+        console.log('b', this)
+
+        const c = {
+            hi: function() {
+                console.log('c', this)
+            }
+        }
+
+        c.hi()
+    }
+
+    b()
+}
+
+a()
+
+// a - window
+// b - window
+// c { hi: f }
+```
+
+`a()` refers to the window object, as expected, but `b()` also refers to the window object. This is because, even though `b()` is defined in `a()`, the syntax looks like this: `window.a(b())`, which means `window` is still to the left of the dot, hence `this` still refers to the window object. When we get to `c`, we have an object, so `this` refers to `c` (`c.hi()`). 
+
+Looking at this, it looks like lexical scope doesn't really work with this. It doesn't really matter where we write our code, all that matters is how it gets called (who calls it). 
+
+```js
+const obj = {
+    name: 'Billy',
+    sing() {
+        console.log('a', this)
+        var anotherFn = function() {
+            console.log('b', this)
+        }
+
+        anotherFn()
+    }
+}
+
+obj.sing()
+
+// a - { name: 'Billy', sing: f }
+// b - window
+```
+
+Why is b refering to the window? This is a gotcha when it comes to the `this` keyword. Because `this` is not lexically scoped, it doesn't matter where it is written, only how the function was called. What happened under the hood is that `obj.sing()` ran and inside of the `sing()` function `anotherFn()` got executed - `obj` didn't call `anotherFn()`, the `sing()` function did. In js, `this` defaults to the window object. 
+
+This gotcha created a lot of problems for people. Everything in js is **lexically scoped** *except* the `this` keyword, it's actually **dynamically scoped**.
+
+So how do we avoid this pitfall? Three ways:
+
+```js
+// 1. arrow functions, because they are lexically bound
+const obj = {
+    name: 'Billy',
+    sing() {
+        console.log('a', this)
+        var anotherFn = () => {
+            console.log('b', this)
+        }
+
+        anotherFn()
+    }
+}
+
+obj.sing()
+// a - { name: 'Billy', sing: f }
+// b - { name: 'Billy', sing: f }
 
 
+// 2. binding this
+const obj = {
+    name: 'Billy',
+    sing() {
+        console.log('a', this)
+        var anotherFn = () => {
+            console.log('b', this)
+        }
+
+        return anotherFn().bind(this)
+    }
+}
+
+obj.sing()() // double call since we return anotherFn
+// a - { name: 'Billy', sing: f }
+// b - { name: 'Billy', sing: f }
 
 
+// 3. referencing this with a variable
+const obj = {
+    name: 'Billy',
+    sing() {
+        console.log('a', this)
+        var self = this
+        var anotherFn = () => {
+            console.log('b', self)
+        }
+
+        return anotherFn
+    }
+}
+
+obj.sing()()
+// a - { name: 'Billy', sing: f }
+// b - { name: 'Billy', sing: f }
+```
+
+## call(), apply(), bind()
+
+### call()
+
+Under the hood, all functions use `call()`.
+```js
+function a() {
+    console.log('hi')
+}
+
+a.call()    // hi
+```
+
+We can even use `call()` to call methods from one object on another.
+```js
+const wizard = {
+    name: 'Merlin', 
+    health: 100,
+    heal() {
+        this.health = 100
+    }
+}
+
+const archer = {
+    name: 'Robin Hood',
+    health: 30,
+    // how can we borrow the heal() method from wizard and use it on archer?
+}
+console.log(archer.health) // 30
+wizard.heal.call(archer)
+console.log(archer.health) // 100
+```
+
+So `call()` can take an object as an argument and call the method on that object.
+We can also do things like this:
+```js
+const wizard = {
+    name: 'Merlin', 
+    health: 100,
+    heal(hp) {
+        this.health += hp
+    }
+}
+
+const archer = {
+    name: 'Robin Hood',
+    health: 30,
+}
+
+console.log(archer.health)  // 30
+wizard.heal.call(archer, 100)
+console.log(archer.health)  // 130
+```
+
+### apply()
+
+So `apply()` kind of does the same thing as `call()`, but instead of just taking parameters it takes an array of parameters
+```js
+const wizard = {
+    name: 'Merlin', 
+    health: 100,
+    heal(hp, crit) {
+        this.health += hp + crit
+    }
+}
+
+const archer = {
+    name: 'Robin Hood',
+    health: 30,
+}
+
+console.log(archer.health)  // 30
+wizard.heal.call(archer, [30, 70])
+console.log(archer.health)  // 130
+```
+
+Choosing which to use depends on what's easier to use for the situation.
+
+### bind()
 
 
+Unlike `call()` and `apply()` that immediately runs a function, `bind()` returns a new function with a certain context and parameters. It's usually used when we want a function to be called later on with a certain type of context. 
 
+```js
+const wizard = {
+    name: 'Merlin', 
+    health: 100,
+    heal(hp, crit) {
+        this.health += hp + crit
+    }
+}
 
+const archer = {
+    name: 'Robin Hood',
+    health: 30,
+}
 
+console.log(archer.health)  // 30
+const healArcher = wizard.heal.bind(archer, [30, 70])
+healArcher()
+console.log(archer.health)  // 130
+```
 
+So `bind()` allows us to store the `this` keyword or this function borrowing for later use. `bind()` is like a bandaid to fix this idea of a dynamically scoped `this` keyword that ruins our entire lexical scoping. 
 
+## bind() and Function Currying
 
+Currying refers to only partially giving functions a parameter.
+```js
+function multiply(a, b) {
+    return a * b
+}
 
+let multiplyByTwo = multiply.bind(this, 2)
 
+console.log(multiplyByTwo(4))   // 8
+```
+Here, we created a new function out of `multiply`.
+
+## Scope vs Context
+
+Scope is a function based thing - it refers to 'What is the variable access of a function when it is invoked'. What is in the variable environment.
+
+Context is more object based - it refers to 'What is the value of `this`, which is a reference to the object that owns that current executing code. 
+
+Just remember this:
+> Scope refers to the visibility of variables 
+
+> Context is determined most often by how a function is invoked with the value of `this`.

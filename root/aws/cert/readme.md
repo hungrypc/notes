@@ -4,4 +4,4 @@
 
 ## Sections
 
-- [AWS Fundamentals: IAM + EC2](https://github.com/hungrypc/notes/blob/master/root/aws/iam_ec2.md)
+- [AWS Fundamentals: IAM + EC2](https://github.com/hungrypc/notes/blob/master/root/aws/cert/iam_ec2.md)
