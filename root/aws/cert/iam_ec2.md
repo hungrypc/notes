@@ -164,6 +164,149 @@ When we ssh into our EC2 machines:
 
 If our machine is stopped then started, *the public IP can change*.
 
+To allocate an elastic ip, there is an elastic ip tab where you can do this.
+
+## Install Apache on EC2
+
+First, ssh into the instance. 
+```
+sudo su
+```
+will elevate our rights on the machine, making us the root account so that we can run any commands without problems. 
+
+```
+yum update -y
+```
+forces the machine to update itself.
+
+Next, we install httpd:
+```
+yum install -y httpd.x86_64
+```
+
+To start the service:
+```
+systemctl start httpd.service
+```
+
+To ensure service remains enabled across reboots:
+```
+systemctl enable httpd.service
+```
+
+```
+curl localhost:80
+```
+gets us this html page.
+
+So we can actually access this webpage on our browser by going to `<ip address>:80` as the url *BUT* it's going to be blocked since our inbound rules only allow port 22 and yet the page is hosted on port 80. We have to open up port 80 to access it (type HTTP - 0.0.0.0/0).
+
+Accessing the page will tell us that we can add content by creating files in `var/www/html`.
+```
+echo "hello world" > /var/www/html/index.html
+```
+
+## EC2 User Data
+
+It is possible to bootstrap our instances using an *EC2 User Data script*. *Bootstrapping* means launching commands when a machine starts. The script is *only run once* at the instance *first start*.
+
+So the EC2 user data has a very specific purpose: to automate boot tasks such as...
+- Installing updates
+- Installing software
+- Downloading common files from the internet
+- Anything you can think of, whatever you want
+
+The EC2 User Data Script runs with the root user. Any command will have sudo rights. 
+
+We want to make sure that this isntance has an Apache http server instaslled on it to display a simple web page. For this, we're going to write a user-data script, which will be executed at the first boot of the instance.
+
+First, terminate the instance we previously created. Launch a new instance with Amazon Linux 2 AMI, t2.micro, step 3 advanced details - on User data we paste a script:
+```
+#!/bin/bash
+# install httpd(Linux 2 version)
+yum update -y
+yum install -y httpd.servicex86_64
+systemctl start httpd.service
+systemctl enable httpd.service
+echo "Hello world from $(hostname -f)" > /var/www/html/index.html
+```
+then for security group, select the existing security group we created earlier that allowed port 22 (ssh) and 80 (http). 
+
+Launch, choose existing key pair (check box to say we have access), finally actually launch. 
+
+If everything worked properly, we should be able to access the server over the web AND ssh into it. 
+
+## EC2 Instance Launch Types
+
+Overview:
+- *On Demand Instances*: Short workload, predictable pricing
+- *Reserved*: (Minimum 1 year)
+    + *Reserved Instances*: Long workloads 
+    + *Convertible Reserved Instances*: Long worklooads with flexibility
+    + *Scheduled Reserved Instances*: E.g. every thursday between 3 - 6pm
+- *Spot Instances*: Short workloads, for cheap, risk is can lose instances (less reliable)
+- *Dedicated Instances*: No other customers will share your hardware
+- *Dedicated Hosts*: Book an entire physical server, control instance placement
+
+### On Demand
+- Pay for what you use (billing per second, after the first minute)
+- Has the highest cost but no upfront payment
+- No long term commitment
+- Recommended for short-term and un-interrupted workloads, where you can't predict how the application will behave
+    + Great for elastic workloads
+
+### Reserved Instances
+- Because we know that we're going to need the instance for a long period of time, we can get up to 75% discount compared to on demand
+- Pay upfront for what you use with long term commitment
+- Reservation period can be 1 - 3 years
+- Reserve a specific instance type
+- Recommended for staedy state usage applications (think database)
+
+#### Convertible Reserved Instances
+- Can change the EC2 instance type
+- Up to 54% discount
+
+#### Scheduled Reserved Instances
+- Launch within a time window you reserve
+- When you require a fraction of day/week/month
+
+#### Spot Instances
+- Can get up to 90% discount compared to on demand
+- But, these are instances that you can 'lose' at any point of time if your max price is less than the current spot price
+- The MOST cost-efficient instance in aws
+- Only useful for workloads that are resilient to failure
+    + Batch jobs
+    + Data analysis
+    + Image processing
+    + Anything that is possible to retry/resilient to failure
+- *Not great for critical jobs or databases*
+- Good combo: Reserved Instance for baseline + On-Demand & Spot for peaks
+
+#### Dedicated Hosts
+- Physical dedicated EC2 server for your use
+- Full control of EC2 instance placement
+- That gives you visibility into the underlying sockets/physical cores of the hardware
+- Allocated for your account for a 3 year period reservation
+- More expensive
+- Useful for software that have complicated licensing model (BYOL - Bring Your Own License)
+- Or for comapnies that have strong regulatory or compliance needs
+
+#### Dedicated Instances
+- Instances running on hardware that's dedicated to you
+- May share hardware with other instances in the same account
+- No control over instance placement (can move hardware after Stop/Start)
+
+#### So Which Host is Right for Me?
+Let's compare by using an analogy of picking the right hotel:
+
+- *On Demand*: coming and staying in resort whenever we like, we pay the full price
+-  *Reserved*: when you want to plan way ahead of time and stay for a while, we can get a good discount
+-  *Spot*: the hotel allows people to bid for the empty rooms and the highest bidder keeps the rooms. You can get kicked out at any time
+-  *Dedicated*: we book the entire building of the resort
+
+All of the instance launch types are on the left with their own tabs.
+
+
 
 
 
