@@ -95,3 +95,50 @@ Good things to know:
 - Monitoring 
 	+ ELB access logs will log all access requests (so we can debug per request)
 	+ CloudWatch Metrics will give aggregate statistics (eg connections count)
+
+## Classic Load Balancers (v1)
+
+- Supports TCP (Layer 4), HTTP & HTTPS (Layer 7) 
+- Health checks are TCP or HTTP based
+- Fixed hostname: XXX.region.elb.amazonaws.com
+
+Hands on notes:
+- Internal makes it inaccessible to the public
+- The listener config is for what our CLB is going to be listened onto, demo set on HTTP port 80
+- The security group settings is where we allow anyone on port 80 to access our CLB from anywhere, which is what we need because we want to access it through here
+- In health check config
+	+ Ping path is address that is pinged to check the health status
+	+ Response timeout: how long are we willing to wait for a response?
+	+ Interval: how often do we want to ping our instance?
+	+ Unhealthy threshold: how many failed pings does it take to be considered unhealthy?
+	+ Healthy threshold: how many successful pings is considered healthy?
+
+So if we copy the DNS name and go to it, we should see what we would see on our EC2 instance. This is as expected because we're using the load balancer to access the EC2 instance. 
+
+However, we're still able to access both the EC2 instance and the load balancer at the same time. We want to only be able to expose and access the load balancer and not be able to access the EC2 instance directly. To do this, we have to go back to our security groups. Our load balancer security group inbound settings are fine, it just allows anyone to access it on port 80. We have to change the inbound settings for our EC2 instance security group and change the source on port 80 to our load balancer security group so that only the load balancer can access the EC2 instance from port 80. 
+
+## Application Load Balancer (v2)
+
+- Supports HTTP (Layer 7)
+- Load balancing to multiple HTTP applications across machines (target groups)
+- Load balancing to multiple applications on the same machine (eg containers)
+- Support for HTTP/2 and WebSocket
+- Support redirects (from HTTP to HTTPS for example)
+- Routing tables to different target groups:
+	+ Routing based on parth in URL
+	+ Routing based on hostname in URL
+	+ Routing based on query strings, headers
+
+ALBs are great for micro services and container-based application (eg Docker & Amazon ECS). They have a port mapping features which allow you to redirect to a dynamic port in ECS. In classic load balancers, we'd need multiple CLBs per application, whereas with ALB we can have one load balancer in front of many applications. 
+
+### Target Groups
+
+- EC2 isntances (can be managed by an Auto Scaling Group) - HTTP
+- ECS tasks (managed by ECS itself) - HTTP
+- Lambda functions - HTTP request is translated into a json event
+- IP addresses - must be private IPs
+
+So ALBs can route to multiple target groups and the health checks are going to be done at the target group level. 
+
+Good to knows: 
+- Fixed hostname XXX.region.elb.amazonaws.com
