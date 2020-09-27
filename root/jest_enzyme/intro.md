@@ -39,3 +39,6 @@ test('renders App', () => {
 - **Unit tests**: Tests one piece of code (usually one function)
 - **Integration tests**: Tests how multiple units work together
 - **Acceptance / End-to-end (E2E) tests**: Tests how a user would interact with app
+
+## data-test Attributes
+

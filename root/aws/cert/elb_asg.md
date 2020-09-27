@@ -191,3 +191,5 @@ Layer 4 means that our target groups can be EC2 instances, but now our TCP based
 - There is a 'cookie' that is used for stickiness and has an expiration date we can control
 - Use Case: make sure the user doesn't lose their session data
 - Enabling stickiness may bring imbalance to the load over the backend EC2 instance because the load is now not evenly distributed, it's sticky
+
+So stickiness is very helpful if you want the same request originating from the same client to go to the same target EC2 instance. 
