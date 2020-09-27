@@ -142,3 +142,52 @@ So ALBs can route to multiple target groups and the health checks are going to b
 
 Good to knows: 
 - Fixed hostname XXX.region.elb.amazonaws.com
+- Application servers don't see the IP of the client directly
+	+ The true IP of the client is inserted in the header *X-Forwarded-For*
+	+ We can also get Port (*X-Forwarded-Port*) and proto (*X-Forwarded-Proto*)
+
+What this means is that our Client IP is directly talking to our LB, which performs something called a connection termination, and our LB talks to our EC2 instance using the LB IP, which is a private IP into our EC2 instance through these extra headers. 
+
+### Hands-on 
+
+Create a Load Balancer -> Application Load Balancer -> select Availability Zones -> Configure Security Groups and select existing load balancer security group -> Configure Routing -> Advanced health check settings:
+- Healthy threshold: 5
+- Unhealthy threshold: 2
+- Timeout: 5
+- Interval: 10
+- Success codes: 200
+
+Register Targets -> register some targets into our Target Group and click add to registered -> Review -> Create
+
+If we copy the DNS name and open it on a new tab, we should see the page of our instances. 
+
+We can edit the rules on our listener by clicking *View/edit rules*. 
+
+Insert new rule -> Add condition -> Path is '/test' -> Add action -> Forward to second-target-group' -> save
+
+This rule we just made is saying 'if the path is /test, then forward to second-target-group, else forward to first-target-group'. 
+
+So through listeners, we're able to have many rules and these rules allow us to redirect not just to one target group but to multiple target groups, which is part of the power of LBs.
+
+## Network Load Balancer (v2)
+
+- Network load balancers (Layer 4) allow us to:
+	+ Forward TCP & UDP traffic to our instances 
+	+ Handle millions of requests per seconds
+	+ Less latency at around 100ms (vs 400ms for ALB)
+- NLB has **one static IP per AZ, and supports assigning Elastic IP** (helpful for whitelisting specific IP)
+- NLB are used for extreme performance, TCP or UDP traffic
+- Not included in the AWS free tier
+
+Layer 4 means that our target groups can be EC2 instances, but now our TCP based traffic will reach our target groups - so it could be from external and we could have some rules to redirect to target groups. 
+
+## Elastic Load Balancer
+
+### Stickiness
+
+> Stickiness is where the same client will always be directed to the same underlying isntance that is behind the LB
+
+- This works for Classic Load Balancers & Application Load Balancers
+- There is a 'cookie' that is used for stickiness and has an expiration date we can control
+- Use Case: make sure the user doesn't lose their session data
+- Enabling stickiness may bring imbalance to the load over the backend EC2 instance because the load is now not evenly distributed, it's sticky
