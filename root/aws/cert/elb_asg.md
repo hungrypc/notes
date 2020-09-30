@@ -192,4 +192,63 @@ Layer 4 means that our target groups can be EC2 instances, but now our TCP based
 - Use Case: make sure the user doesn't lose their session data
 - Enabling stickiness may bring imbalance to the load over the backend EC2 instance because the load is now not evenly distributed, it's sticky
 
-So stickiness is very helpful if you want the same request originating from the same client to go to the same target EC2 instance. 
+So stickiness is very helpful if you want the same request originating from the same client to go to the same target EC2 instance.
+
+Hands On notes:
+- Stickiness is not a load balancer specific configuration, you can configure it on the load balancer page only if you are using a classic load balancer
+- Because we have an application load balancer, the stickiness setting is at the target group level (set it in Target Group -> edit attributes)
+
+### Cross Zone Load Balancing 
+
+> With Cross Zone Load Balncing, each load balancer instance distributes evenly across all registered instances in all AZ
+
+Otherwise, each load balancer node distributes requests evenly across the registered instances in its AZ only. 
+
+Classic Load Balancer:
+- Disabled by default
+- No charges for inter AZ data if enabled 
+
+Application Load Balancer: 
+- Always on (can't be disabled)
+- No charges for inter AZ data 
+
+Network Load Balancer:
+- Disabled by default
+- You pay charges for inter AZ data if enabled
+
+### SSL/TLS Certificates (Basics)
+
+> An **SSL Certificate** allows traffic between your clients and your load balancer to be encrypted in transit (in-flight encryption). This means that data, as it goes through a network, will be encrypted and only able to be decrypted by the sender and the receiver. 
+
+SSL refers to **Secure Sockets Layer**, used to encrypt connections. TLS refers to **Transport Layer Security**, which is a newer version. 
+
+- Nowadays, TLS certificates are mainly used but people still refer as SSL.
+- Public SSL certificates are issued by Certificate Authorities (CA) such as GoDaddy, Comodo, etc. 
+- SSL certificates have an expiration date (you set) and must be renewed
+
+So how it works is users connect to the load balancer via HTTPS (S because it's using SSL certificates and it's encrypted) over WWW (public). Internally, the load balancer does SSL termination, and talks to the EC2 instance using HTTP (not encrypted) over private VPC (private). The load balancer will load an X509 certificate (SSL/TLS server certificate), which can be managed in AWS using AWS Certificate Manager (ACM). You can create/upload your own certificate in AWS, though you must set up an HTTPS listener where you have to specify a default certificate and add an optional list of certs to support multiple domains. Clients can use SNI (Server Name Indiccation) to specify the hostname they reach. You also have the ability to specify a security policy to support older versions of SSL/TLS. 
+
+#### SNI
+
+> SNI solves the problem of loading multiple SSL certificates onto one web server (to serve multiple websites).
+
+It's a newer protocol, and requires the client to indicate the hostname of the target server in the intial SSL handshake. The server will then find the correct certificate, or return the default one. 
+
+Note:
+- Only works for ALB & NLB (newer generation), or a CloudFront
+- Does not work for CLB (older gen)
+
+So, using SNI, you are able to have multiple target groups for different websites using different SSL certificates. 
+
+Classic Load Balancer: 
+-  Supports only one SSL cert
+- Must use multiple CLB for multiple hostname with multiple SSL certs
+
+Application Load Balancer:
+- Supports multiple listeners with multiple SSL certs
+- Uses SNI to make it work
+
+Network Load Balancer:
+- Supports multiple listeners with multiple SSL certs
+- Uses SNI to make it work
+
