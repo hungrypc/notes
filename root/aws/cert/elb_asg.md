@@ -226,7 +226,7 @@ SSL refers to **Secure Sockets Layer**, used to encrypt connections. TLS refers 
 - Public SSL certificates are issued by Certificate Authorities (CA) such as GoDaddy, Comodo, etc. 
 - SSL certificates have an expiration date (you set) and must be renewed
 
-So how it works is users connect to the load balancer via HTTPS (S because it's using SSL certificates and it's encrypted) over WWW (public). Internally, the load balancer does SSL termination, and talks to the EC2 instance using HTTP (not encrypted) over private VPC (private). The load balancer will load an X509 certificate (SSL/TLS server certificate), which can be managed in AWS using AWS Certificate Manager (ACM). You can create/upload your own certificate in AWS, though you must set up an HTTPS listener where you have to specify a default certificate and add an optional list of certs to support multiple domains. Clients can use SNI (Server Name Indiccation) to specify the hostname they reach. You also have the ability to specify a security policy to support older versions of SSL/TLS. 
+So how it works is users connect to the load balancer via HTTPS (S because it's using SSL certificates and it's encrypted) over WWW (public). Internally, the load balancer does SSL termination, and talks to the EC2 instance using HTTP (not encrypted) over private VPC (private traffic network). The load balancer will load an X509 certificate (SSL/TLS server certificate), which can be managed in AWS using AWS Certificate Manager (ACM). You can create/upload your own certificate in AWS, though you must set up an HTTPS listener where you have to specify a default certificate and add an optional list of certs to support multiple domains. Clients can use SNI (Server Name Indiccation) to specify the hostname they reach. You also have the ability to specify a security policy to support older versions of SSL/TLS. 
 
 #### SNI
 
@@ -252,3 +252,65 @@ Network Load Balancer:
 - Supports multiple listeners with multiple SSL certs
 - Uses SNI to make it work
 
+### Connection Draining
+
+This has two different names depending on which load balancer you're considering:
+- Classic LB: **Connection Draining**
+- Target Group: Deregistration Delay (for AppLB & NetworkLB)
+
+(Depsite the naming difference, let's just call it connection draining from here on out)
+
+> Connection Draining = The time to complete "in-flight requests" while the instance is deregistering or unhealthy. This allows the instance to shut down anything it was doing before being deregistered.
+
+So as soon as the instance is in draining mode, it stops sending new requests to the instance which is deregistering. Existing connections will have to wait for the draining period ot be completed (300s by default). Any new connection that is made by the users into the ELB will be redirected to the other EC2 instances that are available and registered to the ELB.
+
+## Auto Scaling Groups
+
+In real life, the load on your websites and applications can change. In the cloud, you can create and get rid of servers very quickly. The goal of an Auto Scaling Group (ASG) is to:
+- Scale out (add EC2 instances) to match an increased load
+- Scale in (remove EC2 instances) to match a decreased load
+- Ensure we have a minimum and a mazimum number of machines running
+- Automatically register new instanecs to a load balancer
+
+ASGs have the following attributes:
+- A launch config
+	+ AMI + Instance Type
+	+ EC2 User Date
+	+ EBS Volumes
+	+ Security Groups
+	+ SSH Key Pair
+- Min size / max size/ initial capacity
+- Network + Subnets information
+- Load Balancer information
+- Scaling Policies (what triggers scale out/in)
+
+### Auto Scaling Alarms
+
+It is possible to scale an ASG based on CloudWatch alarms. It monitors a few metrics (eg Average CPU) and when an alarm goes off, it scales in/out depending on how it's set. Metrics are computed for the overall ASG instances. 
+
+### Auto Scaling New Rules
+
+It is now possible to define "better" auto scaling rules taht are directly managed by EC2
+- Target average CPU usage - scales in/out based o n the load to meet that target CPU usage
+- Number of requests on the ELB per instance
+- Average network in
+- Average network out
+
+These rules are easier to set up and can make more sense. 
+
+### Auto Scaling Custom Metric
+
+We can also auto scale based on a custom metric (eg number of connected users). 
+1. Send custom metric from app on EC2 to CloudWatch (PutMetric API)
+2. Create CloudWatch alarm to react to low/high values
+3. Use the CloudWatch alarm as the scaling policy for ASG
+
+### Brain Dump
+
+- Scaling policies can be on CPU, Network... and can even be on custom metrics or based on a schedule (if you know your visitors patterns)
+- ASGs use Launch configurations or Launch Templates (newer)
+- To update an ASG, you must provide a new launch config/template
+- IAM roles attached to an ASG will get assigned to EC2 instances
+- ASGs are free - you pay for the underlying resources being launched
+- Having instances under an ASG means that if they get terminated for whatever, the ASG will automatically create new ones as a replacement - extra safety
+- ASG can terminate instanes marked as unhealthy by an LB (and hence replace them)
