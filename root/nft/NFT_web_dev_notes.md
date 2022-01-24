@@ -31,7 +31,7 @@ contract Coin {
 > `mapping(key  => value) publick mapName`
 
 eg. write a public map that takes the key of an address to the value of an integer called balances
-```sol
+```solidity
 mapping(address => uint) public balances
 ```
 
@@ -46,7 +46,7 @@ events takes two steps:
 1. setting it up
 2. emitting the event
 
-```sol
+```solidity
 event Sent(adress from, address to, unit amount) {}
 ```
 
