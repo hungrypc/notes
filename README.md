@@ -22,6 +22,7 @@
 - [AWS Certified Developer Associate](https://github.com/hungrypc/notes/blob/master/root/aws/cert/readme.md)
 - [AWS Serverless APIs & Apps - Intro](https://github.com/hungrypc/notes/blob/master/root/aws/intro/README.md)
 - [Server Side Rendering with React and Redux](https://github.com/hungrypc/notes/blob/master/root/ssr/readme.md)
+- [React Testing with Jest and Enzyme](https://github.com/hungrypc/notes/blob/master/root/jest_enzyme/readme.md)
 
 ### Frameworks
 - [Vue.js](https://github.com/hungrypc/notes/blob/master/root/vuejs/README.md)

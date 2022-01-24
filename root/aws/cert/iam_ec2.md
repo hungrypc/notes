@@ -101,7 +101,7 @@ Security groups regulate:
 
 Note: Security Groups...
 - Can be attached to multiple instances
-- Are locked down to a region/VPC combination
+- Are locked down to a region/VPC (Virtual Private Cloud) combination
 - Live 'outside' the EC2 - so if traffic is blocked, the EC2 instance will never see it
 - It's good to maintain one separate security group for ssh access
 - If your application is not accessible (timeout), then it's a security group issue
@@ -239,14 +239,14 @@ If everything worked properly, we should be able to access the server over the w
 ## EC2 Instance Launch Types
 
 Overview:
-- *On Demand Instances*: Short workload, predictable pricing
-- *Reserved*: (Minimum 1 year)
-    + *Reserved Instances*: Long workloads 
-    + *Convertible Reserved Instances*: Long worklooads with flexibility
-    + *Scheduled Reserved Instances*: E.g. every thursday between 3 - 6pm
-- *Spot Instances*: Short workloads, for cheap, risk is can lose instances (less reliable)
-- *Dedicated Instances*: No other customers will share your hardware
-- *Dedicated Hosts*: Book an entire physical server, control instance placement
+- **On Demand Instances**: Short workload, predictable pricing
+- **Reserved**: (Minimum 1 year)
+    + **Reserved Instances**: Long workloads 
+    + **Convertible Reserved Instances**: Long worklooads with flexibility
+    + **Scheduled Reserved Instances**: E.g. every thursday between 3 - 6pm
+- **Spot Instances**: Short workloads, for cheap, risk is can lose instances (less reliable)
+- **Dedicated Instances**: No other customers will share your hardware
+- **Dedicated Hosts**: Book an entire physical server, control instance placement
 
 ### On Demand
 - Pay for what you use (billing per second, after the first minute)
@@ -299,54 +299,27 @@ Overview:
 #### So Which Host is Right for Me?
 Let's compare by using an analogy of picking the right hotel:
 
-- *On Demand*: coming and staying in resort whenever we like, we pay the full price
--  *Reserved*: when you want to plan way ahead of time and stay for a while, we can get a good discount
--  *Spot*: the hotel allows people to bid for the empty rooms and the highest bidder keeps the rooms. You can get kicked out at any time
--  *Dedicated*: we book the entire building of the resort
+- **On Demand**: coming and staying in resort whenever we like, we pay the full price
+-  **Reserved**: when you want to plan way ahead of time and stay for a while, we can get a good discount
+-  **Spot**: the hotel allows people to bid for the empty rooms and the highest bidder keeps the rooms. You can get kicked out at any time
+-  **Dedicated**: we book the entire building of the resort
 
 All of the instance launch types are on the left with their own tabs.
 
+## Elastic Netowrk Interfaces (ENI)
 
+> ENIs are a logical component in a Virtual Private Cloud (VPC) that represents a virtual network card - they're what gives EC2 instances access to the network, though they're used outside of EC2 instances as well. 
 
+For example, imagine we have an EC2 instance in an availability zone, and to it is attached on eth0 our primary ENI - this will provide our EC2 isntance network connectivity and, for example, a private IP.
 
+<---- ADD IMAGE HERE ----->
 
+Each ENI can have the following attributes:
 
+- Primary private IPv4, one or more secondary IPv4
+- One Elastic IP (IPv4) per private IPv4
+- One Public IPv4
+- One or more security groups
+- A MAC address
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+You can create ENIs independently and attach them on the fly (move them) on EC2 instances for failover. Note, they're bound to a specific availability zone (AZ), meaning that if you create an ENI in a specific AZ you can only have it bound to that specific AZ. 
