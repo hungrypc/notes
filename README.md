@@ -9,7 +9,7 @@
 ### Programming
 - [Ruby](https://github.com/hungrypc/notes/blob/master/root/ruby/README.md)
 - [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md)
-- [TypeScript 2](https://github.com/hungrypc/notes/blob/master/root/typescript2/README.md)
+- [More TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript2/README.md)
 - [Python](https://github.com/hungrypc/notes/blob/master/root/python/README.md)
 - [Java](https://github.com/hungrypc/notes/blob/master/root/java/README.md) (not yet started)
 - [Javascript Advanced Concepts](https://github.com/hungrypc/notes/blob/master/root/js/readme.md)
@@ -21,6 +21,7 @@
 - [Data Science](https://github.com/hungrypc/notes/blob/master/root/data_science/README.md)
 - [AWS Certified Developer Associate](https://github.com/hungrypc/notes/blob/master/root/aws/cert/readme.md)
 - [AWS Serverless APIs & Apps - Intro](https://github.com/hungrypc/notes/blob/master/root/aws/intro/README.md)
+- [Server Side Rendering with React and Redux](https://github.com/hungrypc/notes/blob/master/root/ssr/readme.md)
 
 ### Frameworks
 - [Vue.js](https://github.com/hungrypc/notes/blob/master/root/vuejs/README.md)
@@ -37,3 +38,5 @@
 - [Investing](https://github.com/hungrypc/notes/tree/master/root/investing/README.md)
 - [Python for Finance](https://github.com/hungrypc/notes/tree/master/root/python_finance/README.md)
 - [Leetcode Qs](https://github.com/hungrypc/notes/blob/master/root/leetcode/README.md)
+- [TS note dump](https://github.com/hungrypc/notes/blob/master/root/typescript3/readme.md)
+- [Intermediate React](https://github.com/hungrypc/notes/blob/master/root/react/readme.md)
