@@ -19,14 +19,14 @@ contract Coin {
 }
 ```
 
-#### visibility
+#### Visibility
  - public: _can be accessed by all contracts_
  - external: _can be accessed externally only_
  - internal: _only visible internally_
  - private: _can be accessed only by authorized contracts_
 
 
-#### mapping
+#### Mapping
 > mapping: acts like dictionary to store data
 `mapping(key  => value) public mapName`
 
@@ -35,20 +35,16 @@ eg. write a public map that takes the key of an address to the value of an integ
 mapping(address => uint) public balances
 ```
 
-#### events
+#### Events
 > _events allow clients to react to specific contract changes taht you declare (oneway logging of transactions)_
 types of events::
  - Sent
  - Transfer
  - Allow
 
-events takes two steps:
-1. setting it up
-2. emitting the event
-
 ```solidity
 event Sent(address from, address to, uint amount) {}
 ```
 
-#### minting
+#### Minting
 
