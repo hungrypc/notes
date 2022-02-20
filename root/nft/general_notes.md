@@ -1,11 +1,11 @@
 # Notes
 
-### Smart Contracts
+## Smart Contracts
 
 > A smart contract is self-executing code that carries out a set of instructions (when certain conditions are met), which are then verified on the blockchain.
 
 They are:
-- **Trustless**: _trust in humans or institutions are not required for the system to work - happens without humans needing to interfere
+- **Trustless**: _trust in humans or institutions are not required for the system to work - happens without humans needing to interfere_
 - **Autonomous**: _performed automatically_
 - **Decentralized**: _supervision/decision-making is distributed amongst a network, rather than a central location/authority_
 - **Transparent**: _transactions are completely open to be viewed_
@@ -16,7 +16,22 @@ Like traditional contracts, smart contracts are agreements between two or more p
 This removes need for intermediaries (self-executing) and contract enforcement (verified on blockchain). This reduces the cost and simplifies the contract negotiation process. 
 
 
-### Liquidity Pools
+## Proof of Work/Proof of Stake
+
+> Consensus mechanism: process through which a distributed network reaches an agreement about information on the network (such as whether transactions are valid and in what order they occur).
+
+### Proof of Work
+Proof of work is a consensus mechanism where miners operate computer hardware to run network nodes that use computational power to algorithmically solve mathematical puzzles. This is done through the use of hashing functions, where miners will hash the block data (transactions) + nonce (+ a transaction on the block that pays out the miner) and do this over and over (incrementing nonce, plus other added info to add variation) until the hash hits a target set. This can be verified by all the other nodes when given the proof response.
+
+### Proof of Stake
+Similar to POW, but requires less work and energy. Instead of a race to validate a transaction, "validators" stake a specific amount of coins as collateral for a chance to be randomly selected to mine/validate the block. Blocks are validated by more than one validator, and when a specific number of validators verify that the block is accurate, it's finalized and closed. Staking coins keeps the network secure and validators honest because if they were to act maliciously/attempt to validate a wrong transaction, they lose their stake and access to the network through a process called "slashing". For malicious validators to be successful, they'd have to own 51% of the staked crypto AND be lucky to have their miners be selected, which is highly unlikely.
+
+### Sharding
+> Sharding: a mechanism used to partition a blockchain network or other type of computer network/database. Its purpose being to distribute the network's computational and storage workload across a broader set of devices/nodes, thereby increasing the throughput and transaction speed of the entire system.
+
+Each node only maintains information related to its specific shard/partition, and since each node is only resposible for processing a fraction of the overall network's transactional load, the network's overall processing capabilities and resilience is vastly improved.
+
+## Liquidity Pools
 
 > Liquidity Pools are a mechanism by which users can pool their assets in a Decentralized Exchange's (DEX) *smart contracts* to provide asset liquidity for traders to swap between currencies
 

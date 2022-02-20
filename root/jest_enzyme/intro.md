@@ -33,7 +33,6 @@ test('renders App', () => {
 	console.log(wrapper.debug())  // logs component as string
 })
 ```
-
 ## Types of tests
 
 - **Unit tests**: Tests one piece of code (usually one function)
@@ -41,4 +40,3 @@ test('renders App', () => {
 - **Acceptance / End-to-end (E2E) tests**: Tests how a user would interact with app
 
 ## data-test Attributes
-

@@ -148,7 +148,7 @@ Good to knows:
 
 What this means is that our Client IP is directly talking to our LB, which performs something called a connection termination, and our LB talks to our EC2 instance using the LB IP, which is a private IP into our EC2 instance through these extra headers. 
 
-### Hands-on 
+### Hands-on
 
 Create a Load Balancer -> Application Load Balancer -> select Availability Zones -> Configure Security Groups and select existing load balancer security group -> Configure Routing -> Advanced health check settings:
 - Healthy threshold: 5
@@ -198,7 +198,7 @@ Hands On notes:
 - Stickiness is not a load balancer specific configuration, you can configure it on the load balancer page only if you are using a classic load balancer
 - Because we have an application load balancer, the stickiness setting is at the target group level (set it in Target Group -> edit attributes)
 
-### Cross Zone Load Balancing 
+### Cross Zone Load Balancing
 
 > With Cross Zone Load Balncing, each load balancer instance distributes evenly across all registered instances in all AZ
 
