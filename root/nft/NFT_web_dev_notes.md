@@ -1,5 +1,7 @@
 # NFT web dev course
 
+[Course link](https://www.udemy.com/course/the-complete-nft-web-developer-course-zero-to-professional/)
+
 ## Solidity
 
 ### Creating smart contracts in solidity

@@ -26,6 +26,7 @@
 
 ### Frameworks
 - [Vue.js](https://github.com/hungrypc/notes/blob/master/root/vuejs/README.md)
+- [Intermediate React](https://github.com/hungrypc/notes/blob/master/root/react/readme.md)
 
 ### Data Structures & Algorithms
 
@@ -40,4 +41,4 @@
 - [Python for Finance](https://github.com/hungrypc/notes/tree/master/root/python_finance/README.md)
 - [Leetcode Qs](https://github.com/hungrypc/notes/blob/master/root/leetcode/README.md)
 - [TS note dump](https://github.com/hungrypc/notes/blob/master/root/typescript3/readme.md)
-- [Intermediate React](https://github.com/hungrypc/notes/blob/master/root/react/readme.md)
+- [Blockchain/Solidity/NFTs](https://github.com/hungrypc/notes/blob/master/root/nft/readme.md)
