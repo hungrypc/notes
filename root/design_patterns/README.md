@@ -5,18 +5,18 @@
 
 ## TOC
 
-- [Intro](#intro)
-	+ [OOP Basics](#oop-basics)
-	+ [Design Pattern Basics](#design-pattern-basics)
-		* [Design Principles](#design-principles)
-		* [SOLID Principles](#solid-principles)
-- [Design Patterns Catalogue](#design-patterns-catalogue)
-	+ [Creational](#creational)
-		* [Factory Method](#factory-method)
-		* [Abstract Factory](#abstract-factory)
-		* [Builder](#builder)
-		* [Prototype](#prototype)
-		* [Singleton](#singleton)
+- [Intro](https://github.com/hungrypc/notes/tree/master/root/design_patterns#intro)
+	+ [OOP Basics](https://github.com/hungrypc/notes/tree/master/root/design_patterns#oop-basics)
+	+ [Design Pattern Basics](https://github.com/hungrypc/notes/tree/master/root/design_patterns#design-patterns-basics)
+		* [Design Principles](https://github.com/hungrypc/notes/tree/master/root/design_patterns#design-principles)
+		* [SOLID Principles](https://github.com/hungrypc/notes/tree/master/root/design_patterns#solid-principles)
+- [Design Patterns Catalogue](https://github.com/hungrypc/notes/tree/master/root/design_patterns#design-patterns-catalogue)
+	+ [Creational](https://github.com/hungrypc/notes/tree/master/root/design_patterns#creational)
+		* [Factory Method](https://github.com/hungrypc/notes/tree/master/root/design_patterns#factory-method)
+		* [Abstract Factory](https://github.com/hungrypc/notes/tree/master/root/design_patterns#abstract-factory)
+		* [Builder](https://github.com/hungrypc/notes/tree/master/root/design_patterns#builder)
+		* [Prototype](https://github.com/hungrypc/notes/tree/master/root/design_patterns#prototype)
+		* [Singleton](https://github.com/hungrypc/notes/tree/master/root/design_patterns#singleton)
 
 ## Intro
 
