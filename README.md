@@ -36,6 +36,7 @@
 
 ### Misc
 
+- [Design Patterns](https://github.com/hungrypc/notes/tree/master/root/design_patterns)
 - [Financial Markets](https://github.com/hungrypc/notes/tree/master/root/financial_markets)
 - [Investing](https://github.com/hungrypc/notes/tree/master/root/investing/README.md)
 - [Python for Finance](https://github.com/hungrypc/notes/tree/master/root/python_finance/README.md)
