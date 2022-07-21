@@ -28,7 +28,7 @@ In finding solutions, we come across recurring patterns to solve particular prob
 
 #### Objects, classes
 
-> Object-oriented programming is a paradigm based on the concept of wrapping data and procedures related to that data and calling that an object, of which we use as a blueprint and identify it as a "class"
+> Object-oriented programming is a paradigm based on the concept of wrapping data and procedures related to that data and calling that an object, of which we use as a blueprint and identify it as a "class".
 
 A class is basically a blueprint that outlines/defines the structure for objects, which are concrete instances of that class.
 
@@ -489,7 +489,7 @@ const Client = (director: Director) => {
 	// Builder pattern can also be used without Director
 	builder.producePartA()
 	builder.producePartC()
-	builder.getProduct().listParts()	
+	builder.getProduct().listParts()  
 }
 
 const director = new Director()
