@@ -171,7 +171,7 @@ class Order {
 		this.taxCalculator = new TaxCalculator()
 	}
 
-	getOrderTotal() { /* ... */}
+	getOrderTotal() { /* ... */ }
 }
 ```
 
