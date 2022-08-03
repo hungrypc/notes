@@ -362,11 +362,151 @@ This often goes along with the [open/closed principle](https://github.com/hungry
 ## Creational
 
 ### Factory Method
+The ::**Factory Method**:: is when we have an interface provided in a superclass (which does not expose the creation logic to the client) to create objects, and the subclasses can determine what type of object will be created.
+
+#### Problem:
+When building an app, the first version may start with one class and as development progresses, all the logic of the app becomes coupled to that initial class. If we were to introduce a new class, it would require making changes to the entire codebase, riddling the app with conditionals that switches the app's behavior depending on the class.
+
+#### Solution:
+The Factory Method pattern suggests that you replace direct object construction calls (using `new`) with calls to a special _factory_ method (objects are still created via `new` but is called from within the factory method). Objects returned by a factory method are referred to as "products".
+
+1. The **Product** is the interface which is common to all objects that can be produced by the creator and its subclasses
+2. **Concrete Products** are just different implementations of the product interface
+3. The **Creator** class declares the factory method that returns new product objects
+	+ The return type of this method _must_ match the product interface
+	+ You can declare the factory method as abstract to force all subclasses to implement their own version of the method
+	+ Note that product creation is **not** the primary responsibility of the creator. Usually, the creator class already has some core business logic related to products. The factory method helps to decouple this logic from the concrete product classes
+4. **Concrete Creators** override the base factory method so it returns a different type of product
+	+ Note, the factory method doesn't have to _create_ new instances all the time, it can also return existing objects from a cache, object pool, or another source
+	
+#### Example:
+```ts
+/** `abstract` classes are mainly for inheritance where other classes may derive from them
+ * We cannot create an instance of an abstract class. The class which extends the abstract
+ * class must define all the abstract methods.
+ */
+abstract class Creator {
+	/**
+	 * The Creator class declares the factory method that is supposed to return an
+	 * object of a Product class. The subclasses usually provide the implementation.
+	 * Note, the Creator can also provide some default implementation. 
+	 */	
+	public abstract factoryMethod(): Product
+
+	/**
+	 * Remember, the Creator's primary responsibility IS NOT _creating_ the products.
+	 * It contains core business logic that relies on Product objects, returned by
+	 * the factory method.
+	 * 
+	 * Subclasses can indirectly change that business logic by overriding the factory
+	 * method and returning a different type of product from it.
+	 */
+	public someOperation(): string {
+		// call the factory method to create a Product object
+		const product = this.factoryMethod()
+		// now use the product
+		return product.operation()
+	}
+
+}
+
+/**
+ * Concreate Creators override the factory method in order to change the
+ * resulting product's type.
+ */ 
+class ConcreteCreator1 extends Creator {
+	/**
+	 * Note, the signature method still uses the abstract product type,
+	 * even though the concrete product is actually returned from the method.
+	 * This way, the Creator can stay independent of concrete product classes.
+	 */
+	 public factoryMethod(): Product {
+	 	return new ConcreteProduct1()
+	 }
+}
+
+class ConcreteCreator2 extends Creator {
+	public factoryMethod(): Product {
+		return new ConcreteProduct2()
+	}
+}
+
+// The product interface declares the operations that all concrete products must implement
+interface Product {
+	operation(): string
+}
+
+
+// Concreate Products provide various implementation of the Product interface
+class ConcreteProduct1 implements Product {
+	public operation(): string {
+		return 'Result of ConcreteProduct1'
+	}
+}
+
+class ConcreteProduct2 implements Product {
+	public operation(): string {
+		return 'Result of ConcreteProduct2'
+	}
+}
+
+
+/** Client code works with an instance of a concrete creator.
+ * As long as the client keeps working with the creator via the base interface,
+ * you can pass it any creator's subclass
+ */
+const clientCode = (creator: Creator) => {
+	console.log("Client: I'm not aware of the creator's class, but it still works!")
+	console.log(creator.someOperation())
+}
+
+console.log('App: Launched with ConcreteCreator1')
+clientCode(new ConcreteCreator1())
+
+console.log('App: Launched with ConcreteCreator2')
+clientCode(new ConcreteCreator2())
+
+
+/***** simpler example *****/
+
+// without factory
+class IOSButton { }
+class AndroidButton { }
+
+const button1 = os === 'ios' ? new IOSButton() : new AndroidButton()
+const button2 = os === 'ios' ? new IOSButton() : new AndroidButton()
+
+// with factory
+class ButtonFactory {
+	createButton(os: string): IOSButton | AndroidButton {
+		if (os === 'ios') {
+			return new IOSButton()
+		} else {
+			return new AndroidButton()
+		}
+	}
+}
+
+const factory = new ButtonFactory()
+const button1 = factory.createButton(os)
+const button2 = factory.createButton(os)
+```
+
+#### Use-case:
+When...
+
+- you don't koww beforehand the exact types and dependencies of the objects your code should work with
+	+ The Factory Method separates product construction code from the code that actually uses the product. This makes it easier to extend the product construction code independently from the rest of the code
+- you want to provide users of your library/framework with a way to extend its internal components
+- you want to save system resources by reusing existing objects instead of rebuilding them each time
+
 
 ### Abstract Factory
+The ::**Abstract Factory**:: provides an interface that lets you create families of related objects without specifying their concrete classes.
+
 
 ### Builder
-::**Builder**:: lets you construct complex objects step by step. This allows you to produce different types and representations of an object using the same construction code.
+The ::**Builder**:: constructs complex objects step by step. This enables the production of different types and representations of an object using the same construction code.
 
 #### Problem:
 In cases where a complex object required laborous, step-by-step initialization of multiple fields and nested objects. This initialization code is usually buried within a monstrous constructor with a lot of parameters (or worse, scattered all over the client code).
@@ -541,6 +681,8 @@ When...
 
 
 ### Prototype
+
+
 
 ### Singleton
 ::**Singleton**:: lets you ensure that a class has only one instance, while providing a global access point to this instance
