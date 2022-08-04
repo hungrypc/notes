@@ -10,6 +10,7 @@
 - [Ruby](https://github.com/hungrypc/notes/blob/master/root/ruby/README.md)
 - [TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript/README.md)
 - [More TypeScript](https://github.com/hungrypc/notes/blob/master/root/typescript2/README.md)
+- [TS note dump](https://github.com/hungrypc/notes/blob/master/root/typescript3/readme.md)
 - [Python](https://github.com/hungrypc/notes/blob/master/root/python/README.md)
 - [Java](https://github.com/hungrypc/notes/blob/master/root/java/README.md) (not yet started)
 - [Javascript Advanced Concepts](https://github.com/hungrypc/notes/blob/master/root/js/readme.md)
@@ -41,5 +42,4 @@
 - [Investing](https://github.com/hungrypc/notes/tree/master/root/investing/README.md)
 - [Python for Finance](https://github.com/hungrypc/notes/tree/master/root/python_finance/README.md)
 - [Leetcode Qs](https://github.com/hungrypc/notes/blob/master/root/leetcode/README.md)
-- [TS note dump](https://github.com/hungrypc/notes/blob/master/root/typescript3/readme.md)
 - [Blockchain/Solidity/NFTs](https://github.com/hungrypc/notes/blob/master/root/nft/readme.md)
