@@ -127,7 +127,7 @@ type Params<Path> = {
 
 type ParamObject = Params<'/purchase/[shopId]/[itemId]/args/[...args]'>
 /**
- * type Params = {
+ * type ParamObject = {
  *	shopId: number
  * 	itemId: number
  *  args: string[]
