@@ -17,6 +17,7 @@
 		* [Builder](https://github.com/hungrypc/notes/tree/master/root/design_patterns#builder)
 		* [Prototype](https://github.com/hungrypc/notes/tree/master/root/design_patterns#prototype)
 		* [Singleton](https://github.com/hungrypc/notes/tree/master/root/design_patterns#singleton)
+	+ [Structural](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md)
 
 ## Intro
 
