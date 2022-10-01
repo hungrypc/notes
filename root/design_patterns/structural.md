@@ -1,12 +1,12 @@
 # Structural Design Patterns
 
-+ [Adapter](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md#adapter)
-+ [Bridge](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md#bridge)
-+ [Composite](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md#composite)
-+ [Decorator](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md#decorator)
-+ [Facade](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md#facade)
-+ [Flyweight](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md#flyweight)
-+ [Proxy](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md#proxy)
++ [Adapter](https://github.com/hungrypc/notes/blob/master/root/design_patterns/structural.md#adapter)
++ [Bridge](https://github.com/hungrypc/notes/blob/master/root/design_patterns/structural.md#bridge)
++ [Composite](https://github.com/hungrypc/notes/blob/master/root/design_patterns/structural.md#composite)
++ [Decorator](https://github.com/hungrypc/notes/blob/master/root/design_patterns/structural.md#decorator)
++ [Facade](https://github.com/hungrypc/notes/blob/master/root/design_patterns/structural.md#facade)
++ [Flyweight](https://github.com/hungrypc/notes/blob/master/root/design_patterns/structural.md#flyweight)
++ [Proxy](https://github.com/hungrypc/notes/blob/master/root/design_patterns/structural.md#proxy)
 
 
 ## Adapter
