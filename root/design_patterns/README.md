@@ -14,15 +14,14 @@
 	+ [Creational](https://github.com/hungrypc/notes/tree/master/root/design_patterns/creational.md)
 	+ [Structural](https://github.com/hungrypc/notes/tree/master/root/design_patterns/structural.md)
 
-## Intro
 
 Purpose: to design reusable and flexible object-oriented software. 
 
 In finding solutions, we come across recurring patterns to solve particular problems. Instead of rediscovering these solutions over and over, we can look to these patterns and reuse successful designs and architectures. They help us choose design alternatives that make a system reusable and avoid alternatives that compromise reusability.
 
-## OOP Basics
+# OOP Basics
 
-#### Objects, classes
+## Objects, classes
 
 > Object-oriented programming is a paradigm based on the concept of wrapping data and procedures related to that data and calling that an object, of which we use as a blueprint and identify it as a "class".
 
@@ -30,14 +29,14 @@ A class is basically a blueprint that outlines/defines the structure for objects
 
 Data stored inside of the object's fields are referenced as _state_, and the object's methods are defined as its _behavior_
 
-#### Pillars of OOP
+## Pillars of OOP
 
 1. **Abstraction**: Hiding unnecessary details from the user - represent all details relevant to this context with high accuracy while omitting the rest (creating simpler interfaces)
 2. **Encapsulation**: Wrap code into boxes that are related to one another where these boxes can interact with each other using only methods and properties made available (hide parts of state and behaviour, exposing limited interface to the rest of the program)
 3. **Inheritance**: Ability to build new classes on top of existing ones (avoid writing the same code)
 4. **Polymorphism**: Ability to call the same method on different objects and each object responds in a different way (we can customize methods to their own object/class)
 
-#### Relations between objects
+## Relations between objects
 
 Inherits copies the class to the T, where behavior is also copied. Implements makes a shallow copy, where you have the shell but the behavior is yet to be defined.
 
@@ -65,9 +64,9 @@ The container doesn't control the life cycle of the component. The component can
 
 eg. `Department` contains `Professor`s
 
-## Design Patterns Basics
+# Design Patterns Basics
 
-### Classification
+## Classification
 
 The most basic and low-level patterns are often called _idioms_ (usually applied only to a single programming language).
 
@@ -79,11 +78,11 @@ We'll cover 3 main groups of patterns:
 2. **Structural patterns**: how to assemble objects and classes into larger structures (composition), while keeping them flexible and efficient
 3. **Behavioral patterns**: ways in which objects/classes interact or communicate effectively, and the assignment of responsibility between them
 
-### Design Principles
+## Design Principles
 
 Most of the design patterns listed here are based on the following principles.
 
-#### Encapsulate what varies
+### Encapsulate what varies
 
 > Identify the aspects of your application that vary and separate them from what stays the same.
 
@@ -171,7 +170,7 @@ class Order {
 }
 ```
 
-#### Program to an Interface, not an Implementation
+### Program to an Interface, not an Implementation
 
 > Program to an interface, not an implementation. Depend on abstractions, not on concrete classes.
 
@@ -273,7 +272,7 @@ class OutsourcingCompany extends Company {
 // here, the primary method of the Company class is independent from concrete employee classes. Employee objects are created in concrete company subclasses
 ```
 
-#### Favor composition over inheritance
+### Favor composition over inheritance
 
 The easiest way to reuse code between classes is via inheritance, but that comes with caveats.
 
@@ -290,11 +289,11 @@ The easiest way to reuse code between classes is via inheritance, but that comes
 
 Alternative to inheritance = composition. Inheritance represents "is a" relationship (a Car _is a_ Transport). Composition represents the "has a" relationship (a Car _has an_ Engine).
 
-### SOLID Principles
+# SOLID Principles
 
 Note: as with everything, don't take these principles as dogma, think about the application.
 
-#### **S**ingle Responsibility
+## **S**ingle Responsibility
 > A class should have just one reason to change
 
 Try to make every class responsible for a single part of the functionality, and make that responsibility entirely encapsulated (hidden within) the class.
@@ -303,7 +302,7 @@ The goal of this principle is to reduce complexity. Problems will emerge while t
 
 If you feel like its becoming hard to focus on specific aspects of the program one at a time, it might be an indicator to start dividing it into parts.
 
-#### **O**pen/Closed
+## **O**pen/Closed
 > Classes should be open for extension but closed for modification
 
 The idea behind this is to keep existing code from breaking when you implement new features.
@@ -311,7 +310,7 @@ The idea behind this is to keep existing code from breaking when you implement n
 When we call a class _open_, it means that we can extend it, produce a subclass, do whatever with it (add new methods/fields, override behavior, etc). When we call a class _closed_, it means that it's complete, meaning it's ready to be used by other classes because it's clearly defined and won't be changed in the future.
 
 
-#### **L**iskov Substitution Principle
+## **L**iskov Substitution Principle
 > When extending a class, remember that you should be able to pass objects of the subclass in place of objects of the parent class without breaking the client code
 
 Meaning that the subclass should remain compatible with the behavior of the super class. If you override a method, extend the base behavior rather than replacing it with something else entirely.
@@ -327,14 +326,14 @@ This principle actually has a set of formal requirements for subclasses, specifi
 	+ _Invariants: conditions in which an object makes sense_. (eg invariants of a cat are: has 4 legs, can meow, etc)
 - A subclass shouldn't change values of private fields of the superclass
 
-#### **I**nterface Segregation Principle
+## **I**nterface Segregation Principle
 > Clients shouldn't be forced to depend on methods they do not use.
 
 Try to make your interfaces narrow enough that client classes don't have to implement behaviors they don't need, cut the fat, make it more granular and specific. Otherwise, changes to the "fat" might break clients that don't even use the changed methods.
 
 Basically, it's unnecessary to cram a bunch of unrelated methods into a single interface, just break them down.
 
-#### **D**ependency Inversion Principle
+## **D**ependency Inversion Principle
 > High-level classes should _NOT_ depend on low-level classes. Both should depend on abstractions. Abstractions shouldn't depend on details. Details should depend on abstractions.
 
 Usually, you can make a distinction between two levels of classes:
@@ -352,5 +351,3 @@ This principle suggests doing it the other way around
 3. Once low-level classes implement these interfaces, they become dependent on the business logic level, refersing the direction of the original dependency
 
 This often goes along with the [open/closed principle](https://github.com/hungrypc/notes/tree/master/root/design_patterns#open-closed): you can extend low-level classes to use with different business logic classes without breaking existing classes.
-
-# Design Patterns Catalogue
