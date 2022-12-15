@@ -180,4 +180,531 @@ function inOrder(root, list) {
 }
 ```
 
+## [122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)
+```js
+/* Solution 1:
+  Brute force.
+  Go through all possible sets of transactions and compare to find the maximum profit.
+  Noticed that when we pick a set, the same procedure can be done on the remainder
+  of the array, meaning we can use recursion.
+
+  Time: O(n^n)
+  Space: O(n)
+*/
+const maxProfit = prices => {
+  const calculatePotentialProfit = startIndex => {
+    if (startIndex >= prices.length) return 0
+
+    let potentialProfit = 0
+
+    for (let i = startIndex; i < prices.length; i++) { // from this position
+      for (let j = i + 1; j < prices.length; j++) { // go thru rest of array to
+        if (prices[j] > prices[i]) { // check if a potential profit can be made
+          // and add that to potential profit calc on the remainder of the array
+          const earnings = prices[j] - prices[i] + calculatePotentialProfit(j + 1)
+          potentialProfit = earnings > potentialProfit ? earnings : potentialProfit
+        }
+      }
+    }
+
+    return potentialProfit
+  }
+
+  return calculatePotentialProfit(0)
+}
+
+/* Solution 2:
+  One pass.
+  If we were to plot the values on a graph, we'd be able to see the peaks and valleys.
+  Mathmatically, you can obtain the total profit by subtracting the sum of valleys from the sum of peaks.
+
+  Determine what's considered a peak and a valley.
+  Also important to note that you can also buy and sell on the same day (which is why
+  we check peak based on what's behind).
+
+  Time: O(n)
+  Space: O(1) constant space
+*/
+const maxProfit = prices => {
+  let valleySum = 0
+  let peakSum = 0
+
+  for (let i = 0; i < prices.length; i++) {
+    if (prices[i] < prices[i + 1]) { // found a valley
+      valleySum += prices[i]
+    }
+
+    // because we can also buy and sell on the same day, dont use `else`
+    if (prices[i] > prices [i - 1]) { // found a peak
+      peakSum += prices[i]
+    }
+  }
+
+  return peakSum - valleySum
+}
+
+/*  Solution 3:
+  One pass.
+  Noticed that we can skip finding the valley sum. It's worth taking profit as soon as you can
+  rather than holding to try and get a higher profit. 
+  We only care about the increase, which the same day buy sell condition benefits from.
+  eg. [1, 2, 20] 
+    => (2 - 1) + (20 - 2) = 19
+    => 20 - 1 = 19
+  
+  Time: O(n)
+  Space: O(1)
+*/
+
+const maxProfit = prices => {
+  let profit = 0
+
+  for (let i = 1; i < prices.length; i++) {
+    if (prices[i] > prices [i - 1]) { // check if profit can be made
+      profit += prices[i] - prices[i - 1] // add difference to final profit
+    }
+  }
+
+  return profit
+}
+```
+
+## 189. [Rotate Array](https://leetcode.com/problems/rotate-array/)
+```js
+/*  Solution 1:
+  Simple
+
+  Time: O(n)
+  Space: O(n)
+*/
+
+var rotate = function(nums, k) {
+  const copy = [...nums]
+  
+  for (let i = 0; i < copy.length; i++) {
+    let shift = i + k // find shift position
+    while (shift >= copy.length) { // remove length until shift position is feasible
+      shift = shift - copy.length
+    }
+    nums[shift] = copy[i]
+  }
+};
+
+
+/*  Solution 2:
+
+  Time: O(n)
+  Space: O(1)
+ */
+const reverse  = (nums, leftIndex, rightIndex) => {
+  while(leftIndex < rightIndex) {
+    [nums[leftIndex], nums[rightIndex]] = [nums[rightIndex], nums[leftIndex]]
+    leftIndex++
+    rightIndex--
+  }
+}
+
+var rotate = function(nums, k) {
+  const mid = k % nums.length
+  reverse(nums, 0, nums.length - 1)
+  reverse(nums, 0, mid - 1)
+  reverse(nums, mid, nums.length - 1)
+};
+```
+
+## 217. [Contains Duplicate](https://leetcode.com/problems/contains-duplicate)
+```js
+/*  Solution 1:
+  Simple
+
+  Time: O(n)
+  Space: O(n)
+*/
+var containsDuplicate = function(nums) {
+  const map = {}
+  for (let i = 0; i < nums.length; i++) {
+    map[nums[i]] = (map[nums[i]] ?? 0) + 1
+  }
+
+  for (const key in map) {
+    if (map[key] > 1) {
+      return true
+    }
+  }
+  return false
+};
+
+// improved
+var containsDuplicate = function(nums) {
+  const map = {}
+  for (let i = 0; i < nums.length; i++) {
+    if (map[nums[i]]) {
+      return true
+    } else {
+      map[nums[i]] = 1
+    }
+  }
+  return false
+};
+
+// improved(?)
+var containsDuplicate = function(nums) {
+  const map = {}
+  let left = 0
+  let right = nums.length - 1
+  
+  while (left <= right) {
+    if (left === right) {
+      if (map[nums[left]]) {
+        return true
+      }
+    } else {
+      if (map[nums[left]]) {
+        return true
+      } else {
+        map[nums[left]] = 1
+      }
+      
+      if (map[nums[right]]) {
+        return true
+      } else {
+        map[nums[right]] = 1
+      }
+    }
+    left++
+    right--
+  }
+
+  return false
+};
+```
+
+## 218. [The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/)
+```js
+/*
+  Rather than going building to building, we can essentially "draw" the skyline by
+  plotting and storing the building's x and y positions, marking the start
+  of the building with [x1, h] and the end of the building as [x2, -h] (negative 
+  height so we can compare easily).
+  Sort all the points by x ascending, and if equal we want the highest height to
+  take precedence.
+  The reason we wanted to note the end of the building is so that we can track the
+  skyline's "active" height.
+  We can track the active height by using an array and adding to it whenever we 
+  "start" a new building", sorting it in ascending order because the tallest will
+  always be the current active height of the skyline.
+  When a building ends, we remove it from the heights array.
+
+  We also keep track of the previous height for cases when we have the same height
+  as a previous entry, where instead of adding to the result we simply skip.
+*/
+var getSkyline = function(buildings) {
+  const data = []
+  for (const [x1, x2, h] of buildings) {
+    data.push([x1, h], [x2, -h])
+  }
+
+  data.sort(([x1, h1], [x2, h2]) => x1 - x2 || h2 - h1)
+
+  const result = []
+  const heights = []
+  let previousHeight = 0
+  
+  for (const [x, h] of data) {
+    if (h > 0) {
+      heights.push(h)
+      heights.sort((a, b) => a - b)
+    } else {
+      const index = heights.indexOf(h * -1)
+      heights.splice(index, 1)
+    }
+    
+    const activeHeight = heights[heights.length - 1] || 0
+    if (activeHeight !== previousHeight) {
+      result.push([x, activeHeight])      
+    }
+    previousHeight = activeHeight
+  }
+  
+  return result
+};
+
+// can sort height faster
+let left = 0
+let right = heights.length - 1
+
+while (left <= right) {
+  const mid = Math.floor((left + right) / 2)
+  if (heights[mid] >= h) {
+    right = mid - 1
+  } else {
+    left = mid + 1
+  }
+}
+
+// add
+heights.splice(left, 0, h)
+
+// remove
+heights.splice(left, 1)
+```
+
+## 350. [Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/)
+```js
+/*  Solution 1:
+
+*/
+var intersect = function(nums1, nums2) {
+  const map = {}
+  for (const num of nums1) {
+    map[num] = (map[num] || 0) + 1
+  }
+  
+  const res = []
+  for (const num of nums2) {
+    if (map[num]) {
+      res.push(num)
+      map[num]--
+    }
+  }
+  return res
+};
+
+/*  
+```
+
+## 283. [Move Zeroes](https://leetcode.com/problems/move-zeroes/)
+```js
+/*  Solution 1:
+
+    Time: O(n^2)
+    Space: O(1)
+
+*/
+var moveZeroes = function(nums) {
+  let count = 0
+  
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 0) {
+      count++
+      nums.splice(i, 1)
+      i--
+    }
+  }
+
+  while (count > 0) {
+    nums.push(0)
+    count--
+  }
+};
+
+/*  Solution 2:
+
+    Time: O(n)
+    Space: O(1)
+*/
+var moveZeroes = function(nums) {
+  let nonZeroIndex = 0
+  
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== 0) {
+      nums[nonZeroIndex] = nums[i]
+      nonZeroIndex++
+    }
+  }
+
+  for (let i = nonZeroIndex; i < nums.length; i++) {
+    nums[i] = 0
+  }
+};
+
+/*  Solution 3:
+    
+    Time: O(n)
+    Space: O(1)
+*/
+var moveZeroes = function(nums) {
+  let nonZeroIndex = 0
+  
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== 0) {
+      const temp = nums[i]
+      nums[i] = nums[nonZeroIndex]
+      nums[nonZeroIndex] = temp
+      nonZeroIndex++
+    }
+  }
+};
+
+```
+
+## [1. Two Sum](https://leetcode.com/problems/two-sum/)
+```js
+/*  Solution 1:
+
+    Time: O(n^2)
+    Space: O(1)
+*/
+var twoSum = function(nums, target) {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] + nums[j] === target) {
+        return [i, j]
+      }
+    }
+  }
+};
+
+/*  Solution 2:
+    Time: O(n)
+    Space: O(n)
+*/
+var twoSum = function(nums, target) {
+  const map = {}
+  for (let i = 0; i < nums.length; i++) {
+    const num = nums[i]
+    if (map[target - num] >= 0) {
+      return [map[target - num], i]
+    } else {
+      map[num] = i
+    }
+  }
+};
+```
+
+## [36. Valid Sudoku](https://leetcode.com/problems/valid-sudoku/)
+```js
+const getBlockColumn = (i) => {
+  if (0 <= i && i < 3) {
+    return 0
+  } else if (i >= 3 && i < 6) {
+    return 1
+  } else {
+    return 2
+  }
+}
+
+const getBlockRow = (count) => {
+  if (0 <= count && count < 3) {
+    return 0
+  } else if (count >= 3 && count < 6) {
+    return 3
+  } else {
+    return 6
+  }
+}
+
+var isValidSudoku = function(board) {
+  let count = 0
+  let blockMap = {
+    0: {},
+    1: {},
+    2: {},
+    3: {},
+    4: {},
+    5: {},
+    6: {},
+    7: {},
+    8: {},
+  }
+  let verticalMap = {
+    0: {},
+    1: {},
+    2: {},
+    3: {},
+    4: {},
+    5: {},
+    6: {},
+    7: {},
+    8: {},
+  }
+  
+  while (count < 9) {
+    let horizontalMap = {}
+    
+    for (let i = 0; i < 9; i++) {
+      const squareVal = board[count][i]
+      const block = getBlockRow(count) + getBlockColumn(i)
+      
+      if (squareVal !== '.') {
+        if (horizontalMap[squareVal]) {
+          return false
+        } else {
+          horizontalMap[squareVal] = 1  
+        }
+
+        if (verticalMap[i][squareVal]) { // i = column
+          return false
+        } else {
+          verticalMap[i][squareVal] = 1  
+        }
+        
+        if (blockMap[block][squareVal]) {
+          return false
+        } else {
+          blockMap[block][squareVal] = 1
+        }
+      }
+    }
+
+    count++
+  }
+
+  return true
+};
+```
+
+## [48. Rotate Image](https://leetcode.com/problems/rotate-image/)
+```js
+/*  Solution 1:
+
+    Time: O(logn)
+    Space: O(1)
+*/
+var rotate = function(matrix) {
+  let left = 0
+  let right = matrix.length - 1
+  
+  const shift = (x, y, newValue) => {
+    matrix[y][x] = newValue
+  }
+
+  while (left < right) {
+    for (let i = 0; i < right - left; i++) {
+      let [prevRight, prevDown, prevLeft, prevUp] = [
+        matrix[left][left + i],
+        matrix[left + i][right],
+        matrix[right][right - i],
+        matrix[right - i][left],
+      ]
+      shift(left + i, left, prevUp)
+      shift(right, left + i, prevRight)
+      shift(right - i, right, prevDown)
+      shift(left, right - i, prevLeft)
+    }
+    left++
+    right--
+  }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
